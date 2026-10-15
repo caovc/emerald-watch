@@ -220,7 +220,8 @@ jobs:
 
           arch = os.environ["MACOS_ARCH"]
           path = Path(os.environ["BUILD_ROOT"]) / "package" / arch / f"EmeraldWatch-macOS-{arch}.zip"
-          with zipfile.ZipFile(path) as archive:
+          # ditto writes UTF-8 filename bytes without always setting ZIP bit 11.
+          with zipfile.ZipFile(path, metadata_encoding="utf-8") as archive:
               assert archive.testzip() is None, "Corrupt ZIP member"
               prefix = "EmeraldWatch.app/Contents/"
               info = plistlib.loads(archive.read(prefix + "Info.plist"))

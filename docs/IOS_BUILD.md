@@ -71,3 +71,7 @@ SHA-256：`3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8`
 - 下载包里只有日志：运行没有完成 IPA 打包。先查失败步骤，不要将日志 ZIP 或 Godot 工程 ZIP 当作 IPA。
 - iPhone 拒绝安装：无签名文件本身不可安装；需要你在可信环境中签名。不要把 Apple 密码、私钥或描述文件提交到仓库。
 
+
+## ZIP 文件名兼容性检查（2026-10-15）
+
+Mac 构建的真实日志暴露了 ZIP UTF-8 标志缺失导致 Python 错误解码中文文件名的问题。iOS 构建当前使用 ASCII 产品路径 `Payload/EmeraldWatch.app`，并从 Info.plist 读取实际可执行文件名，不假设游戏显示名称就是文件名。为兼容未来非 ASCII 文件名，IPA 检查现也显式使用 UTF-8 元数据解码。`lipo` 的输入文件已放在 `-verify_arch` 前面。仍保留 iphoneos/arm64、真实 Mach-O、PCK、可执行权限、unsigned/无 provisioning profile 等检查。此处为静态检查与共同 ZIP 回归验证，尚未执行 iOS 云端构建或安装测试。

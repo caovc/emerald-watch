@@ -37,7 +37,9 @@ Godot 4.6.3 的官方 macOS 模板只提供命名为 `.universal` 的引擎文�
 
 用户手动启动的 [2026-10-15 运行 #2](https://github.com/caovc/emerald-watch/actions/runs/38711466335) 已成功导出旧版双架构 `.app`，随后在架构检查处失败。根因是我们写错了 Apple `lipo` 参数顺序：`-verify_arch` 会把其后的参数全部当作架构名，因此输入文件路径必须放在它前面。Mac 和 iOS 中相同的写法均已修复。
 
-已通过 YAML、全部 Bash、内嵌 Python、导出预设，以及 `tests/test_workflow_lipo.py` 静态回归检查。新增独立架构流程尚待真实云端运行；没有声称签名、ZIP、实体 Intel/Apple Silicon Mac 图形与性能均已通过。
+随后 [运行 #3](https://github.com/caovc/emerald-watch/actions/runs/38712779242) 使用了分架构更新之前的 `dfed986` 提交：导出、双架构、签名和解压校验均通过，但 Python 在 ZIP 内按中文可执行文件名查找时失败。已下载该真实 artifact 确认：ditto 写入 UTF-8 文件名字节，却未设置 ZIP 的 UTF-8 标志，Python 默认按 CP437 解码。现显式指定 `metadata_encoding="utf-8"`，保留完整文件校验；同样加固 iOS 的 ZIP 读取。原失败 ZIP 已在本地用新校验代码通过，iOS 未运行。
+
+已通过 YAML、全部 Bash、内嵌 Python、导出预设，以及 `tests/test_workflow_lipo.py`、`tests/test_macos_zip_names.py` 静态/回归检查。新增独立架构流程尚待真实云端运行；没有声称签名、ZIP、实体 Intel/Apple Silicon Mac 图形与性能均已通过。
 
 测试新修复时，请通过 **Run workflow** 在最新 `main` 发起新运行。旧运行的 **Re-run** 沿用旧提交，不会带入新代码。
 

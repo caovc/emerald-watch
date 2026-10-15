@@ -153,7 +153,8 @@ jobs:
           from pathlib import Path
 
           ipa = Path(os.environ["BUILD_ROOT"]) / "artifacts/EmeraldWatch-unsigned.ipa"
-          with zipfile.ZipFile(ipa) as package:
+          # Match the UTF-8 names emitted by macOS ZIP tools.
+          with zipfile.ZipFile(ipa, metadata_encoding="utf-8") as package:
               assert package.testzip() is None, "Corrupt IPA ZIP member"
               root = "Payload/EmeraldWatch.app/"
               info = plistlib.loads(package.read(root + "Info.plist"))

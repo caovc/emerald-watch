@@ -1,0 +1,183 @@
+name: Build macOS Universal app
+
+# Uploading/pushing the project does NOT spend runner minutes.
+# Dispatch only after checking the account's included usage and overage guard.
+on:
+  workflow_dispatch:
+    inputs:
+      included_quota_confirmed:
+        description: "I checked included Actions quota and paid overage is blocked"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-universal-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: ${{ inputs.included_quota_confirmed }}
+    runs-on: macos-15
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      GODOT_VERSION: "4.6.3"
+      GODOT_EDITOR_SHA256: "30630f3e9b11e10b35c1f90ba8814185dcec43fae1a48345159be7552c64bfe8"
+      GODOT_TEMPLATES_SHA256: "3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8"
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Prepare build paths
+        run: |
+          set -euo pipefail
+          tool_root="$RUNNER_TEMP/emerald-watch-tools"
+          build_root="$RUNNER_TEMP/emerald-watch-macos"
+          mkdir -p "$tool_root" "$build_root/app" "$build_root/artifacts/logs"
+          echo "TOOL_ROOT=$tool_root" >> "$GITHUB_ENV"
+          echo "BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
+          {
+            echo "Source commit: $GITHUB_SHA"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Godot: ${GODOT_VERSION}.stable (official editor and templates)"
+            echo "Result: Universal 2 macOS app; ad-hoc signed, not notarized"
+            sw_vers
+            xcode-select -p
+            xcodebuild -version
+          } | tee "$build_root/artifacts/build-info.txt"
+
+      - name: Install official matching Godot editor and macOS template
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            "$base/Godot_v${GODOT_VERSION}-stable_macos.universal.zip" \
+            --output "$TOOL_ROOT/godot.zip"
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" \
+            --output "$TOOL_ROOT/templates.tpz"
+          printf '%s  %s\n' "$GODOT_EDITOR_SHA256" "$TOOL_ROOT/godot.zip" \
+            "$GODOT_TEMPLATES_SHA256" "$TOOL_ROOT/templates.tpz" \
+            | shasum -a 256 -c -
+          unzip -q "$TOOL_ROOT/godot.zip" -d "$TOOL_ROOT/editor"
+          template_dir="$HOME/Library/Application Support/Godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$template_dir"
+          # Extract only macOS; do not retain another gigabyte of unused templates.
+          unzip -j -q "$TOOL_ROOT/templates.tpz" templates/macos.zip templates/version.txt -d "$template_dir"
+          test "$(tr -d '\r\n' < "$template_dir/version.txt")" = "${GODOT_VERSION}.stable"
+          test -s "$template_dir/macos.zip"
+          godot="$TOOL_ROOT/editor/Godot.app/Contents/MacOS/Godot"
+          test -x "$godot"
+          "$godot" --version | tee "$BUILD_ROOT/artifacts/logs/godot-version.log"
+          grep -q "^${GODOT_VERSION}\.stable" "$BUILD_ROOT/artifacts/logs/godot-version.log"
+          echo "GODOT=$godot" >> "$GITHUB_ENV"
+          rm "$TOOL_ROOT/godot.zip" "$TOOL_ROOT/templates.tpz"
+
+      - name: Import resources and export Universal 2 app
+        run: |
+          set -euo pipefail
+          "$GODOT" --headless --path "$GITHUB_WORKSPACE" --import \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-import.log"
+          "$GODOT" --headless --path "$GITHUB_WORKSPACE" \
+            --export-release "macOS Universal" "$BUILD_ROOT/app/EmeraldWatch.app" \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-export.log"
+          if grep -E 'SCRIPT ERROR:|Parse Error:|Failed to load script' \
+            "$BUILD_ROOT/artifacts/logs/godot-import.log" \
+            "$BUILD_ROOT/artifacts/logs/godot-export.log"; then
+            echo "::error::Godot reported a script error; refusing to package."
+            exit 1
+          fi
+
+      - name: Verify Intel and Apple Silicon binaries and ad-hoc signature
+        run: |
+          set -euo pipefail
+          app="$BUILD_ROOT/app/EmeraldWatch.app"
+          test -d "$app"
+          /usr/bin/plutil -lint "$app/Contents/Info.plist"
+          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
+          test -n "$executable"
+          binary="$app/Contents/MacOS/$executable"
+          test -x "$binary"
+          /usr/bin/file "$binary" | tee "$BUILD_ROOT/artifacts/logs/binary.log"
+          grep -q 'Mach-O universal binary' "$BUILD_ROOT/artifacts/logs/binary.log"
+          # Require BOTH native slices; an arm64-only artifact is a failed build.
+          xcrun lipo -verify_arch x86_64 arm64 "$binary"
+          xcrun lipo -archs "$binary" | tee "$BUILD_ROOT/artifacts/logs/architectures.log"
+          /usr/bin/codesign --verify --deep --strict --verbose=2 "$app" \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/signature-verify.log"
+          /usr/bin/codesign --display --verbose=4 "$app" \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/signature-details.log"
+          grep -q '^Signature=adhoc$' "$BUILD_ROOT/artifacts/logs/signature-details.log"
+          python3 - <<'PY'
+          import os, plistlib
+          from pathlib import Path
+
+          app = Path(os.environ["BUILD_ROOT"]) / "app/EmeraldWatch.app"
+          info = plistlib.loads((app / "Contents/Info.plist").read_bytes())
+          assert info["CFBundleIdentifier"] == "dev.emeraldwatch.game"
+          assert info["CFBundlePackageType"] == "APPL"
+          binary = app / "Contents/MacOS" / info["CFBundleExecutable"]
+          assert binary.stat().st_size > 1_000_000, "Missing compiled engine"
+          packs = list((app / "Contents/Resources").glob("*.pck"))
+          assert len(packs) == 1 and packs[0].stat().st_size > 0, "Missing game resources"
+          print("Verified actual Universal 2 app, executable, bundle ID, and game pack")
+          PY
+
+      - name: Package app and verify the extracted ZIP
+        run: |
+          set -euo pipefail
+          app="$BUILD_ROOT/app/EmeraldWatch.app"
+          package="$BUILD_ROOT/artifacts/EmeraldWatch-macOS-universal.zip"
+          # Keep bundle structure, executable permissions, symlinks and signature.
+          /usr/bin/ditto -c -k --keepParent "$app" "$package"
+          /usr/bin/ditto -x -k "$package" "$BUILD_ROOT/verify"
+          restored="$BUILD_ROOT/verify/EmeraldWatch.app"
+          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$restored/Contents/Info.plist")
+          test -x "$restored/Contents/MacOS/$executable"
+          xcrun lipo -verify_arch x86_64 arm64 "$restored/Contents/MacOS/$executable"
+          /usr/bin/codesign --verify --deep --strict "$restored"
+          python3 - <<'PY'
+          import os, plistlib, stat, zipfile
+          from pathlib import Path
+
+          path = Path(os.environ["BUILD_ROOT"]) / "artifacts/EmeraldWatch-macOS-universal.zip"
+          with zipfile.ZipFile(path) as archive:
+              assert archive.testzip() is None, "Corrupt ZIP member"
+              prefix = "EmeraldWatch.app/Contents/"
+              info = plistlib.loads(archive.read(prefix + "Info.plist"))
+              assert info["CFBundleIdentifier"] == "dev.emeraldwatch.game"
+              binary = archive.getinfo(prefix + "MacOS/" + info["CFBundleExecutable"])
+              assert binary.file_size > 1_000_000
+              assert stat.S_IMODE(binary.external_attr >> 16) & 0o111
+          print(f"Verified ZIP round trip: {path.name} ({path.stat().st_size:,} bytes)")
+          PY
+          (
+            cd "$BUILD_ROOT/artifacts"
+            shasum -a 256 EmeraldWatch-macOS-universal.zip > EmeraldWatch-macOS-universal.zip.sha256
+          )
+          {
+            echo '### macOS Universal 2 package verified'
+            echo 'Download the artifact, then extract EmeraldWatch-macOS-universal.zip to obtain EmeraldWatch.app.'
+            echo 'Includes native x86_64 (Intel) and arm64 (Apple Silicon) binaries.'
+            echo 'Ad-hoc signed only; no Developer ID identity or Apple notarization. Gatekeeper may block downloaded copies.'
+            echo "Source commit: $GITHUB_SHA"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload macOS ZIP, checksum, build details and diagnostic logs
+        if: ${{ always() && env.BUILD_ROOT != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: EmeraldWatch-macOS-universal-${{ github.run_number }}
+          path: ${{ env.BUILD_ROOT }}/artifacts/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

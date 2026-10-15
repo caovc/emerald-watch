@@ -115,7 +115,8 @@ jobs:
                               for entry in variants.values() for arch in ("arm64", "x86_64")}
               for entry in source.infolist():
                   if entry.filename not in native_names:
-                      output.writestr(entry, source.read(entry))
+                      # writestr mutates ZipInfo.header_offset; never reuse source metadata.
+                      output.writestr(copy.copy(entry), source.read(entry))
               for build, entry in variants.items():
                   universal = work / f"{build}.universal"
                   universal.write_bytes(source.read(entry))
@@ -130,6 +131,10 @@ jobs:
                       info.orig_filename = info.filename
                       output.writestr(info, native.read_bytes())
                       print(f"Derived native template: {info.filename} ({arch})")
+          # Validate all rewritten members before installing the derived archive.
+          with zipfile.ZipFile(derived) as verify:
+              assert verify.testzip() is None, "Corrupt derived template archive"
+              assert native_names.issubset(verify.namelist())
           os.replace(derived, template)
           PYCODE
 

@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-15",
+  "godot": "4.6.3.stable.official",
+  "environment": "Linux headless",
+  "total_checks": 1769,
+  "failures": 0,
+  "suites": {
+    "integration": 177,
+    "settings_smoke": 25,
+    "ui_integration": 189,
+    "thumbnail_ui": 54,
+    "camera_controls": 20,
+    "designer_tests": 20,
+    "designer_integration": 35,
+    "author_replay": 18,
+    "extra_levels_geometry": 1195,
+    "extra_levels_balance": 36
+  },
+  "audio_files_checked": 15,
+  "non_ascii_script_characters_checked": 529,
+  "missing_script_glyphs": 0,
+  "remote_builds_run": false,
+  "visual_gpu_qa_for_expanded_ui": false,
+  "physical_mac_ios_qa": false
+}

@@ -57,7 +57,7 @@ func run() -> void:
 	await test_new_combat()
 	await test_maps_and_routes()
 	await test_ability()
-	for stage in range(3):
+	for stage in range(game.levels.size()):
 		await simulate_mixed_six_strategy(stage)
 		await simulate_stage_undefended(stage)
 	print("\n=== BALANCE REPORT ===")
@@ -376,7 +376,7 @@ func test_maps_and_routes() -> void:
 	for stage in range(3):
 		game.choose_level(stage)
 		map_routes.append(game.ROUTE.duplicate())
-		expect(game.money == [360, 420, 500][stage] and game.wave == 0 and game.health == 20, "level %d initializes its own economy and counters" % (stage + 1))
+		expect(game.money == game.levels[stage].gold and game.wave == 0 and game.health == 20, "level %d initializes its own economy and counters" % (stage + 1))
 		expect(game.routes.size() == (1 if stage == 0 else 2), "level %d exposes correct entrance count" % (stage + 1))
 		var overlaps: Array[int] = []
 		for pad_index in range(game.pads.size()):
@@ -455,7 +455,10 @@ func simulate_mixed_six_strategy(stage: int) -> void:
 	var placements: Array = [
 		[[1, 0], [3, 1], [2, 2], [4, 4], [0, 3], [5, 5], [8, 4], [9, 1], [7, 3], [10, 5]],
 		[[2, 0], [8, 1], [3, 2], [4, 3], [7, 4], [9, 5], [1, 3], [12, 4], [13, 1], [14, 5]],
-		[[7, 0], [8, 1], [6, 2], [3, 4], [9, 3], [2, 5], [4, 4], [10, 1], [13, 3], [5, 5]]
+		[[7, 0], [8, 1], [6, 2], [3, 4], [9, 3], [2, 5], [4, 4], [10, 1], [13, 3], [5, 5]],
+		[[7, 0], [8, 1], [6, 2], [9, 4], [10, 3], [13, 5], [2, 4], [4, 1], [14, 3], [15, 5]],
+		[[9, 0], [10, 1], [8, 2], [6, 4], [7, 3], [11, 5], [5, 4], [13, 1], [14, 3], [2, 5]],
+		[[8, 0], [9, 1], [7, 2], [10, 4], [11, 3], [6, 5], [2, 4], [12, 1], [14, 3], [4, 5]]
 	][stage]
 	var next_build := 0
 	for opening in range(3):
@@ -516,8 +519,9 @@ func simulate_stage_undefended(stage: int) -> void:
 	for wave_index in range(3):
 		await run_wave()
 		if game.ended: break
-	expect(game.ended and game.health == 0 and game.wave == 2, "level %d undefended game loses in wave 2" % (stage + 1))
+	var losing_wave := 1 if stage == 5 else 2
+	expect(game.ended and game.health == 0 and game.wave == losing_wave, "level %d undefended game loses in wave %d" % [stage + 1, losing_wave])
 	game.restart()
-	expect(game.money == [360, 420, 500][stage] and game.health == 20 and game.wave == 0 and not game.ended and game.enemies.is_empty(), "level %d restart after defeat restores its starting state" % (stage + 1))
-	balance_reports.append("LEVEL %d UNDEFENDED: defeat in wave 2; restart verified" % (stage + 1))
+	expect(game.money == game.levels[stage].gold and game.health == 20 and game.wave == 0 and not game.ended and game.enemies.is_empty(), "level %d restart after defeat restores its starting state" % (stage + 1))
+	balance_reports.append("LEVEL %d UNDEFENDED: defeat in wave %d; restart verified" % [stage + 1, losing_wave])
 	await process_frame

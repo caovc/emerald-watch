@@ -76,10 +76,11 @@ static func build(g) -> void:
 	# One slim header; the entire battlefield remains available below it.
 	var top := _panel(root, Rect2(16, 14, 1408, 60), 10)
 	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 15)
+	header.add_theme_constant_override("separation", 10)
 	top.add_child(header)
 	var level_title := _text(g, "翡翠哨站", 22)
 	level_title.custom_minimum_size.x = 230
+	level_title.clip_text = true
 	level_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	level_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	header.add_child(level_title)
@@ -101,6 +102,10 @@ static func build(g) -> void:
 	codex_button.custom_minimum_size.x = 75
 	codex_button.tooltip_text = "查看防御塔与敌人的完整数据"
 	header.add_child(codex_button)
+	var designer_button := _button(g, "设计", g.open_designer)
+	designer_button.custom_minimum_size.x = 65
+	designer_button.tooltip_text = "打开本地关卡设计器"
+	header.add_child(designer_button)
 	var settings_button := _button(g, "设置", g.open_settings)
 	settings_button.custom_minimum_size.x = 65
 	header.add_child(settings_button)
@@ -146,21 +151,63 @@ static func build(g) -> void:
 	refs["ability_button"] = ability
 	refs["gate_button"] = gate
 
-	# Six compact, color-coded cards. Only this 70 px strip is permanent.
-	var dock := _panel(root, Rect2(196, 814, 1048, 70), 8)
+	# Compact model thumbnails, rendered from the exact battlefield tower factory.
+	var dock := _panel(root, Rect2(416, 814, 608, 70), 8)
 	var cards := HBoxContainer.new()
 	cards.add_theme_constant_override("separation", 8)
 	dock.add_child(cards)
 	g.tower_buttons.clear()
+	var thumbnails: Array[TextureRect] = []
+	var prices: Array[Label] = []
+	var thumbnail_viewports: Array[SubViewport] = []
 	for i in range(g.TOWER_DATA.size()):
 		var data: Dictionary = g.TOWER_DATA[i]
 		var b := _button(g, "", g.select_kind.bind(i))
-		b.custom_minimum_size = Vector2(160, 54)
+		b.custom_minimum_size = Vector2(92, 54)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.tooltip_text = "%s\n%s\n伤害 %.0f · 射程 %.1f · 攻击间隔 %.2f 秒\n快捷键 %d：选择，再点击空基座部署" % [data.name, data.desc, data.damage, data.range, data.cooldown, i + 1]
 		cards.add_child(b)
 		g.tower_buttons.append(b)
+		var viewport := _tower_thumbnail(g, b, i)
+		thumbnail_viewports.append(viewport)
+		var picture := TextureRect.new()
+		picture.texture = viewport.get_texture()
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		picture.position = Vector2(0, -1)
+		picture.size = Vector2(58, 55)
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		b.add_child(picture)
+		thumbnails.append(picture)
+		var key := _text(g, str(i + 1), 16, Color("cce0db"))
+		key.position = Vector2(68, 1)
+		key.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
+		key.add_theme_constant_override("shadow_offset_y", 1)
+		b.add_child(key)
+		var price_back := PanelContainer.new()
+		price_back.position = Vector2(52, 31)
+		price_back.size = Vector2(36, 21)
+		price_back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		price_back.add_theme_stylebox_override("panel", _style(Color(0.025, 0.065, 0.085, 0.92), Color(0, 0, 0, 0), 5, 0))
+		b.add_child(price_back)
+		var price := _text(g, str(data.cost), 16, GOLD)
+		price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		price_back.add_child(price)
+		prices.append(price)
 	refs["dock"] = dock
+	refs["tower_thumbnails"] = thumbnails
+	refs["tower_prices"] = prices
+	refs["thumbnail_viewports"] = thumbnail_viewports
+	var camera_reset := _button(g, "复位", _reset_view.bind(g))
+	camera_reset.position = Vector2(1334, 824)
+	camera_reset.size = Vector2(90, 44)
+	camera_reset.tooltip_text = "Home 复位视角\n滚轮缩放 · 中键 / Shift+拖动平移\n触屏：拖动平移 · 双指缩放"
+	root.add_child(camera_reset)
+	var camera_hint := _text(g, "拖动平移 · 双指缩放" if OS.has_feature("mobile") else "滚轮缩放 · 中键拖动平移", 16, MUTED)
+	camera_hint.position = Vector2(24, 838)
+	root.add_child(camera_hint)
+	refs["camera_reset"] = camera_reset
+	refs["camera_hint"] = camera_hint
 
 	# Context is hidden until a pad is selected, and placed on the opposite side.
 	var context := _panel(root, Rect2(1116, 330, 300, 0), 14)
@@ -209,6 +256,50 @@ static func build(g) -> void:
 	_build_end(g, root, refs)
 	g.set_meta("game_ui", refs)
 
+static func _tower_thumbnail(g, parent: Control, kind: int) -> SubViewport:
+	var viewport := SubViewport.new()
+	viewport.name = "TowerPreview%d" % kind
+	viewport.size = Vector2i(144, 144)
+	viewport.own_world_3d = true
+	viewport.transparent_bg = true
+	viewport.gui_disable_input = true
+	viewport.msaa_3d = Viewport.MSAA_2X
+	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	parent.add_child(viewport)
+	var stage := Node3D.new()
+	viewport.add_child(stage)
+	var environment := WorldEnvironment.new()
+	var env := Environment.new()
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = Color(0, 0, 0, 0)
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color("b5d7df")
+	env.ambient_light_energy = 0.85
+	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	environment.environment = env
+	stage.add_child(environment)
+	var sun := DirectionalLight3D.new()
+	sun.rotation_degrees = Vector3(-42, -35, 0)
+	sun.light_color = Color("ffe5c1")
+	sun.light_energy = 1.55
+	stage.add_child(sun)
+	var camera := Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 2.10
+	camera.position = Vector3(2.8, 2.5, -3.7)
+	stage.add_child(camera)
+	camera.look_at(Vector3(0, 0.82, 0))
+	camera.current = true
+	var model: Node3D = g.build_tower_model(kind, Vector3.ZERO, 1)
+	model.name = "ExactTowerModel%d" % kind
+	model.reparent(stage, false)
+	model.position = Vector3.ZERO
+	return viewport
+
+static func _reset_view(g) -> void:
+	if g.has_meta("camera_controller"):
+		g.get_meta("camera_controller").reset_view()
+
 static func _overlay(parent: Node) -> PanelContainer:
 	var p := PanelContainer.new()
 	parent.add_child(p)
@@ -255,9 +346,10 @@ static func refresh(g) -> void:
 	if not g.has_meta("game_ui") or not is_instance_valid(g.money_label):
 		return
 	var refs: Dictionary = g.get_meta("game_ui")
-	var stage: Dictionary = g.levels[g.level_index]
-	refs.level_title.text = "%02d  /  %s" % [g.level_index + 1, stage.name]
-	refs.level_title.tooltip_text = "%s\n%s" % [stage.subtitle, stage.description]
+	var stage: Dictionary = g.current_level()
+	var custom: bool = not g.custom_level_data.is_empty()
+	refs.level_title.text = "自制  /  %s" % stage.name if custom else "%02d  /  %s" % [g.level_index + 1, stage.name]
+	refs.level_title.tooltip_text = "%s\n%s\n%s" % [stage.name, stage.subtitle, stage.description]
 	g.money_label.text = "金币  %d" % g.money
 	g.hp_label.text = "核心  %d / 20" % g.health
 	g.hp_label.add_theme_color_override("font_color", RED if g.health <= 5 else MINT)
@@ -278,17 +370,24 @@ static func refresh(g) -> void:
 	refs.ability_button.text = "Q  核心震荡 · %ds" % ceili(g.ability_cooldown) if g.ability_cooldown > 0 else "Q  核心震荡 · 就绪"
 	refs.ability_button.tooltip_text = "Q 核心震荡：对全场敌人造成 %d 穿甲伤害，并减速 3 秒\n伤害 = 90 + 当前波次 × 8 · 冷却 35 秒" % (90 + g.wave * 8)
 	refs.ability_button.disabled = g.ended or g.paused or not g.active_wave or g.ability_cooldown > 0
-	refs.gate_button.visible = g.level_index == 1
+	refs.gate_button.visible = g.can_switch_gate()
 	refs.gate_button.text = "E  入口 %s · %ds" % ["A" if g.gate_mode == 0 else "B", ceili(g.gate_cooldown)] if g.gate_cooldown > 0 else "E  切换入口 %s → %s" % ["A" if g.gate_mode == 0 else "B", "B" if g.gate_mode == 0 else "A"]
 	refs.gate_button.disabled = g.ended or g.paused or g.gate_cooldown > 0
+	refs.camera_reset.visible = g.has_meta("camera_controller")
+	refs.camera_hint.visible = g.has_meta("camera_controller")
 
 	for i in range(g.tower_buttons.size()):
 		var b: Button = g.tower_buttons[i]
 		var d: Dictionary = g.TOWER_DATA[i]
 		var chosen: bool = i == g.selected_kind
 		var color: Color = d.color
-		b.text = "%d  %s\n%d 金  ·  %s" % [i + 1, d.name, d.cost, "已选" if chosen else d.tag]
+		b.text = ""
 		b.disabled = g.ended
+		var affordable: bool = g.money >= int(d.cost)
+		refs.tower_prices[i].text = str(d.cost)
+		refs.tower_prices[i].add_theme_color_override("font_color", GOLD if affordable else RED)
+		refs.tower_thumbnails[i].modulate = Color.WHITE if affordable else Color(0.47, 0.52, 0.55, 0.78)
+		b.tooltip_text = "%s · %d 金%s\n%s\n伤害 %.0f · 射程 %.1f · 攻击间隔 %.2f 秒\n快捷键 %d：选择，再点击空基座部署" % [d.name, d.cost, " · 还差 %d 金" % (int(d.cost) - g.money) if not affordable else "", d.desc, d.damage, d.range, d.cooldown, i + 1]
 		b.add_theme_color_override("font_color", INK if chosen else color.lightened(0.15))
 		b.add_theme_stylebox_override("normal", _style(Color("274d45") if chosen else Color("142c36"), color if chosen else Color("304a54"), 9, 3))
 		b.add_theme_stylebox_override("hover", _style(Color("30564d"), color, 9, 3))
@@ -342,9 +441,9 @@ static func refresh(g) -> void:
 		g.build_button.tooltip_text = "建造价格 %d 金" % cost
 	if context.visible:
 		_place_context(g, context)
-	var last_level: bool = g.level_index >= g.levels.size() - 1
+	var last_level: bool = not custom and g.level_index >= g.levels.size() - 1
 	refs.next_level_button.disabled = last_level
-	refs.next_level_button.text = "已到达最终关卡" if last_level else "继续下一关  →"
+	refs.next_level_button.text = "返回第一关  →" if custom else ("已到达最终关卡" if last_level else "继续下一关  →")
 
 static func _place_context(g, panel: PanelContainer) -> void:
 	var point := Vector2(720, 450)
@@ -368,7 +467,7 @@ static func show_levels(g) -> void:
 	var outer := _panel(center, Rect2(0, 0, 1180, 0), 28)
 	outer.custom_minimum_size.x = 1180
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 22)
+	column.add_theme_constant_override("separation", 18)
 	outer.add_child(column)
 	var title_row := HBoxContainer.new()
 	column.add_child(title_row)
@@ -377,34 +476,40 @@ static func show_levels(g) -> void:
 	title_row.add_child(title)
 	var back := _button(g, "返回战场  ×", _close_levels.bind(g))
 	title_row.add_child(back)
-	column.add_child(_text(g, "三处战场，三种布防思路。所有关卡均可直接挑战。", 18, MUTED))
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 18)
-	column.add_child(row)
-	var colors := [Color("86e1ba"), Color("f2c18c"), Color("9ecff1")]
+	column.add_child(_text(g, "%d 处战场，不同的路线与机制。所有关卡均可直接挑战。" % g.levels.size(), 18, MUTED))
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(1124, 550)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	column.add_child(scroll)
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 18)
+	grid.add_theme_constant_override("v_separation", 14)
+	scroll.add_child(grid)
+	var colors := [Color("86e1ba"), Color("f2c18c"), Color("9ecff1"), Color("ffac83"), Color("ace0f5"), Color("c9a9f0")]
 	for i in range(g.levels.size()):
 		var stage: Dictionary = g.levels[i]
 		var accent: Color = colors[i % colors.size()]
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(360, 324)
+		card.custom_minimum_size = Vector2(360, 260)
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		card.add_theme_stylebox_override("panel", _style(Color("18333b"), accent if i == g.level_index else BORDER, 14, 20))
-		row.add_child(card)
+		card.add_theme_stylebox_override("panel", _style(Color("18333b"), accent if i == g.level_index else BORDER, 14, 14))
+		grid.add_child(card)
 		var content := VBoxContainer.new()
-		content.add_theme_constant_override("separation", 14)
+		content.add_theme_constant_override("separation", 10)
 		card.add_child(content)
-		content.add_child(_text(g, "战场 %02d%s" % [i + 1, "  ·  当前关卡" if i == g.level_index else ""], 16, accent))
-		content.add_child(_text(g, stage.name, 26))
-		var subtitle := _text(g, stage.subtitle, 17, accent)
+		content.add_child(_text(g, "%02d  %s" % [i + 1, stage.name], 22))
+		var subtitle := _text(g, stage.subtitle, 16, accent)
 		subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		content.add_child(subtitle)
-		_separator(content)
-		var desc := _text(g, stage.description, 17, MUTED)
+		var desc := _text(g, stage.description, 16, MUTED)
 		desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		desc.custom_minimum_size = Vector2(310, 94)
+		desc.custom_minimum_size = Vector2(320, 76)
 		desc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		content.add_child(desc)
-		var deploy := _button(g, "重新部署此关" if i == g.level_index else "部署此战场  →", _choose_level.bind(g, i), true)
+		var deploy := _button(g, "当前关卡 · 重新部署" if i == g.level_index else "部署此战场  →", _choose_level.bind(g, i), true)
 		content.add_child(deploy)
 	g.level_overlay.show()
 

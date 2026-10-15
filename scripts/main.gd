@@ -24,6 +24,10 @@ var damage_labels: Array[Dictionary] = []
 var road_tiles: Dictionary = {}
 var selected_enemy: Dictionary = {}
 var level_index := 0
+var custom_level_data: Dictionary = {}
+var hazard_time := 0.0
+var hazard_ring: MeshInstance3D
+var hazard_data: Dictionary = {}
 var levels := [
 	{"name":"翡翠哨站", "subtitle":"01 / 云境前哨", "description":"绵长蛇形路线 · 适合熟悉塔的配合", "color":Color("294f4e"), "road":Color("7a8980"), "tree":Color("3d8271"), "gold":360, "difficulty":1.0},
 	{"name":"赤岩回廊", "subtitle":"02 / 护盾围城", "description":"螺旋双门 · E 切换下批敌人的入场方向", "color":Color("654c48"), "road":Color("a18d72"), "tree":Color("b37c60"), "gold":420, "difficulty":1.18},
@@ -84,6 +88,10 @@ var font_color := Color("e3f2ef")
 var muted := Color("89aaa9")
 
 func _ready() -> void:
+	if bool(get_meta("replay_runner", false)):
+		return
+	if levels.size() == 3 and ResourceLoader.exists("res://scripts/extra_levels.gd"):
+		levels.append_array(load("res://scripts/extra_levels.gd").definitions())
 	rng.seed = 42857
 	if ResourceLoader.exists("res://assets/ui-font.otf"):
 		ui_font = load("res://assets/ui-font.otf")
@@ -93,6 +101,8 @@ func _ready() -> void:
 	build_ui()
 	if ResourceLoader.exists("res://scripts/game_settings.gd"):
 		load("res://scripts/game_settings.gd").build(self)
+	if ResourceLoader.exists("res://scripts/camera_controller.gd"):
+		load("res://scripts/camera_controller.gd").install(self)
 	refresh_ui()
 	show_toast("先选底部塔型，再点基座。右键 / Esc 取消；选塔后可查看升级对比。", 8)
 	if "--capture" in OS.get_cmdline_user_args():
@@ -168,7 +178,7 @@ func build_world() -> void:
 	for x in range(-7,8):
 		for z in range(-4,5):
 			var h := rng.randf_range(1.0,2.3)
-			var color := Color(levels[level_index].color).lightened(rng.randf_range(-0.06,0.08))
+			var color := Color(current_level().color).lightened(rng.randf_range(-0.06,0.08))
 			box(world,Vector3(x*TILE,-h/2-0.14,z*TILE),Vector3(1.46,h,1.46),color.darkened(0.25))
 			box(world,Vector3(x*TILE,-0.07,z*TILE),Vector3(1.46,0.25,1.46),color)
 	road_tiles.clear()
@@ -188,15 +198,17 @@ func build_world() -> void:
 	for x in [-6,-4,-2,0,2,4,6]:
 		for z in [-4,4]:
 			if x > 4 and z == 4: continue
+			if road_tiles.has(Vector2i(x * 15, z * 15)) or PAD_CELLS.has(Vector2i(x, z)): continue
 			var p := Vector3(x*TILE+rng.randf_range(-0.25,0.25),0.12,z*TILE)
 			var tree := Node3D.new()
 			world.add_child(tree)
 			tree.position = p
 			var h := rng.randf_range(0.7,1.3)
 			cylinder(tree,Vector3(0,h*0.35,0),0.1,h*0.7,Color("705e45"))
-			cylinder(tree,Vector3(0,h*0.8,0),0.49,h,Color(levels[level_index].tree),0,5)
-			cylinder(tree,Vector3(0,h*1.2,0),0.34,h*0.7,Color(levels[level_index].tree).lightened(0.2),0,5)
+			cylinder(tree,Vector3(0,h*0.8,0),0.49,h,Color(current_level().tree),0,5)
+			cylinder(tree,Vector3(0,h*1.2,0),0.34,h*0.7,Color(current_level().tree).lightened(0.2),0,5)
 	for p in [Vector3(-9,0.2,3),Vector3(10.5,0.2,-1.5),Vector3(-9,0.2,-1.5)]:
+		if road_tiles.has(Vector2i(roundi(p.x * 10), roundi(p.z * 10))) or PAD_CELLS.has(Vector2i(roundi(p.x / TILE), roundi(p.z / TILE))): continue
 		for j in range(3):
 			var shard := cylinder(world,p+Vector3(j*0.22,0.3+j*0.11,0.12*j),0.18,0.8,Color("6ac6b0"),0,5)
 			shard.rotation.z = j*0.2
@@ -207,8 +219,8 @@ func build_world() -> void:
 		var p: Vector3 = ROUTE[0]+Vector3(0,0.6,side*0.48)
 		cylinder(world,p,0.18,1.3,Color("715079"),0.09)
 		orb(world,p+Vector3(0,0.7,0),0.16,Color("f28aac"))
-	if routes.size() > 1:
-		var p2: Vector3 = routes[1][0]
+	for entrance in range(1, routes.size()):
+		var p2: Vector3 = routes[entrance][0]
 		cylinder(world,p2,0.65,0.15,Color("375f76"))
 		for side in [-1,1]:
 			cylinder(world,p2+Vector3(0,0.55,side*0.48),0.18,1.3,Color("537ea2"),0.09)
@@ -216,6 +228,7 @@ func build_world() -> void:
 	range_ring = make_ring(1.0,Color("6ee5be"))
 	world.add_child(range_ring)
 	range_ring.visible = false
+	build_hazard()
 
 func build_gate() -> void:
 	var center: Vector3 = ROUTE[-1]+Vector3(0,-0.15,0)
@@ -360,6 +373,7 @@ func build_selected() -> void:
 	if money < data.cost:
 		show_toast("金币不足，击退虫群可获得金币。")
 		return
+	_replay_record("build", [selected_pad, selected_kind])
 	clear_preview()
 	money -= data.cost
 	play_sound("build")
@@ -378,6 +392,7 @@ func upgrade_selected() -> void:
 	if money < cost:
 		show_toast("金币不足，暂时无法升级。")
 		return
+	_replay_record("upgrade", [selected_pad])
 	money -= cost
 	play_sound("upgrade")
 	t.spent += cost
@@ -399,6 +414,7 @@ func sell_selected() -> void:
 	if index < 0 or ended: return
 	var t: Dictionary = towers[index]
 	var refund := int(t.spent*0.7)
+	_replay_record("sell", [selected_pad])
 	money += refund
 	play_sound("sell")
 	t.node.queue_free()
@@ -409,10 +425,11 @@ func sell_selected() -> void:
 
 func start_wave() -> void:
 	if active_wave or ended or paused: return
+	_replay_record("wave", [])
 	wave += 1
 	play_sound("wave")
 	active_wave = true
-	remaining = 8 + wave*3 + level_index*2
+	remaining = wave_enemy_count()
 	spawned = 0
 	spawn_timer = 0.0
 	show_toast("第 %d 波来袭%s" % [wave,"：巨型母虫接近！" if wave == wave_total() else "，守住防线！"])
@@ -420,7 +437,7 @@ func start_wave() -> void:
 
 func spawn_enemy(kind: int = -1) -> Dictionary:
 	var route_index := 0
-	if routes.size() > 1: route_index = gate_mode if level_index == 1 else spawned % 2
+	if routes.size() > 1: route_index = gate_mode if can_switch_gate() else spawned % routes.size()
 	var enemy_route: Array = routes[route_index]
 	if kind < 0:
 		kind = wave_enemy_kind(spawned)
@@ -468,14 +485,18 @@ func spawn_enemy(kind: int = -1) -> Dictionary:
 	return e
 
 func _process(delta: float) -> void:
-	elapsed += delta
+	if custom_level_data.is_empty():
+		elapsed += delta
 	crystal.rotation.y += delta*0.7
 	crystal.position.y = ROUTE[-1].y+1.0+sin(elapsed*1.7)*0.09
 	if toast_time > 0:
 		toast_time -= delta
 		toast_label.modulate.a = minf(1,toast_time)
 	if not paused and not ended:
-		game_tick(minf(delta,0.05)*speed)
+		if not custom_level_data.is_empty() and ResourceLoader.exists("res://scripts/author_replay.gd"):
+			load("res://scripts/author_replay.gd").advance(self, minf(delta, 0.05) * speed)
+		else:
+			game_tick(minf(delta,0.05)*speed)
 	update_effects(delta if not paused else 0)
 	update_damage_labels(delta if not paused else 0)
 	ui_refresh_timer -= delta
@@ -484,6 +505,8 @@ func _process(delta: float) -> void:
 		ui_refresh_timer = 0.15
 
 func game_tick(dt: float) -> void:
+	hazard_time += dt
+	update_hazard(dt)
 	ability_cooldown = maxf(0.0,ability_cooldown-dt)
 	gate_cooldown = maxf(0.0,gate_cooldown-dt)
 	if active_wave and remaining > 0:
@@ -680,19 +703,24 @@ func finish(won: bool) -> void:
 	ended = true
 	play_sound("win" if won else "loss")
 	active_wave = false
-	if won and level_index not in completed_levels: completed_levels.append(level_index)
+	if won and custom_level_data.is_empty() and level_index not in completed_levels: completed_levels.append(level_index)
 	end_title.text = "防线屹立 · 胜利！" if won else "核心失守"
-	end_desc.text = "%s 通关 · 全部 %d 波\n剩余核心 %d / 20 · 击退 %d 只" % [levels[level_index].name,wave_total(),health,kills] if won else "坚持到第 %d 波 · 击退 %d 只\n试试用霜晶减速配合熔核范围攻击" % [wave,kills]
+	end_desc.text = "%s 通关 · 全部 %d 波\n剩余核心 %d / 20 · 击退 %d 只" % [current_level().name,wave_total(),health,kills] if won else "坚持到第 %d 波 · 击退 %d 只\n试试用霜晶减速配合熔核范围攻击" % [wave,kills]
 	end_panel.show()
 	refresh_ui()
+	if not custom_level_data.is_empty() and ResourceLoader.exists("res://scripts/author_replay.gd"):
+		load("res://scripts/author_replay.gd").finished(self, won)
 
 func restart() -> void:
+	if ResourceLoader.exists("res://scripts/level_designer.gd"):
+		load("res://scripts/level_designer.gd").close(self)
 	if ResourceLoader.exists("res://scripts/game_codex.gd"):
 		load("res://scripts/game_codex.gd").close(self)
 	if ResourceLoader.exists("res://scripts/game_settings.gd"):
 		load("res://scripts/game_settings.gd").close(self)
 	for item in damage_labels: item.node.queue_free()
 	damage_labels.clear()
+	hazard_time = 0.0
 	ability_cooldown = 0.0
 	gate_cooldown = 0.0
 	gate_mode = 0
@@ -703,7 +731,7 @@ func restart() -> void:
 	enemies.clear()
 	towers.clear()
 	effects.clear()
-	money = levels[level_index].gold
+	money = current_level().gold
 	health = 20
 	wave = 0
 	kills = 0
@@ -723,8 +751,15 @@ func restart() -> void:
 	update_range()
 	refresh_ui()
 	show_toast("新的防线，新的机会。选择基座开始部署。")
+	_reset_camera()
+	if not custom_level_data.is_empty() and ResourceLoader.exists("res://scripts/author_replay.gd"):
+		load("res://scripts/author_replay.gd").begin(self, custom_level_data)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if ResourceLoader.exists("res://scripts/level_designer.gd") and load("res://scripts/level_designer.gd").is_open(self):
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			load("res://scripts/level_designer.gd").close(self)
+		return
 	if ResourceLoader.exists("res://scripts/game_settings.gd") and load("res://scripts/game_settings.gd").is_open(self):
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 			load("res://scripts/game_settings.gd").close(self)
@@ -852,10 +887,38 @@ func play_sound(key: String) -> void:
 	if sound_enabled and sounds.has(key):
 		sounds[key].play()
 
+func current_level() -> Dictionary:
+	if custom_level_data.is_empty():
+		return levels[level_index]
+	return {"name": custom_level_data.name, "subtitle": "LOCAL / 本地试打", "description": "本地设计关卡 · 作者须通关后自动回放核验", "color": Color("294f4e"), "road": Color("7a8980"), "tree": Color("3d8271"), "gold": custom_level_data.gold, "difficulty": 1.0}
+
 func wave_total() -> int:
-	return TOTAL_WAVES
+	return int(custom_level_data.waves) if not custom_level_data.is_empty() else TOTAL_WAVES
+
+func wave_enemy_count() -> int:
+	return int(custom_level_data.count) if not custom_level_data.is_empty() else 8 + wave * 3 + level_index * 2
+
+func can_switch_gate() -> bool:
+	return custom_level_data.is_empty() and (level_index == 1 or bool(current_level().get("gate", false)))
 
 func configure_level() -> void:
+	hazard_data = {}
+	if not custom_level_data.is_empty():
+		ROUTE = []
+		for cell in custom_level_data.route:
+			ROUTE.append(Vector3(int(cell[0]) * TILE, 0.35, int(cell[1]) * TILE))
+		PAD_CELLS = []
+		for cell in custom_level_data.pads:
+			PAD_CELLS.append(Vector2i(int(cell[0]), int(cell[1])))
+		routes = [ROUTE]
+		return
+	if level_index >= 3:
+		var stage: Dictionary = levels[level_index]
+		routes = stage.routes.duplicate(true)
+		ROUTE = routes[0]
+		PAD_CELLS = stage.pads.duplicate()
+		hazard_data = stage.get("hazard", {}).duplicate(true)
+		return
 	if level_index == 0:
 		ROUTE = [Vector3(-10.5,0.35,-4.5),Vector3(7.5,0.35,-4.5),Vector3(7.5,0.35,0),Vector3(-7.5,0.35,0),Vector3(-7.5,0.35,4.5),Vector3(9,0.35,4.5)]
 		PAD_CELLS = [Vector2i(-5,-1),Vector2i(-3,-1),Vector2i(-1,-1),Vector2i(1,-1),Vector2i(3,-1),Vector2i(6,-1),Vector2i(-6,1),Vector2i(-3,1),Vector2i(-1,1),Vector2i(1,1),Vector2i(3,1),Vector2i(5,1),Vector2i(-3,2),Vector2i(-1,2),Vector2i(1,2),Vector2i(3,2)]
@@ -872,12 +935,8 @@ func configure_level() -> void:
 	elif level_index == 2:
 		routes.append([Vector3(-10.5,0.35,4.5),Vector3(-4.5,0.35,4.5),Vector3(-4.5,0.35,1.5),Vector3(1.5,0.35,1.5),Vector3(1.5,0.35,-3),Vector3(7.5,0.35,-3),Vector3(7.5,0.35,4.5),Vector3(10.5,0.35,4.5)])
 
-func choose_level(index: int) -> void:
-	if index < 0 or index >= levels.size(): return
-	level_index = index
-	restart()
-	if is_instance_valid(level_overlay): level_overlay.hide()
-	# Remove the old board and lighting before constructing the new map.
+func _rebuild_board() -> void:
+	# Keep the HUD and controller; rebuild only the 3D board and lighting.
 	for child in get_children():
 		if child is Node3D or child is WorldEnvironment:
 			remove_child(child)
@@ -887,9 +946,47 @@ func choose_level(index: int) -> void:
 	build_world()
 	if ResourceLoader.exists("res://scripts/game_settings.gd"):
 		load("res://scripts/game_settings.gd").apply(self)
-	money = levels[level_index].gold
+	_reset_camera()
+
+func _reset_camera() -> void:
+	if has_meta("camera_controller") and is_instance_valid(get_meta("camera_controller")):
+		get_meta("camera_controller").reset_view()
+
+func choose_level(index: int) -> void:
+	if index < 0 or index >= levels.size(): return
+	custom_level_data = {}
+	level_index = index
+	restart()
+	if is_instance_valid(level_overlay): level_overlay.hide()
+	_rebuild_board()
+	money = current_level().gold
 	refresh_ui()
-	show_toast("%s：%s" % [levels[level_index].name,levels[level_index].description],6)
+	show_toast("%s：%s" % [current_level().name, current_level().description], 6)
+
+func open_designer() -> void:
+	if ResourceLoader.exists("res://scripts/level_designer.gd"):
+		load("res://scripts/level_designer.gd").open(self)
+
+func start_custom_level(data: Dictionary) -> void:
+	var designer = load("res://scripts/level_designer.gd")
+	var errors: Array[String] = designer.validate(data)
+	if not errors.is_empty():
+		show_toast("关卡无效：" + errors[0], 6)
+		return
+	custom_level_data = designer.canonical_data(data)
+	rng.seed = int(custom_level_data.seed)
+	restart()
+	if is_instance_valid(level_overlay): level_overlay.hide()
+	_rebuild_board()
+	money = int(custom_level_data.gold)
+	if ResourceLoader.exists("res://scripts/author_replay.gd"):
+		load("res://scripts/author_replay.gd").begin(self, custom_level_data)
+	refresh_ui()
+	show_toast("本地试打：%s。通关后自动回放核验；修改关卡需重新验证。" % custom_level_data.name, 7)
+
+func _replay_record(action: String, args: Array) -> void:
+	if not custom_level_data.is_empty() and ResourceLoader.exists("res://scripts/author_replay.gd"):
+		load("res://scripts/author_replay.gd").record(self, action, args)
 
 func show_level_select() -> void:
 	if is_instance_valid(level_overlay) and level_overlay.visible: return
@@ -900,7 +997,7 @@ func show_level_select() -> void:
 	refresh_ui()
 
 func next_level() -> void:
-	choose_level((level_index+1)%levels.size())
+	choose_level(0 if not custom_level_data.is_empty() else (level_index+1)%levels.size())
 
 func next_wave_description() -> String:
 	var n := mini(wave+1,wave_total()) if not active_wave else wave
@@ -911,14 +1008,21 @@ func next_wave_description() -> String:
 	if n >= 5: hint = "再生虫 · 推荐焰息阻止治疗"
 	if n >= 6: hint = "分裂虫 · 推荐熔核范围清场"
 	if n == wave_total(): hint = "巨型母虫 + 混编精锐 · 优先升级"
-	if level_index == 1 and n >= 2 and n < 5: hint += " / 额外护盾"
-	if level_index == 2 and n >= 2 and n < 6: hint += " / 重甲加速攻势"
+	if custom_level_data.is_empty() and level_index == 1 and n >= 2 and n < 5: hint += " / 额外护盾"
+	if custom_level_data.is_empty() and level_index == 2 and n >= 2 and n < 6: hint += " / 重甲加速攻势"
 	return "%s第 %d 波：%s" % ["本波 " if active_wave else "下一波 ",n,hint]
 
 func wave_enemy_kind(index: int) -> int:
-	if wave == wave_total() and index == 8+wave*3+level_index*2-1: return 3
-	if level_index == 1 and wave >= 2 and index % 4 == 1: return 4
-	if level_index == 2 and wave >= 2 and index % 4 == 1: return 2
+	if wave == wave_total() and index == wave_enemy_count()-1: return 3
+	if custom_level_data.is_empty() and level_index == 1 and wave >= 2 and index % 4 == 1: return 4
+	if custom_level_data.is_empty() and level_index == 2 and wave >= 2 and index % 4 == 1: return 2
+	if custom_level_data.is_empty() and level_index >= 3:
+		if level_index == 3 and wave >= 2 and index % 4 == 1: return 4
+		if level_index == 4 and wave >= 2 and index % 4 == 1: return 1
+		if level_index == 4 and wave >= 3 and index % 6 == 3: return 2
+		if level_index == 5 and wave >= 2 and index % 6 == 1: return 2
+		if level_index == 5 and wave >= 3 and index % 6 == 3: return 4
+		if level_index == 5 and wave >= 4 and index % 6 == 5: return 5
 	if wave >= 6 and index % 7 == 5: return 6
 	if wave >= 5 and index % 7 == 3: return 5
 	if wave >= 4 and index % 5 == 2: return 4
@@ -971,7 +1075,7 @@ func build_road(road: Array) -> void:
 			var tile_key := Vector2i(roundi(p.x*10),roundi(p.z*10))
 			if road_tiles.has(tile_key): continue
 			road_tiles[tile_key] = true
-			box(world,Vector3(p.x,0.13,p.z),Vector3(1.38,0.2,1.38),Color(levels[level_index].road).lightened(rng.randf_range(-0.03,0.05)))
+			box(world,Vector3(p.x,0.13,p.z),Vector3(1.38,0.2,1.38),Color(current_level().road).lightened(rng.randf_range(-0.03,0.05)))
 			if j % 3 == 1:
 				var marker := cylinder(world,Vector3(p.x,0.245,p.z),0.11,0.015,Color("cad5b3"),0.11,3)
 				marker.rotation.y = PI/2 if b.x>a.x else -PI/2
@@ -981,6 +1085,7 @@ func use_ability() -> void:
 	if ability_cooldown > 0:
 		show_toast("核心震荡冷却中：%d 秒" % ceili(ability_cooldown),2)
 		return
+	_replay_record("ability", [])
 	ability_cooldown = 35.0
 	play_sound("ice")
 	for e in enemies:
@@ -993,10 +1098,11 @@ func use_ability() -> void:
 	refresh_ui()
 
 func toggle_gate() -> void:
-	if level_index != 1 or ended or paused: return
+	if not can_switch_gate() or ended or paused: return
 	if gate_cooldown > 0:
 		show_toast("传送门切换冷却中",2)
 		return
+	_replay_record("gate", [])
 	gate_mode = 1-gate_mode
 	gate_cooldown = 12.0
 	play_sound("build")
@@ -1017,7 +1123,7 @@ func spawn_damage_label(p: Vector3, amount: float, kind: int) -> void:
 	n.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	n.no_depth_test = true
 	n.modulate = TOWER_DATA[kind].color if kind >= 0 else Color("ffddb3")
-	n.position = p+Vector3(rng.randf_range(-0.2,0.2),1.1,0)
+	n.position = p+Vector3(randf_range(-0.2,0.2),1.1,0)
 	world.add_child(n)
 	damage_labels.append({"node":n,"life":0.65})
 
@@ -1038,5 +1144,42 @@ func show_codex() -> void:
 
 func enemy_stats(kind: int, wave_override: int = 0) -> Dictionary:
 	var n := maxi(1,wave if wave_override == 0 else wave_override)
-	var hp: float = (38.0+n*12.0)*(1.0+0.12*pow(maxi(n-2,0),1.4))*levels[level_index].difficulty*[1.0,0.65,2.7,14.0,1.25,1.6,1.45][kind]
+	var hp: float = (38.0+n*12.0)*(1.0+0.12*pow(maxi(n-2,0),1.4))*current_level().difficulty*[1.0,0.65,2.7,14.0,1.25,1.6,1.45][kind]
 	return {"name":["侦察虫","疾行虫","重甲虫","巨型母虫","护盾虫","再生虫","分裂虫"][kind],"hp":hp,"speed":[1.65,2.8,1.1,0.85,1.5,1.45,1.7][kind],"armor":0.55 if kind == 2 else 0.0,"shield":hp*0.65 if kind == 4 else 0.0,"ability":["常规推进，无特殊防御","高速穿越防线","普通攻击受到 55% 减伤","高生命；减速效果减半；漏过扣 5 核心","额外能量护盾吸收伤害","每秒治疗 2.8 范围内队友 6% 最大生命","被击败后分裂为两只小型疾行虫"][kind],"counter":["脉冲箭塔高效处理","霜晶减速配合高频攻击","穿甲轨炮与灼烧无视重甲","轨炮集火、升级与核心震荡","雷链对护盾造成双倍伤害","焰息灼烧期间无法治疗或被治疗","熔核范围攻击清理小虫" ][kind],"color":[Color("bf7192"),Color("edb082"),Color("7887bd"),Color("b46eaf"),Color("80cbe8"),Color("91c481"),Color("e2a453")][kind]}
+
+func build_hazard() -> void:
+	hazard_ring = null
+	if hazard_data.is_empty():
+		return
+	var tint := Color("ff9363") if hazard_data.kind == "lava" else Color("9bdcff")
+	hazard_ring = make_ring(float(hazard_data.radius), tint)
+	world.add_child(hazard_ring)
+	hazard_ring.position = hazard_data.center + Vector3(0, 0.01, 0)
+	for i in range(8):
+		var angle: float = i * TAU / 8.0
+		var p: Vector3 = hazard_data.center + Vector3(cos(angle), 0, sin(angle)) * float(hazard_data.radius)
+		orb(world, p + Vector3(0, 0.10, 0), 0.11, tint)
+
+func hazard_is_active() -> bool:
+	return not hazard_data.is_empty() and fmod(hazard_time, float(hazard_data.cycle)) < float(hazard_data.active)
+
+func update_hazard(dt: float) -> void:
+	if hazard_data.is_empty():
+		return
+	var active := hazard_is_active()
+	if is_instance_valid(hazard_ring):
+		hazard_ring.scale = Vector3.ONE * (1.0 + sin(hazard_time * 5.0) * 0.035 if active else 1.0)
+		hazard_ring.transparency = 0.0 if active else 0.72
+	if not active:
+		return
+	var center: Vector3 = hazard_data.center
+	for enemy in enemies:
+		if enemy.hp <= 0:
+			continue
+		var pos: Vector3 = enemy.node.position
+		if Vector2(pos.x, pos.z).distance_to(Vector2(center.x, center.z)) > float(hazard_data.radius):
+			continue
+		if hazard_data.kind == "frost":
+			enemy.slow = maxf(float(enemy.slow), 0.3)
+		else:
+			damage_enemy(enemy, float(hazard_data.damage) * dt, 5)

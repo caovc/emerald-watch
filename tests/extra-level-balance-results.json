@@ -1,0 +1,433 @@
+{
+  "checks": 36,
+  "failures": 0,
+  "runs": [
+    {
+      "defended": true,
+      "gate_uses": 4,
+      "health": 20,
+      "name": "熔脉岔口",
+      "placements": [
+        [
+          7,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          11,
+          4
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          14,
+          5
+        ]
+      ],
+      "q_uses": 9,
+      "stage": 4,
+      "waves": [
+        {
+          "gold": 323,
+          "health": 20,
+          "kills": 17,
+          "seconds": 24.15,
+          "towers": 4,
+          "wave": 1
+        },
+        {
+          "gold": 344,
+          "health": 20,
+          "kills": 37,
+          "seconds": 29.45,
+          "towers": 6,
+          "wave": 2
+        },
+        {
+          "gold": 479,
+          "health": 20,
+          "kills": 60,
+          "seconds": 34.75,
+          "towers": 6,
+          "wave": 3
+        },
+        {
+          "gold": 508,
+          "health": 20,
+          "kills": 86,
+          "seconds": 38.15,
+          "towers": 6,
+          "wave": 4
+        },
+        {
+          "gold": 612,
+          "health": 20,
+          "kills": 115,
+          "seconds": 38.2,
+          "towers": 6,
+          "wave": 5
+        },
+        {
+          "gold": 751,
+          "health": 20,
+          "kills": 153,
+          "seconds": 40.05,
+          "towers": 7,
+          "wave": 6
+        },
+        {
+          "gold": 755,
+          "health": 20,
+          "kills": 194,
+          "seconds": 41.3,
+          "towers": 10,
+          "wave": 7
+        },
+        {
+          "gold": 886,
+          "health": 20,
+          "kills": 238,
+          "seconds": 56.2,
+          "towers": 10,
+          "wave": 8
+        }
+      ],
+      "won": true
+    },
+    {
+      "defended": false,
+      "gate_uses": 0,
+      "health": 0,
+      "name": "熔脉岔口",
+      "placements": [],
+      "q_uses": 0,
+      "stage": 4,
+      "waves": [
+        {
+          "gold": 593,
+          "health": 3,
+          "kills": 0,
+          "seconds": 54.2,
+          "towers": 0,
+          "wave": 1
+        },
+        {
+          "gold": 593,
+          "health": 0,
+          "kills": 0,
+          "seconds": 32.0,
+          "towers": 0,
+          "wave": 2
+        }
+      ],
+      "won": false
+    },
+    {
+      "defended": true,
+      "gate_uses": 0,
+      "health": 20,
+      "name": "霜镜交汇",
+      "placements": [
+        [
+          10,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          11,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          14,
+          4
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          15,
+          5
+        ]
+      ],
+      "q_uses": 9,
+      "stage": 5,
+      "waves": [
+        {
+          "gold": 243,
+          "health": 20,
+          "kills": 19,
+          "seconds": 26.95,
+          "towers": 5,
+          "wave": 1
+        },
+        {
+          "gold": 327,
+          "health": 20,
+          "kills": 41,
+          "seconds": 26.45,
+          "towers": 6,
+          "wave": 2
+        },
+        {
+          "gold": 417,
+          "health": 20,
+          "kills": 66,
+          "seconds": 35.75,
+          "towers": 6,
+          "wave": 3
+        },
+        {
+          "gold": 580,
+          "health": 20,
+          "kills": 94,
+          "seconds": 38.55,
+          "towers": 6,
+          "wave": 4
+        },
+        {
+          "gold": 659,
+          "health": 20,
+          "kills": 125,
+          "seconds": 38.8,
+          "towers": 6,
+          "wave": 5
+        },
+        {
+          "gold": 677,
+          "health": 20,
+          "kills": 165,
+          "seconds": 39.0,
+          "towers": 8,
+          "wave": 6
+        },
+        {
+          "gold": 788,
+          "health": 20,
+          "kills": 208,
+          "seconds": 42.4,
+          "towers": 8,
+          "wave": 7
+        },
+        {
+          "gold": 1287,
+          "health": 20,
+          "kills": 254,
+          "seconds": 59.5,
+          "towers": 10,
+          "wave": 8
+        }
+      ],
+      "won": true
+    },
+    {
+      "defended": false,
+      "gate_uses": 0,
+      "health": 0,
+      "name": "霜镜交汇",
+      "placements": [],
+      "q_uses": 0,
+      "stage": 5,
+      "waves": [
+        {
+          "gold": 643,
+          "health": 1,
+          "kills": 0,
+          "seconds": 59.0,
+          "towers": 0,
+          "wave": 1
+        },
+        {
+          "gold": 643,
+          "health": 0,
+          "kills": 0,
+          "seconds": 25.55,
+          "towers": 0,
+          "wave": 2
+        }
+      ],
+      "won": false
+    },
+    {
+      "defended": true,
+      "gate_uses": 0,
+      "health": 14,
+      "name": "裂隙围城",
+      "placements": [
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          11,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          14,
+          4
+        ],
+        [
+          15,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          10,
+          5
+        ]
+      ],
+      "q_uses": 10,
+      "stage": 6,
+      "waves": [
+        {
+          "gold": 313,
+          "health": 20,
+          "kills": 21,
+          "seconds": 32.1,
+          "towers": 5,
+          "wave": 1
+        },
+        {
+          "gold": 366,
+          "health": 20,
+          "kills": 45,
+          "seconds": 39.55,
+          "towers": 6,
+          "wave": 2
+        },
+        {
+          "gold": 518,
+          "health": 20,
+          "kills": 72,
+          "seconds": 49.95,
+          "towers": 6,
+          "wave": 3
+        },
+        {
+          "gold": 648,
+          "health": 20,
+          "kills": 102,
+          "seconds": 46.3,
+          "towers": 6,
+          "wave": 4
+        },
+        {
+          "gold": 810,
+          "health": 20,
+          "kills": 135,
+          "seconds": 43.3,
+          "towers": 6,
+          "wave": 5
+        },
+        {
+          "gold": 1181,
+          "health": 20,
+          "kills": 175,
+          "seconds": 51.0,
+          "towers": 9,
+          "wave": 6
+        },
+        {
+          "gold": 1166,
+          "health": 20,
+          "kills": 218,
+          "seconds": 56.75,
+          "towers": 9,
+          "wave": 7
+        },
+        {
+          "gold": 1983,
+          "health": 14,
+          "kills": 258,
+          "seconds": 87.75,
+          "towers": 9,
+          "wave": 8
+        }
+      ],
+      "won": true
+    },
+    {
+      "defended": false,
+      "gate_uses": 0,
+      "health": 0,
+      "name": "裂隙围城",
+      "placements": [],
+      "q_uses": 0,
+      "stage": 6,
+      "waves": [
+        {
+          "gold": 650,
+          "health": 0,
+          "kills": 0,
+          "seconds": 60.65,
+          "towers": 0,
+          "wave": 1
+        }
+      ],
+      "won": false
+    }
+  ]
+}

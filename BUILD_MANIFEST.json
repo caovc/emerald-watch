@@ -1,0 +1,583 @@
+{
+  "title": "Emerald Watch expanded final source",
+  "date": "2026-10-15",
+  "godot": "4.6.3",
+  "automated_checks": 1769,
+  "files": [
+    {
+      "path": ".github/workflows/ios-unsigned.yml",
+      "bytes": 9366,
+      "sha256": "e7f0752b2f92dcb96e5879133453e1c633f9da93610a6fe7b2b8890f2866ba19"
+    },
+    {
+      "path": ".github/workflows/macos-universal.yml",
+      "bytes": 9073,
+      "sha256": "c11143d00954b17edf3df069bf373149a1d3f2ef444ba53df69cedd92a45ecce"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 26,
+      "sha256": "613bae8f05e72f9bd78e10aab7ff126fbbfdd2b80bae2b39733b7d10c7efb356"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1167,
+      "sha256": "152c2123861a7bf3f817b267468a972688b74f3e74f670a47b773dceb35961f2"
+    },
+    {
+      "path": "README.md",
+      "bytes": 14515,
+      "sha256": "fa67b53d4d617443636f0935b4f7df31b28118d18cebe7034490c68547b40e0a"
+    },
+    {
+      "path": "assets/FONT-LICENSE.txt",
+      "bytes": 14712,
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+    },
+    {
+      "path": "assets/audio/README.md",
+      "bytes": 2740,
+      "sha256": "c7aa01c658a27b791edba359a6100429435e2d257847c2ad7feff3f496340ede"
+    },
+    {
+      "path": "assets/audio/arc.wav",
+      "bytes": 9746,
+      "sha256": "74c79afec685b6354ad68f08aa7d32e7c5705ddfc7fb0630025e8a98e03b1acc"
+    },
+    {
+      "path": "assets/audio/arc.wav.import",
+      "bytes": 479,
+      "sha256": "e21b742d1a8044ec0aa9b9811b2f9a368ef408e8592982cc4dc1558f0b2728e9"
+    },
+    {
+      "path": "assets/audio/audio_manifest.json",
+      "bytes": 2078,
+      "sha256": "9504a5e4f5b945fe772574ba661b36149c86a75ffa131c00a85464c0d6ea57ac"
+    },
+    {
+      "path": "assets/audio/boom.wav",
+      "bytes": 22094,
+      "sha256": "e8c7f2df6768e6b9130450420b35393effd30278619115b861db9f004b34c21d"
+    },
+    {
+      "path": "assets/audio/boom.wav.import",
+      "bytes": 482,
+      "sha256": "d16e03a48c997183b4cac605a1e05c066e7df06b998bff198a2df1a388138b9a"
+    },
+    {
+      "path": "assets/audio/build.wav",
+      "bytes": 61784,
+      "sha256": "bbaa90f320cd67386315f905f93a869d934394187dde7646bf23aff15ff45868"
+    },
+    {
+      "path": "assets/audio/build.wav.import",
+      "bytes": 486,
+      "sha256": "0c47cefb9df7ff5f8eca426666bdfaf7fc7ec7318ff56824f186b70a711ec84b"
+    },
+    {
+      "path": "assets/audio/burn.wav",
+      "bytes": 15038,
+      "sha256": "23d13021e36eeec9c744529f3727e99e0b2e32e97326f5601d410137f9c51105"
+    },
+    {
+      "path": "assets/audio/burn.wav.import",
+      "bytes": 483,
+      "sha256": "cc24b46387358cf365069134b08ad45c0a42302c873369b6fba57c789d9f406a"
+    },
+    {
+      "path": "assets/audio/emerald_drift.wav",
+      "bytes": 3763244,
+      "sha256": "e5418c33bb1f19101ff0da84227fbd0808faaafed6508c1a2973631e48c27f31"
+    },
+    {
+      "path": "assets/audio/emerald_drift.wav.import",
+      "bytes": 510,
+      "sha256": "94e4a540bb1c225f47eb96c0d35515fb6bd8795ada4f21389bb36612f284be48"
+    },
+    {
+      "path": "assets/audio/generate_audio.py",
+      "bytes": 9551,
+      "sha256": "5e8ec5d6469506a2bb3641cf25e3542ae5902a272cc519b0083cb98a303860fe"
+    },
+    {
+      "path": "assets/audio/hit.wav",
+      "bytes": 4012,
+      "sha256": "b144316feda3bcfb9e3ef27c25ed86812f6a1bed73b02635a731effd7bf60176"
+    },
+    {
+      "path": "assets/audio/hit.wav.import",
+      "bytes": 479,
+      "sha256": "d8890be636bf8fb416248a51eccc2c84aa4d4959c5f5a06f6dd54e6699887b3a"
+    },
+    {
+      "path": "assets/audio/ice.wav",
+      "bytes": 18566,
+      "sha256": "4e7c10ab2bdfb95f1129683b406efc2a2bebee6c1e287216210d38ecda5b2776"
+    },
+    {
+      "path": "assets/audio/ice.wav.import",
+      "bytes": 480,
+      "sha256": "369c40a1e7e4632b142360ac97c63e338155e7dab8959af0416e6edce3d0266f"
+    },
+    {
+      "path": "assets/audio/leak.wav",
+      "bytes": 51200,
+      "sha256": "e051f77b601acbb47ca5a407cb521991f6c0073853a1592ce4d8560dc5faf917"
+    },
+    {
+      "path": "assets/audio/leak.wav.import",
+      "bytes": 483,
+      "sha256": "1e83dc192dd64b96204103daabe37396d64dfe05dd6654c14ea0d67694b03ac0"
+    },
+    {
+      "path": "assets/audio/loss.wav",
+      "bytes": 141164,
+      "sha256": "667de2522269789157dbf3fcc40e9fa5b82411a5da5654c44ccb84298153f3ec"
+    },
+    {
+      "path": "assets/audio/loss.wav.import",
+      "bytes": 483,
+      "sha256": "5ebfb45b0d9f11b0df966ccf1141b4da4c0d4d825bb9232207c1a63e4a9fa54f"
+    },
+    {
+      "path": "assets/audio/rail.wav",
+      "bytes": 15478,
+      "sha256": "3c284db1b460d9c0f3f946dd02f25303bfcbdf5d295201507538e2a15ef7acc9"
+    },
+    {
+      "path": "assets/audio/rail.wav.import",
+      "bytes": 483,
+      "sha256": "8f3bbd8a95100d0734c5f36fae9ebecb9d3685b8e531461cc4f96325b91a8a5b"
+    },
+    {
+      "path": "assets/audio/sell.wav",
+      "bytes": 54728,
+      "sha256": "11fdc10e412ad57785236f792c18a25b108a710e9cff252048bc9c0e12188da3"
+    },
+    {
+      "path": "assets/audio/sell.wav.import",
+      "bytes": 483,
+      "sha256": "79d1983c92e7210fbc67a00b7b9abef0534897481af63735a31891b6a7b716b6"
+    },
+    {
+      "path": "assets/audio/shot.wav",
+      "bytes": 5776,
+      "sha256": "831e53012ec06a818d85ff521a8d343b7edd256cbda6b8ccb4734808af449470"
+    },
+    {
+      "path": "assets/audio/shot.wav.import",
+      "bytes": 482,
+      "sha256": "00fadb0986444a197d4bdd5a8cb12bd2e7cd9076d50c3250ba2a58dca11ba1b1"
+    },
+    {
+      "path": "assets/audio/upgrade.wav",
+      "bytes": 88244,
+      "sha256": "f74e00ad85c7223facb42e1cdc978052456243f7871dc4a195cd568250dd8776"
+    },
+    {
+      "path": "assets/audio/upgrade.wav.import",
+      "bytes": 492,
+      "sha256": "36e9e2f2f34ff982f2474d77b6039475607683425a018a2bd09a7d5a331ff021"
+    },
+    {
+      "path": "assets/audio/validate_runtime.gd",
+      "bytes": 4739,
+      "sha256": "33dc61c652161ce32b08c62feaefaeba8e70b93e04f82c9a418b327d15a18322"
+    },
+    {
+      "path": "assets/audio/validate_runtime.gd.uid",
+      "bytes": 19,
+      "sha256": "94b3434a3322fdc2c88e14f8b7aa56e6677870a5134edc3894c72ec866420d6d"
+    },
+    {
+      "path": "assets/audio/wave.wav",
+      "bytes": 92652,
+      "sha256": "bcb116accd4ef95c69f75deffae912510d12f32f49496e3d425af75d5027cd56"
+    },
+    {
+      "path": "assets/audio/wave.wav.import",
+      "bytes": 483,
+      "sha256": "4ed715e11992cae62d2d05d1fb79ac47cb7bdd70198bcdc142aaf0a43c5e4b23"
+    },
+    {
+      "path": "assets/audio/win.wav",
+      "bytes": 145572,
+      "sha256": "a69a1c1da9ca399ebac6e5403f4f9cf7aef6da417a13a3890cb499d3267913aa"
+    },
+    {
+      "path": "assets/audio/win.wav.import",
+      "bytes": 480,
+      "sha256": "92670734df2fd6429b317939c2274e5799ac1d457ff881e51b1f05e34a19fc2b"
+    },
+    {
+      "path": "assets/font-characters.txt",
+      "bytes": 63302,
+      "sha256": "37a2f123577a2587109b31194832edd46f928e9e2d757a1c68ba50ac1d757b77"
+    },
+    {
+      "path": "assets/icon-ios.svg",
+      "bytes": 304,
+      "sha256": "f23be6cc641fba84fb4fbf445e964efbded3c20ba3b7d47f6dca82bcfa6ffb82"
+    },
+    {
+      "path": "assets/icon-ios.svg.import",
+      "bytes": 1032,
+      "sha256": "a01ccdc0f5a0b0076e4022f2adce581a8c1d8b3b54c25282f53f469e4a9fb83c"
+    },
+    {
+      "path": "assets/icon.svg",
+      "bytes": 310,
+      "sha256": "b359a9be46c9a9a17c556a8e5fdd658b6dd031da86c691f61f4c6540e300dda9"
+    },
+    {
+      "path": "assets/icon.svg.import",
+      "bytes": 1020,
+      "sha256": "84d36079876c256473bcf33680c5d56f1fd6a77ac8466e3f81495f23b31a3706"
+    },
+    {
+      "path": "assets/ui-font.otf",
+      "bytes": 11025352,
+      "sha256": "17c4eaa4df4ac81bda9b353c83239928fb44080a6484087a2bcc1a32e50516fa"
+    },
+    {
+      "path": "assets/ui-font.otf.import",
+      "bytes": 753,
+      "sha256": "8688010ca0db3aaa5f55e71ab9586dc2d2b3655fb5f7622bdf3816df6fea532b"
+    },
+    {
+      "path": "docs/AUTHOR_REPLAYS.md",
+      "bytes": 1873,
+      "sha256": "7c06969e86ae8df5d9c178d7f53de0f46c0f67df71729c588965d324fcdb260a"
+    },
+    {
+      "path": "docs/FONT_COVERAGE.md",
+      "bytes": 907,
+      "sha256": "157357016db852daa2f4a4cf6df0ddcf356cd81e85a69786befcb86b4279c629"
+    },
+    {
+      "path": "docs/IOS_BUILD.md",
+      "bytes": 8608,
+      "sha256": "0042eea54e421593f74782d0e9b53b0a2a77ed1eaf842a73a827f64aba611a7d"
+    },
+    {
+      "path": "docs/MACOS_BUILD.md",
+      "bytes": 4363,
+      "sha256": "8ca2d46a570fb6090b444e3e45342cc408fcae18f8540715bd6bebc0a983c331"
+    },
+    {
+      "path": "docs/TEST_REPORT.md",
+      "bytes": 4323,
+      "sha256": "eeb57632cf3ff12e914c64de6def431af01204a79cb1403886fe656a66dddc68"
+    },
+    {
+      "path": "docs/camera-controls.md",
+      "bytes": 1497,
+      "sha256": "fcb5296c4bc0ee482f0ac7ec93ed624d494f87758b48dffed2d991b55a162f4c"
+    },
+    {
+      "path": "export_presets.cfg",
+      "bytes": 4184,
+      "sha256": "77073581d087e7fa9c092d6f5664e1f7264a7211a432056455046120c2957f3e"
+    },
+    {
+      "path": "main.tscn",
+      "bytes": 167,
+      "sha256": "4971ab6d4e146d0434f0d79f324275d3af5e321318725812c501caebfd7c0edf"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 828,
+      "sha256": "5181d90b0feba6ed584321ed710d3bf7126b872cb184ba0ad7111324d6bf1915"
+    },
+    {
+      "path": "screenshots/README.md",
+      "bytes": 279,
+      "sha256": "09a1957155312ca326bcc64509652a1a25990bd009ccb65d27dc448960d5a640"
+    },
+    {
+      "path": "screenshots/emerald-watch.png",
+      "bytes": 245388,
+      "sha256": "633a5b2d35cdbfa73e3c3bb6ad50a97df1f6d954c011dcfcc9b5a364f3e0dd6c"
+    },
+    {
+      "path": "screenshots/emerald-watch.png.import",
+      "bytes": 955,
+      "sha256": "07139abde578974c86ed7eba8df8dc3171ee9c333c91857f2ef5a03f2d8888d8"
+    },
+    {
+      "path": "screenshots/v2-battlefield.png",
+      "bytes": 245388,
+      "sha256": "633a5b2d35cdbfa73e3c3bb6ad50a97df1f6d954c011dcfcc9b5a364f3e0dd6c"
+    },
+    {
+      "path": "screenshots/v2-battlefield.png.import",
+      "bytes": 958,
+      "sha256": "0ac1359345b7c32a0828e4beba23b79f58b730a7559ee781f98180303d52a25c"
+    },
+    {
+      "path": "scripts/author_replay.gd",
+      "bytes": 9196,
+      "sha256": "2b022c3cf88308fc1ff9a47232ec5c5e1ccb8e062220bb051fa748aafc210f80"
+    },
+    {
+      "path": "scripts/author_replay.gd.uid",
+      "bytes": 20,
+      "sha256": "4bb8736ed407dc95130d051002e641334a32a1dc038a2a455857800d44b08adf"
+    },
+    {
+      "path": "scripts/camera_controller.gd",
+      "bytes": 6765,
+      "sha256": "9560099968df8f1421164d0aae08288b371faf22068b4217d88b7f9ed06f81d6"
+    },
+    {
+      "path": "scripts/camera_controller.gd.uid",
+      "bytes": 20,
+      "sha256": "fac24e764f7716b49bd3325b63db05ca3566dd0aa1c243304a43a5940c18ebe2"
+    },
+    {
+      "path": "scripts/extra_levels.gd",
+      "bytes": 3076,
+      "sha256": "2683f9208909be16153234ca71ecdd77d512a3fa068cb4c5f06bc1103f4e2292"
+    },
+    {
+      "path": "scripts/extra_levels.gd.uid",
+      "bytes": 19,
+      "sha256": "eceea079e1f8464a5f68ab16e98d51708ea5e074105b662999ed5e0ca187e6ee"
+    },
+    {
+      "path": "scripts/game_audio.gd",
+      "bytes": 7024,
+      "sha256": "1756957408a478a6d1a6881d3c7f7b90b886ee04240c526883eedc4818403457"
+    },
+    {
+      "path": "scripts/game_audio.gd.uid",
+      "bytes": 19,
+      "sha256": "2ac51e1660f0c7328f62186b065a3f530c47b346ae82946365749aa09c70c9c0"
+    },
+    {
+      "path": "scripts/game_codex.gd",
+      "bytes": 11113,
+      "sha256": "aa574ef499bd56980b3535b3ff877c5c6d3b4bba80677b89fba6aa9cce517181"
+    },
+    {
+      "path": "scripts/game_codex.gd.uid",
+      "bytes": 20,
+      "sha256": "4655607386e33c7a308e85127c9b688de64269cff79597eb807e7cdff781af35"
+    },
+    {
+      "path": "scripts/game_settings.gd",
+      "bytes": 16283,
+      "sha256": "5a40fb48851b7666efa4ab394c717c6ecdbda539ba7ae05dc51589cc3e4a10df"
+    },
+    {
+      "path": "scripts/game_settings.gd.uid",
+      "bytes": 19,
+      "sha256": "c7d729079342134c37d24c8b66751e6ad6f5ad5182096e85275a0b87d01468e8"
+    },
+    {
+      "path": "scripts/game_ui.gd",
+      "bytes": 25397,
+      "sha256": "22dd30c42c263e573a2a1f3cb5b855f03b0cb2f6070ce69a58fc6346e294c40d"
+    },
+    {
+      "path": "scripts/game_ui.gd.uid",
+      "bytes": 20,
+      "sha256": "c4b2726c2c2e59d87289cb123cb7a7c9152b8edd8a50fd9a5b613f721ae1ff75"
+    },
+    {
+      "path": "scripts/level_designer.gd",
+      "bytes": 23420,
+      "sha256": "6677b990aeaffeb4b999833caf4fa19e5d6ca3dc78c6216710f35d67117addb8"
+    },
+    {
+      "path": "scripts/level_designer.gd.uid",
+      "bytes": 20,
+      "sha256": "79cadb4f224987054e17a5a343425fc230ef25b8f05d1f6166c5891561ec7205"
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 47521,
+      "sha256": "ffc80e1ac89ceda4c50faea9a4ab8418008cf370a0063891ea717ed2c705a465"
+    },
+    {
+      "path": "scripts/main.gd.uid",
+      "bytes": 19,
+      "sha256": "40c2757e2935441b77382c527302222707805b2aeea751d8f34c0796c91ad8fc"
+    },
+    {
+      "path": "tests/author_replay.gd",
+      "bytes": 4354,
+      "sha256": "a1b5a545bd361130de62420f5aef96849e3a09bce2eadfd15772610594d7f202"
+    },
+    {
+      "path": "tests/author_replay.gd.uid",
+      "bytes": 20,
+      "sha256": "81e94ed23d2d9ab59bf9d36ae03d73b34c90283a7b7f7e387c6a8062a57f16e6"
+    },
+    {
+      "path": "tests/camera_controls.gd",
+      "bytes": 5004,
+      "sha256": "b14dabfd3d8fd5af23dda077af09d85d443db50cd99a4eaafc9aa519dbb8f2b8"
+    },
+    {
+      "path": "tests/camera_controls.gd.uid",
+      "bytes": 19,
+      "sha256": "d365b8075e92db9c3fb8c387ce7e0a7020794a212fd4d568b741dc6a0d990d94"
+    },
+    {
+      "path": "tests/designer_integration.gd",
+      "bytes": 5184,
+      "sha256": "8f23eb27c07bbe98f74abf54519d5c7c18ae1f55e4e290b7954894a1d61c56b9"
+    },
+    {
+      "path": "tests/designer_integration.gd.uid",
+      "bytes": 18,
+      "sha256": "aab9d2c8ee71ac6a2c57f695eadbf1a64251a1751204ec018488ffd79a3e1acf"
+    },
+    {
+      "path": "tests/designer_tests.gd",
+      "bytes": 2584,
+      "sha256": "897082ffadb032d93a3e70b81230d39a3ebf63d777afd566be169b3f3edcdc85"
+    },
+    {
+      "path": "tests/designer_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "c8bd04a800b9f7bea782b5c46c60ab9003fad421ed1da67508a53af19f985996"
+    },
+    {
+      "path": "tests/extra-level-balance-results.json",
+      "bytes": 7439,
+      "sha256": "3269962bc81b597bab27cff4015cf7abd79dd9d167877d9602a21a45042cf883"
+    },
+    {
+      "path": "tests/extra_levels_balance.gd",
+      "bytes": 4121,
+      "sha256": "56eabf01d1bdc010686a83724761ca4f9a1ddec45984bc71687937cbe7fa2f1e"
+    },
+    {
+      "path": "tests/extra_levels_balance.gd.uid",
+      "bytes": 20,
+      "sha256": "12a7300b435dcfa941dac04b2830afb1d4ed6815347b0baf16e156fc289836a3"
+    },
+    {
+      "path": "tests/extra_levels_geometry.gd",
+      "bytes": 2517,
+      "sha256": "3ac5e676ffb58c87971c797bb51e60653ebfdf6801afa2b397ab134f635faccd"
+    },
+    {
+      "path": "tests/extra_levels_geometry.gd.uid",
+      "bytes": 20,
+      "sha256": "991e24cb2c87afad129f827813a7ce16103eed1147997e6b2af98a7bea456eeb"
+    },
+    {
+      "path": "tests/integration.gd",
+      "bytes": 23534,
+      "sha256": "823b487b4f259403429f29b53abdc1b4d516a1f486b8f48a55d7cc4dc7a8a718"
+    },
+    {
+      "path": "tests/integration.gd.uid",
+      "bytes": 19,
+      "sha256": "40ce9af88473193f7543d280e792d744ddf849ce62cc7b0eeff54d4f74c8cf99"
+    },
+    {
+      "path": "tests/reports/audio.log",
+      "bytes": 188,
+      "sha256": "93aec62fa5d6cdcaeba3ae4ccc4e8c727c700ae3003d2de917e0d135adc900e2"
+    },
+    {
+      "path": "tests/reports/author_replay.log",
+      "bytes": 984,
+      "sha256": "6e6066d51c047b081e967e39ec1ed00c9cc7e997eba41b21094758ed7600f226"
+    },
+    {
+      "path": "tests/reports/camera_controls.log",
+      "bytes": 873,
+      "sha256": "204a000933aa1de5add15ae5df09e73f0d19707d1574116ca07a24ba20fe7804"
+    },
+    {
+      "path": "tests/reports/designer_integration.log",
+      "bytes": 1625,
+      "sha256": "7c5d6583aaadd0f54a7762f386809105e14549b0f2cc42bb5af3ecbd586d180d"
+    },
+    {
+      "path": "tests/reports/designer_tests.log",
+      "bytes": 869,
+      "sha256": "336ac1d7a878bfffb5250d61e4770e579ccd2e0201bc04218a5de12cf97454c8"
+    },
+    {
+      "path": "tests/reports/extra_levels_balance.log",
+      "bytes": 4937,
+      "sha256": "36908225ae27e0dbd62fdb67beb97cb1a3c2d805bfedc672057d39ac0771b17f"
+    },
+    {
+      "path": "tests/reports/extra_levels_geometry.log",
+      "bytes": 339,
+      "sha256": "338ee99fcab6154a5226c95e62e73e4481bd337d4a71d583ca43c45f4cee4adf"
+    },
+    {
+      "path": "tests/reports/font-coverage.log",
+      "bytes": 127,
+      "sha256": "8f14153bd671e9a6bd969dea83c8b6837b092292a8aa48f1172911a724855e9a"
+    },
+    {
+      "path": "tests/reports/import.log",
+      "bytes": 2514,
+      "sha256": "a64765b489ba02e0d45677ecb9b951bf16aa252f91a6a1b88d9377eb7e5f7fc9"
+    },
+    {
+      "path": "tests/reports/integration.log",
+      "bytes": 15096,
+      "sha256": "278c97dd26dd865b5ea45471b1c601b75ce7269b503336048e3edc307b911963"
+    },
+    {
+      "path": "tests/reports/settings_smoke.log",
+      "bytes": 1367,
+      "sha256": "d08e0d306c04959da194f9cbb30e90fa90026f50b1f1f391b74ed28085ff6f21"
+    },
+    {
+      "path": "tests/reports/summary.json",
+      "bytes": 644,
+      "sha256": "db8bdbb6e1ae8edfaec8a9ba79a252f01cda1b5ba2d93a9d0bd2f344e015b86b"
+    },
+    {
+      "path": "tests/reports/thumbnail_ui.log",
+      "bytes": 2663,
+      "sha256": "e2ad0651a280a7a58e0045c57c758e48dd5255f0e794ad94607fe36682d94ed3"
+    },
+    {
+      "path": "tests/reports/ui_integration.log",
+      "bytes": 12541,
+      "sha256": "82699bf8efb7c97abae812ff9bf54f93aa41a2656e1803521876e9403c807ed2"
+    },
+    {
+      "path": "tests/settings_smoke.gd",
+      "bytes": 6790,
+      "sha256": "6bde4975176bea7a6d70b478133387bda369989a2ee8af42ee0ac064f87e3b41"
+    },
+    {
+      "path": "tests/settings_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "d60fc9c06d2cdc8e11fb8dd3dbc0d1b6f977991476bb66ad37933c2bc52ac391"
+    },
+    {
+      "path": "tests/thumbnail_ui.gd",
+      "bytes": 3814,
+      "sha256": "753226c0c926488dcd0522a20df5c3f03ab94b08a2a20e24f73d7b6f91552e5b"
+    },
+    {
+      "path": "tests/thumbnail_ui.gd.uid",
+      "bytes": 19,
+      "sha256": "1dd49dca66e76777ed6e7d22512d73d03814133ef5d523180f882909cfdd49ac"
+    },
+    {
+      "path": "tests/ui_integration.gd",
+      "bytes": 12671,
+      "sha256": "18a98344699bc0eee9308b06823d057240168e4f7af472bc2262c8a78cbbdb28"
+    },
+    {
+      "path": "tests/ui_integration.gd.uid",
+      "bytes": 20,
+      "sha256": "a515ba388b600789037f8425f898d4c84cc950566fb01f361c5667885c8570ec"
+    }
+  ]
+}

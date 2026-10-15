@@ -1,0 +1,111 @@
+{
+  "bpm": 90,
+  "bars": 16,
+  "tracks": {
+    "emerald_drift": {
+      "seconds": 42.66667,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.58,
+      "rms": 0.14059
+    },
+    "build": {
+      "seconds": 0.7,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.54,
+      "rms": 0.12769
+    },
+    "upgrade": {
+      "seconds": 1.0,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.54,
+      "rms": 0.13696
+    },
+    "sell": {
+      "seconds": 0.62,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.46,
+      "rms": 0.13136
+    },
+    "wave": {
+      "seconds": 1.04998,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.55,
+      "rms": 0.13766
+    },
+    "win": {
+      "seconds": 1.64998,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.6,
+      "rms": 0.11208
+    },
+    "loss": {
+      "seconds": 1.6,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.54,
+      "rms": 0.14161
+    },
+    "leak": {
+      "seconds": 0.58,
+      "channels": 2,
+      "sample_rate": 22050,
+      "peak": 0.5,
+      "rms": 0.15418
+    },
+    "shot": {
+      "seconds": 0.12998,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.5,
+      "rms": 0.15275
+    },
+    "boom": {
+      "seconds": 0.5,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.65,
+      "rms": 0.12266
+    },
+    "ice": {
+      "seconds": 0.42,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.48,
+      "rms": 0.07328
+    },
+    "arc": {
+      "seconds": 0.22,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.52,
+      "rms": 0.09225
+    },
+    "rail": {
+      "seconds": 0.34998,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.6,
+      "rms": 0.11344
+    },
+    "burn": {
+      "seconds": 0.34,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.48,
+      "rms": 0.08309
+    },
+    "hit": {
+      "seconds": 0.08998,
+      "channels": 1,
+      "sample_rate": 22050,
+      "peak": 0.42,
+      "rms": 0.08892
+    }
+  }
+}

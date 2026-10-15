@@ -1,0 +1,191 @@
+name: Build unsigned iOS IPA
+
+# Uploading/pushing the project does NOT spend runner minutes.
+# Dispatch only after checking the account's included usage and overage guard.
+on:
+  workflow_dispatch:
+    inputs:
+      included_quota_confirmed:
+        description: "I checked included Actions quota and paid overage is blocked"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-unsigned-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: ${{ inputs.included_quota_confirmed }}
+    runs-on: macos-15
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      GODOT_VERSION: "4.6.3"
+      GODOT_EDITOR_SHA256: "30630f3e9b11e10b35c1f90ba8814185dcec43fae1a48345159be7552c64bfe8"
+      GODOT_TEMPLATES_SHA256: "3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8"
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Prepare build paths and identify Xcode
+        run: |
+          set -euo pipefail
+          tool_root="$RUNNER_TEMP/emerald-watch-tools"
+          build_root="$RUNNER_TEMP/emerald-watch-ios"
+          mkdir -p "$tool_root" "$build_root/xcode" "$build_root/artifacts/logs"
+          echo "TOOL_ROOT=$tool_root" >> "$GITHUB_ENV"
+          echo "BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
+          {
+            echo "Source commit: $GITHUB_SHA"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Godot: ${GODOT_VERSION}.stable (official editor and templates)"
+            echo "Result: unsigned iOS device build; signing required before installation"
+            sw_vers
+            xcode-select -p
+            xcodebuild -version
+            xcrun --sdk iphoneos --show-sdk-version
+          } | tee "$build_root/artifacts/build-info.txt"
+
+      - name: Install official matching Godot editor and iOS template
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            "$base/Godot_v${GODOT_VERSION}-stable_macos.universal.zip" \
+            --output "$TOOL_ROOT/godot.zip"
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" \
+            --output "$TOOL_ROOT/templates.tpz"
+          printf '%s  %s\n' "$GODOT_EDITOR_SHA256" "$TOOL_ROOT/godot.zip" \
+            "$GODOT_TEMPLATES_SHA256" "$TOOL_ROOT/templates.tpz" \
+            | shasum -a 256 -c -
+          unzip -q "$TOOL_ROOT/godot.zip" -d "$TOOL_ROOT/editor"
+          template_dir="$HOME/Library/Application Support/Godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$template_dir"
+          # Extract only iOS; do not retain another gigabyte of unused templates.
+          unzip -j -q "$TOOL_ROOT/templates.tpz" templates/ios.zip templates/version.txt -d "$template_dir"
+          test "$(tr -d '\r\n' < "$template_dir/version.txt")" = "${GODOT_VERSION}.stable"
+          test -s "$template_dir/ios.zip"
+          godot="$TOOL_ROOT/editor/Godot.app/Contents/MacOS/Godot"
+          test -x "$godot"
+          "$godot" --version | tee "$BUILD_ROOT/artifacts/logs/godot-version.log"
+          grep -q "^${GODOT_VERSION}\.stable" "$BUILD_ROOT/artifacts/logs/godot-version.log"
+          echo "GODOT=$godot" >> "$GITHUB_ENV"
+          rm "$TOOL_ROOT/godot.zip" "$TOOL_ROOT/templates.tpz"
+
+      - name: Import resources and export the actual Xcode project
+        run: |
+          set -euo pipefail
+          "$GODOT" --headless --path "$GITHUB_WORKSPACE" --import \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-import.log"
+          "$GODOT" --headless --path "$GITHUB_WORKSPACE" \
+            --export-release "iOS Unsigned" "$BUILD_ROOT/xcode/EmeraldWatch.ipa" \
+            2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-export.log"
+          # export_project_only=true produces these, not an installable IPA.
+          test -f "$BUILD_ROOT/xcode/EmeraldWatch.xcodeproj/project.pbxproj"
+          test -s "$BUILD_ROOT/xcode/EmeraldWatch.pck"
+          if grep -E 'SCRIPT ERROR:|Parse Error:|Failed to load script' \
+            "$BUILD_ROOT/artifacts/logs/godot-import.log" \
+            "$BUILD_ROOT/artifacts/logs/godot-export.log"; then
+            echo "::error::Godot reported a script error; refusing to package."
+            exit 1
+          fi
+
+      - name: Build arm64 iPhoneOS app without signing or provisioning
+        run: |
+          set -euo pipefail
+          # No -allowProvisioningUpdates and no Apple account/certificates.
+          # Command-line settings override the exported placeholder team.
+          xcodebuild \
+            -project "$BUILD_ROOT/xcode/EmeraldWatch.xcodeproj" \
+            -scheme EmeraldWatch \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$BUILD_ROOT/DerivedData" \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY= CODE_SIGN_ENTITLEMENTS= \
+            CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= \
+            PROVISIONING_PROFILE= PROVISIONING_PROFILE_SPECIFIER= \
+            CONFIGURATION_BUILD_DIR="$BUILD_ROOT/products" \
+            build 2>&1 | tee "$BUILD_ROOT/artifacts/logs/xcodebuild.log"
+
+      - name: Verify device binary and package real unsigned IPA
+        run: |
+          set -euo pipefail
+          app="$BUILD_ROOT/products/EmeraldWatch.app"
+          test -d "$app"
+          /usr/bin/plutil -lint "$app/Info.plist"
+          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Info.plist")
+          test -n "$executable"
+          test -x "$app/$executable"
+          /usr/bin/file "$app/$executable" | tee "$BUILD_ROOT/artifacts/logs/binary.log"
+          grep -q 'Mach-O.*executable.*arm64' "$BUILD_ROOT/artifacts/logs/binary.log"
+          xcrun lipo -verify_arch arm64 "$app/$executable"
+          xcrun vtool -show-build "$app/$executable" \
+            | tee "$BUILD_ROOT/artifacts/logs/macho-platform.log"
+          grep -Eq 'platform[[:space:]]+IOS([[:space:]]|$)' "$BUILD_ROOT/artifacts/logs/macho-platform.log"
+          test -s "$app/EmeraldWatch.pck"
+          if /usr/bin/codesign --display "$app" > "$BUILD_ROOT/artifacts/logs/signing.log" 2>&1; then
+            echo "::error::Expected an unsigned app, but a code signature exists."
+            exit 1
+          fi
+          test ! -e "$app/embedded.mobileprovision"
+          mkdir -p "$BUILD_ROOT/package/Payload"
+          /usr/bin/ditto "$app" "$BUILD_ROOT/package/Payload/EmeraldWatch.app"
+          (
+            cd "$BUILD_ROOT/package"
+            /usr/bin/zip -q -r -y "$BUILD_ROOT/artifacts/EmeraldWatch-unsigned.ipa" Payload
+          )
+          python3 - <<'PY'
+          import os, plistlib, stat, zipfile
+          from pathlib import Path
+
+          ipa = Path(os.environ["BUILD_ROOT"]) / "artifacts/EmeraldWatch-unsigned.ipa"
+          with zipfile.ZipFile(ipa) as package:
+              assert package.testzip() is None, "Corrupt IPA ZIP member"
+              root = "Payload/EmeraldWatch.app/"
+              info = plistlib.loads(package.read(root + "Info.plist"))
+              assert info["CFBundleIdentifier"] == "dev.emeraldwatch.game"
+              assert "iPhoneOS" in info["CFBundleSupportedPlatforms"], "Not a device app"
+              binary = root + info["CFBundleExecutable"]
+              assert package.getinfo(binary).file_size > 1_000_000, "Missing compiled engine"
+              assert stat.S_IMODE(package.getinfo(binary).external_attr >> 16) & 0o111
+              for key in ("UISupportedInterfaceOrientations", "UISupportedInterfaceOrientations~ipad"):
+                  if key in info:
+                      assert info[key] and all("Landscape" in value for value in info[key]), info[key]
+              assert package.getinfo(root + "EmeraldWatch.pck").file_size > 0
+              assert root + "embedded.mobileprovision" not in package.namelist()
+          print(f"Verified unsigned device IPA: {ipa.name} ({ipa.stat().st_size:,} bytes)")
+          PY
+          (
+            cd "$BUILD_ROOT/artifacts"
+            shasum -a 256 EmeraldWatch-unsigned.ipa > EmeraldWatch-unsigned.ipa.sha256
+          )
+          {
+            echo '### Unsigned iOS build verified'
+            echo 'Download the artifact, then extract EmeraldWatch-unsigned.ipa.'
+            echo 'This is a compiled arm64 device app. It needs trusted signing and provisioning before installation on an ordinary iPhone.'
+            echo "Source commit: $GITHUB_SHA"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload IPA, checksum, build details and diagnostic logs
+        if: ${{ always() && env.BUILD_ROOT != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: EmeraldWatch-iOS-unsigned-${{ github.run_number }}
+          path: ${{ env.BUILD_ROOT }}/artifacts/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

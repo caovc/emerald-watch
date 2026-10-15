@@ -1,0 +1,394 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS all twelve built-in stages available
+PASS stage 4 wave 1 resolves (defended)
+WAVE 4 defended=true { "wave": 1, "health": 20, "gold": 323, "towers": 4, "kills": 17, "seconds": 24.15 }
+PASS stage 4 wave 2 resolves (defended)
+WAVE 4 defended=true { "wave": 2, "health": 20, "gold": 344, "towers": 6, "kills": 37, "seconds": 29.45 }
+PASS stage 4 wave 3 resolves (defended)
+WAVE 4 defended=true { "wave": 3, "health": 20, "gold": 479, "towers": 6, "kills": 60, "seconds": 34.75 }
+PASS stage 4 wave 4 resolves (defended)
+WAVE 4 defended=true { "wave": 4, "health": 20, "gold": 608, "towers": 6, "kills": 86, "seconds": 38.15 }
+PASS stage 4 wave 5 resolves (defended)
+WAVE 4 defended=true { "wave": 5, "health": 20, "gold": 682, "towers": 6, "kills": 115, "seconds": 38.6 }
+PASS stage 4 wave 6 resolves (defended)
+WAVE 4 defended=true { "wave": 6, "health": 20, "gold": 648, "towers": 6, "kills": 153, "seconds": 39.95 }
+PASS stage 4 wave 7 resolves (defended)
+WAVE 4 defended=true { "wave": 7, "health": 20, "gold": 792, "towers": 10, "kills": 193, "seconds": 39.35 }
+PASS stage 4 wave 8 resolves (defended)
+WAVE 4 defended=true { "wave": 8, "health": 20, "gold": 893, "towers": 10, "kills": 237, "seconds": 46.45 }
+PASS stage 4 wave 9 resolves (defended)
+WAVE 4 defended=true { "wave": 9, "health": 20, "gold": 1048, "towers": 10, "kills": 285, "seconds": 42.1 }
+PASS stage 4 wave 10 resolves (defended)
+WAVE 4 defended=true { "wave": 10, "health": 20, "gold": 1892, "towers": 10, "kills": 345, "seconds": 39.8 }
+PASS stage 4 wave 11 resolves (defended)
+WAVE 4 defended=true { "wave": 11, "health": 20, "gold": 2814, "towers": 10, "kills": 397, "seconds": 47.95 }
+PASS stage 4 wave 12 resolves (defended)
+WAVE 4 defended=true { "wave": 12, "health": 20, "gold": 3703, "towers": 10, "kills": 453, "seconds": 47.4 }
+PASS stage 4 wave 13 resolves (defended)
+WAVE 4 defended=true { "wave": 13, "health": 20, "gold": 4660, "towers": 10, "kills": 521, "seconds": 63.8 }
+PASS stage 4 wave 14 resolves (defended)
+WAVE 4 defended=true { "wave": 14, "health": 20, "gold": 5735, "towers": 10, "kills": 581, "seconds": 80.75 }
+PASS stage 4 normal-economy mixed defense wins
+STAGE RESULT 4 defended=true won=true health=20
+PASS stage 4 wave 1 resolves (undefended)
+WAVE 4 defended=false { "wave": 1, "health": 3, "gold": 593, "towers": 0, "kills": 0, "seconds": 54.2 }
+PASS stage 4 wave 2 resolves (undefended)
+WAVE 4 defended=false { "wave": 2, "health": 0, "gold": 593, "towers": 0, "kills": 0, "seconds": 32.0 }
+PASS stage 4 undefended game loses
+STAGE RESULT 4 defended=false won=false health=0
+PASS stage 5 wave 1 resolves (defended)
+WAVE 5 defended=true { "wave": 1, "health": 20, "gold": 243, "towers": 5, "kills": 19, "seconds": 26.95 }
+PASS stage 5 wave 2 resolves (defended)
+WAVE 5 defended=true { "wave": 2, "health": 20, "gold": 327, "towers": 6, "kills": 41, "seconds": 26.45 }
+PASS stage 5 wave 3 resolves (defended)
+WAVE 5 defended=true { "wave": 3, "health": 20, "gold": 417, "towers": 6, "kills": 66, "seconds": 35.75 }
+PASS stage 5 wave 4 resolves (defended)
+WAVE 5 defended=true { "wave": 4, "health": 20, "gold": 552, "towers": 6, "kills": 94, "seconds": 38.55 }
+PASS stage 5 wave 5 resolves (defended)
+WAVE 5 defended=true { "wave": 5, "health": 20, "gold": 741, "towers": 6, "kills": 125, "seconds": 39.3 }
+PASS stage 5 wave 6 resolves (defended)
+WAVE 5 defended=true { "wave": 6, "health": 20, "gold": 694, "towers": 6, "kills": 165, "seconds": 37.1 }
+PASS stage 5 wave 7 resolves (defended)
+WAVE 5 defended=true { "wave": 7, "health": 20, "gold": 671, "towers": 11, "kills": 207, "seconds": 37.6 }
+PASS stage 5 wave 8 resolves (defended)
+WAVE 5 defended=true { "wave": 8, "health": 20, "gold": 865, "towers": 11, "kills": 255, "seconds": 35.3 }
+PASS stage 5 wave 9 resolves (defended)
+WAVE 5 defended=true { "wave": 9, "health": 20, "gold": 845, "towers": 11, "kills": 315, "seconds": 37.2 }
+PASS stage 5 wave 10 resolves (defended)
+WAVE 5 defended=true { "wave": 10, "health": 20, "gold": 1017, "towers": 15, "kills": 367, "seconds": 42.8 }
+PASS stage 5 wave 11 resolves (defended)
+WAVE 5 defended=true { "wave": 11, "health": 20, "gold": 897, "towers": 15, "kills": 423, "seconds": 33.8 }
+PASS stage 5 wave 12 resolves (defended)
+WAVE 5 defended=true { "wave": 12, "health": 20, "gold": 1484, "towers": 16, "kills": 491, "seconds": 35.6 }
+PASS stage 5 wave 13 resolves (defended)
+WAVE 5 defended=true { "wave": 13, "health": 20, "gold": 2201, "towers": 16, "kills": 551, "seconds": 39.3 }
+PASS stage 5 wave 14 resolves (defended)
+WAVE 5 defended=true { "wave": 14, "health": 20, "gold": 3195, "towers": 16, "kills": 613, "seconds": 35.8 }
+PASS stage 5 wave 15 resolves (defended)
+WAVE 5 defended=true { "wave": 15, "health": 20, "gold": 4255, "towers": 16, "kills": 691, "seconds": 40.8 }
+PASS stage 5 wave 16 resolves (defended)
+WAVE 5 defended=true { "wave": 16, "health": 20, "gold": 5443, "towers": 16, "kills": 759, "seconds": 65.1 }
+PASS stage 5 normal-economy mixed defense wins
+STAGE RESULT 5 defended=true won=true health=20
+PASS stage 5 wave 1 resolves (undefended)
+WAVE 5 defended=false { "wave": 1, "health": 1, "gold": 643, "towers": 0, "kills": 0, "seconds": 59.0 }
+PASS stage 5 wave 2 resolves (undefended)
+WAVE 5 defended=false { "wave": 2, "health": 0, "gold": 643, "towers": 0, "kills": 0, "seconds": 25.55 }
+PASS stage 5 undefended game loses
+STAGE RESULT 5 defended=false won=false health=0
+PASS stage 6 wave 1 resolves (defended)
+WAVE 6 defended=true { "wave": 1, "health": 20, "gold": 313, "towers": 5, "kills": 21, "seconds": 31.6 }
+PASS stage 6 wave 2 resolves (defended)
+WAVE 6 defended=true { "wave": 2, "health": 20, "gold": 366, "towers": 6, "kills": 45, "seconds": 36.45 }
+PASS stage 6 wave 3 resolves (defended)
+WAVE 6 defended=true { "wave": 3, "health": 20, "gold": 518, "towers": 6, "kills": 72, "seconds": 49.95 }
+PASS stage 6 wave 4 resolves (defended)
+WAVE 6 defended=true { "wave": 4, "health": 20, "gold": 703, "towers": 6, "kills": 102, "seconds": 46.05 }
+PASS stage 6 wave 5 resolves (defended)
+WAVE 6 defended=true { "wave": 5, "health": 20, "gold": 765, "towers": 6, "kills": 135, "seconds": 45.25 }
+PASS stage 6 wave 6 resolves (defended)
+WAVE 6 defended=true { "wave": 6, "health": 20, "gold": 798, "towers": 10, "kills": 175, "seconds": 46.7 }
+PASS stage 6 wave 7 resolves (defended)
+WAVE 6 defended=true { "wave": 7, "health": 20, "gold": 923, "towers": 10, "kills": 217, "seconds": 51.35 }
+PASS stage 6 wave 8 resolves (defended)
+WAVE 6 defended=true { "wave": 8, "health": 20, "gold": 893, "towers": 12, "kills": 277, "seconds": 43.2 }
+PASS stage 6 wave 9 resolves (defended)
+WAVE 6 defended=true { "wave": 9, "health": 20, "gold": 953, "towers": 14, "kills": 329, "seconds": 49.4 }
+PASS stage 6 wave 10 resolves (defended)
+WAVE 6 defended=true { "wave": 10, "health": 20, "gold": 940, "towers": 16, "kills": 385, "seconds": 40.7 }
+PASS stage 6 wave 11 resolves (defended)
+WAVE 6 defended=true { "wave": 11, "health": 20, "gold": 1187, "towers": 16, "kills": 453, "seconds": 41.55 }
+PASS stage 6 wave 12 resolves (defended)
+WAVE 6 defended=true { "wave": 12, "health": 20, "gold": 2222, "towers": 16, "kills": 513, "seconds": 47.55 }
+PASS stage 6 wave 13 resolves (defended)
+WAVE 6 defended=true { "wave": 13, "health": 20, "gold": 3216, "towers": 16, "kills": 575, "seconds": 43.2 }
+PASS stage 6 wave 14 resolves (defended)
+WAVE 6 defended=true { "wave": 14, "health": 20, "gold": 4276, "towers": 16, "kills": 653, "seconds": 42.65 }
+PASS stage 6 wave 15 resolves (defended)
+WAVE 6 defended=true { "wave": 15, "health": 20, "gold": 5437, "towers": 16, "kills": 721, "seconds": 55.75 }
+PASS stage 6 wave 16 resolves (defended)
+WAVE 6 defended=true { "wave": 16, "health": 20, "gold": 6562, "towers": 16, "kills": 791, "seconds": 71.85 }
+PASS stage 6 normal-economy mixed defense wins
+STAGE RESULT 6 defended=true won=true health=20
+PASS stage 6 wave 1 resolves (undefended)
+WAVE 6 defended=false { "wave": 1, "health": 0, "gold": 650, "towers": 0, "kills": 0, "seconds": 59.8 }
+PASS stage 6 undefended game loses
+STAGE RESULT 6 defended=false won=false health=0
+PASS stage 7 wave 1 resolves (defended)
+WAVE 7 defended=true { "wave": 1, "health": 20, "gold": 383, "towers": 5, "kills": 23, "seconds": 45.25 }
+PASS stage 7 wave 2 resolves (defended)
+WAVE 7 defended=true { "wave": 2, "health": 20, "gold": 400, "towers": 6, "kills": 49, "seconds": 34.85 }
+PASS stage 7 wave 3 resolves (defended)
+WAVE 7 defended=true { "wave": 3, "health": 20, "gold": 494, "towers": 6, "kills": 78, "seconds": 41.3 }
+PASS stage 7 wave 4 resolves (defended)
+WAVE 7 defended=true { "wave": 4, "health": 20, "gold": 771, "towers": 6, "kills": 126, "seconds": 48.65 }
+PASS stage 7 wave 5 resolves (defended)
+WAVE 7 defended=true { "wave": 5, "health": 20, "gold": 917, "towers": 6, "kills": 179, "seconds": 55.5 }
+PASS stage 7 wave 6 resolves (defended)
+WAVE 7 defended=true { "wave": 6, "health": 20, "gold": 859, "towers": 11, "kills": 237, "seconds": 61.6 }
+PASS stage 7 wave 7 resolves (defended)
+WAVE 7 defended=true { "wave": 7, "health": 20, "gold": 925, "towers": 11, "kills": 297, "seconds": 56.95 }
+PASS stage 7 wave 8 resolves (defended)
+WAVE 7 defended=true { "wave": 8, "health": 20, "gold": 1008, "towers": 11, "kills": 361, "seconds": 55.7 }
+PASS stage 7 wave 9 resolves (defended)
+WAVE 7 defended=true { "wave": 9, "health": 20, "gold": 1350, "towers": 16, "kills": 427, "seconds": 54.1 }
+PASS stage 7 wave 10 resolves (defended)
+WAVE 7 defended=true { "wave": 10, "health": 20, "gold": 1018, "towers": 16, "kills": 495, "seconds": 44.0 }
+PASS stage 7 wave 11 resolves (defended)
+WAVE 7 defended=true { "wave": 11, "health": 20, "gold": 1853, "towers": 16, "kills": 567, "seconds": 46.05 }
+PASS stage 7 wave 12 resolves (defended)
+WAVE 7 defended=true { "wave": 12, "health": 20, "gold": 2955, "towers": 16, "kills": 641, "seconds": 51.15 }
+PASS stage 7 wave 13 resolves (defended)
+WAVE 7 defended=true { "wave": 13, "health": 20, "gold": 4069, "towers": 16, "kills": 718, "seconds": 50.15 }
+PASS stage 7 wave 14 resolves (defended)
+WAVE 7 defended=true { "wave": 14, "health": 20, "gold": 5212, "towers": 16, "kills": 798, "seconds": 59.15 }
+PASS stage 7 wave 15 resolves (defended)
+WAVE 7 defended=true { "wave": 15, "health": 20, "gold": 6362, "towers": 16, "kills": 877, "seconds": 62.0 }
+PASS stage 7 wave 16 resolves (defended)
+WAVE 7 defended=true { "wave": 16, "health": 20, "gold": 7545, "towers": 16, "kills": 957, "seconds": 62.0 }
+PASS stage 7 wave 17 resolves (defended)
+WAVE 7 defended=true { "wave": 17, "health": 20, "gold": 8742, "towers": 16, "kills": 1040, "seconds": 59.5 }
+PASS stage 7 wave 18 resolves (defended)
+WAVE 7 defended=true { "wave": 18, "health": 20, "gold": 9986, "towers": 16, "kills": 1122, "seconds": 80.75 }
+PASS stage 7 normal-economy mixed defense wins
+STAGE RESULT 7 defended=true won=true health=20
+PASS stage 7 wave 1 resolves (undefended)
+WAVE 7 defended=false { "wave": 1, "health": 0, "gold": 700, "towers": 0, "kills": 0, "seconds": 60.85 }
+PASS stage 7 undefended game loses
+STAGE RESULT 7 defended=false won=false health=0
+PASS stage 8 wave 1 resolves (defended)
+WAVE 8 defended=true { "wave": 1, "health": 20, "gold": 293, "towers": 6, "kills": 24, "seconds": 36.2 }
+PASS stage 8 wave 2 resolves (defended)
+WAVE 8 defended=true { "wave": 2, "health": 20, "gold": 366, "towers": 6, "kills": 51, "seconds": 33.4 }
+PASS stage 8 wave 3 resolves (defended)
+WAVE 8 defended=true { "wave": 3, "health": 20, "gold": 459, "towers": 6, "kills": 81, "seconds": 36.6 }
+PASS stage 8 wave 4 resolves (defended)
+WAVE 8 defended=true { "wave": 4, "health": 20, "gold": 848, "towers": 6, "kills": 122, "seconds": 59.4 }
+PASS stage 8 wave 5 resolves (defended)
+WAVE 8 defended=true { "wave": 5, "health": 20, "gold": 790, "towers": 6, "kills": 168, "seconds": 52.95 }
+PASS stage 8 wave 6 resolves (defended)
+WAVE 8 defended=true { "wave": 6, "health": 20, "gold": 839, "towers": 12, "kills": 217, "seconds": 50.05 }
+PASS stage 8 wave 7 resolves (defended)
+WAVE 8 defended=true { "wave": 7, "health": 20, "gold": 885, "towers": 12, "kills": 268, "seconds": 50.75 }
+PASS stage 8 wave 8 resolves (defended)
+WAVE 8 defended=true { "wave": 8, "health": 20, "gold": 962, "towers": 12, "kills": 321, "seconds": 61.15 }
+PASS stage 8 wave 9 resolves (defended)
+WAVE 8 defended=true { "wave": 9, "health": 20, "gold": 1151, "towers": 16, "kills": 376, "seconds": 54.55 }
+PASS stage 8 wave 10 resolves (defended)
+WAVE 8 defended=true { "wave": 10, "health": 20, "gold": 1063, "towers": 16, "kills": 435, "seconds": 46.2 }
+PASS stage 8 wave 11 resolves (defended)
+WAVE 8 defended=true { "wave": 11, "health": 20, "gold": 1879, "towers": 16, "kills": 496, "seconds": 47.55 }
+PASS stage 8 wave 12 resolves (defended)
+WAVE 8 defended=true { "wave": 12, "health": 20, "gold": 2975, "towers": 16, "kills": 561, "seconds": 59.1 }
+PASS stage 8 wave 13 resolves (defended)
+WAVE 8 defended=true { "wave": 13, "health": 20, "gold": 4083, "towers": 16, "kills": 627, "seconds": 58.65 }
+PASS stage 8 wave 14 resolves (defended)
+WAVE 8 defended=true { "wave": 14, "health": 20, "gold": 5215, "towers": 16, "kills": 694, "seconds": 50.65 }
+PASS stage 8 wave 15 resolves (defended)
+WAVE 8 defended=true { "wave": 15, "health": 20, "gold": 6354, "towers": 16, "kills": 760, "seconds": 51.05 }
+PASS stage 8 wave 16 resolves (defended)
+WAVE 8 defended=true { "wave": 16, "health": 20, "gold": 7528, "towers": 16, "kills": 829, "seconds": 61.65 }
+PASS stage 8 wave 17 resolves (defended)
+WAVE 8 defended=true { "wave": 17, "health": 20, "gold": 8712, "towers": 16, "kills": 899, "seconds": 60.75 }
+PASS stage 8 wave 18 resolves (defended)
+WAVE 8 defended=true { "wave": 18, "health": 20, "gold": 9947, "towers": 16, "kills": 970, "seconds": 69.7 }
+PASS stage 8 normal-economy mixed defense wins
+STAGE RESULT 8 defended=true won=true health=20
+PASS stage 8 wave 1 resolves (undefended)
+WAVE 8 defended=false { "wave": 1, "health": 0, "gold": 730, "towers": 0, "kills": 0, "seconds": 62.65 }
+PASS stage 8 undefended game loses
+STAGE RESULT 8 defended=false won=false health=0
+PASS stage 9 wave 1 resolves (defended)
+WAVE 9 defended=true { "wave": 1, "health": 20, "gold": 343, "towers": 6, "kills": 25, "seconds": 27.95 }
+PASS stage 9 wave 2 resolves (defended)
+WAVE 9 defended=true { "wave": 2, "health": 20, "gold": 426, "towers": 6, "kills": 53, "seconds": 32.35 }
+PASS stage 9 wave 3 resolves (defended)
+WAVE 9 defended=true { "wave": 3, "health": 20, "gold": 530, "towers": 6, "kills": 84, "seconds": 35.05 }
+PASS stage 9 wave 4 resolves (defended)
+WAVE 9 defended=true { "wave": 4, "health": 20, "gold": 763, "towers": 6, "kills": 136, "seconds": 39.15 }
+PASS stage 9 wave 5 resolves (defended)
+WAVE 9 defended=true { "wave": 5, "health": 20, "gold": 857, "towers": 6, "kills": 193, "seconds": 40.95 }
+PASS stage 9 wave 6 resolves (defended)
+WAVE 9 defended=true { "wave": 6, "health": 20, "gold": 895, "towers": 12, "kills": 253, "seconds": 45.8 }
+PASS stage 9 wave 7 resolves (defended)
+WAVE 9 defended=true { "wave": 7, "health": 20, "gold": 890, "towers": 12, "kills": 315, "seconds": 42.0 }
+PASS stage 9 wave 8 resolves (defended)
+WAVE 9 defended=true { "wave": 8, "health": 20, "gold": 969, "towers": 12, "kills": 381, "seconds": 48.15 }
+PASS stage 9 wave 9 resolves (defended)
+WAVE 9 defended=true { "wave": 9, "health": 20, "gold": 1161, "towers": 16, "kills": 451, "seconds": 46.3 }
+PASS stage 9 wave 10 resolves (defended)
+WAVE 9 defended=true { "wave": 10, "health": 20, "gold": 1056, "towers": 16, "kills": 523, "seconds": 48.1 }
+PASS stage 9 wave 11 resolves (defended)
+WAVE 9 defended=true { "wave": 11, "health": 20, "gold": 1868, "towers": 16, "kills": 597, "seconds": 44.0 }
+PASS stage 9 wave 12 resolves (defended)
+WAVE 9 defended=true { "wave": 12, "health": 20, "gold": 2943, "towers": 16, "kills": 675, "seconds": 52.5 }
+PASS stage 9 wave 13 resolves (defended)
+WAVE 9 defended=true { "wave": 13, "health": 20, "gold": 4031, "towers": 16, "kills": 756, "seconds": 45.6 }
+PASS stage 9 wave 14 resolves (defended)
+WAVE 9 defended=true { "wave": 14, "health": 20, "gold": 5123, "towers": 16, "kills": 836, "seconds": 49.35 }
+PASS stage 9 wave 15 resolves (defended)
+WAVE 9 defended=true { "wave": 15, "health": 20, "gold": 6243, "towers": 16, "kills": 919, "seconds": 51.55 }
+PASS stage 9 wave 16 resolves (defended)
+WAVE 9 defended=true { "wave": 16, "health": 20, "gold": 7385, "towers": 16, "kills": 1003, "seconds": 48.2 }
+PASS stage 9 wave 17 resolves (defended)
+WAVE 9 defended=true { "wave": 17, "health": 20, "gold": 8553, "towers": 16, "kills": 1090, "seconds": 51.4 }
+PASS stage 9 wave 18 resolves (defended)
+WAVE 9 defended=true { "wave": 18, "health": 20, "gold": 9725, "towers": 16, "kills": 1176, "seconds": 51.55 }
+PASS stage 9 wave 19 resolves (defended)
+WAVE 9 defended=true { "wave": 19, "health": 20, "gold": 10936, "towers": 16, "kills": 1265, "seconds": 54.65 }
+PASS stage 9 wave 20 resolves (defended)
+WAVE 9 defended=true { "wave": 20, "health": 20, "gold": 12201, "towers": 16, "kills": 1355, "seconds": 73.95 }
+PASS stage 9 normal-economy mixed defense wins
+STAGE RESULT 9 defended=true won=true health=20
+PASS stage 9 wave 1 resolves (undefended)
+WAVE 9 defended=false { "wave": 1, "health": 0, "gold": 770, "towers": 0, "kills": 0, "seconds": 54.85 }
+PASS stage 9 undefended game loses
+STAGE RESULT 9 defended=false won=false health=0
+PASS stage 10 wave 1 resolves (defended)
+WAVE 10 defended=true { "wave": 1, "health": 20, "gold": 315, "towers": 6, "kills": 26, "seconds": 42.1 }
+PASS stage 10 wave 2 resolves (defended)
+WAVE 10 defended=true { "wave": 2, "health": 20, "gold": 349, "towers": 6, "kills": 55, "seconds": 45.25 }
+PASS stage 10 wave 3 resolves (defended)
+WAVE 10 defended=true { "wave": 3, "health": 20, "gold": 590, "towers": 6, "kills": 87, "seconds": 50.35 }
+PASS stage 10 wave 4 resolves (defended)
+WAVE 10 defended=true { "wave": 4, "health": 20, "gold": 848, "towers": 6, "kills": 132, "seconds": 54.7 }
+PASS stage 10 wave 5 resolves (defended)
+WAVE 10 defended=true { "wave": 5, "health": 20, "gold": 821, "towers": 7, "kills": 178, "seconds": 55.4 }
+PASS stage 10 wave 6 resolves (defended)
+WAVE 10 defended=true { "wave": 6, "health": 20, "gold": 923, "towers": 10, "kills": 229, "seconds": 58.65 }
+PASS stage 10 wave 7 resolves (defended)
+WAVE 10 defended=true { "wave": 7, "health": 20, "gold": 1083, "towers": 10, "kills": 282, "seconds": 57.9 }
+PASS stage 10 wave 8 resolves (defended)
+WAVE 10 defended=true { "wave": 8, "health": 20, "gold": 1059, "towers": 16, "kills": 339, "seconds": 57.95 }
+PASS stage 10 wave 9 resolves (defended)
+WAVE 10 defended=true { "wave": 9, "health": 20, "gold": 1147, "towers": 16, "kills": 398, "seconds": 57.2 }
+PASS stage 10 wave 10 resolves (defended)
+WAVE 10 defended=true { "wave": 10, "health": 20, "gold": 1164, "towers": 16, "kills": 459, "seconds": 59.25 }
+PASS stage 10 wave 11 resolves (defended)
+WAVE 10 defended=true { "wave": 11, "health": 20, "gold": 2248, "towers": 16, "kills": 524, "seconds": 60.7 }
+PASS stage 10 wave 12 resolves (defended)
+WAVE 10 defended=true { "wave": 12, "health": 20, "gold": 3353, "towers": 16, "kills": 591, "seconds": 69.4 }
+PASS stage 10 wave 13 resolves (defended)
+WAVE 10 defended=true { "wave": 13, "health": 20, "gold": 4478, "towers": 16, "kills": 657, "seconds": 73.9 }
+PASS stage 10 wave 14 resolves (defended)
+WAVE 10 defended=true { "wave": 14, "health": 20, "gold": 5626, "towers": 16, "kills": 726, "seconds": 70.2 }
+PASS stage 10 wave 15 resolves (defended)
+WAVE 10 defended=true { "wave": 15, "health": 20, "gold": 6796, "towers": 16, "kills": 796, "seconds": 83.6 }
+PASS stage 10 wave 16 resolves (defended)
+WAVE 10 defended=true { "wave": 16, "health": 20, "gold": 7985, "towers": 16, "kills": 867, "seconds": 94.55 }
+PASS stage 10 wave 17 resolves (defended)
+WAVE 10 defended=true { "wave": 17, "health": 20, "gold": 9201, "towers": 16, "kills": 939, "seconds": 96.8 }
+PASS stage 10 wave 18 resolves (defended)
+WAVE 10 defended=true { "wave": 18, "health": 20, "gold": 10440, "towers": 16, "kills": 1014, "seconds": 99.1 }
+PASS stage 10 wave 19 resolves (defended)
+WAVE 10 defended=true { "wave": 19, "health": 20, "gold": 11688, "towers": 16, "kills": 1090, "seconds": 102.75 }
+PASS stage 10 wave 20 resolves (defended)
+WAVE 10 defended=true { "wave": 20, "health": 20, "gold": 12978, "towers": 16, "kills": 1167, "seconds": 98.3 }
+PASS stage 10 normal-economy mixed defense wins
+STAGE RESULT 10 defended=true won=true health=20
+PASS stage 10 wave 1 resolves (undefended)
+WAVE 10 defended=false { "wave": 1, "health": 0, "gold": 800, "towers": 0, "kills": 0, "seconds": 76.3 }
+PASS stage 10 undefended game loses
+STAGE RESULT 10 defended=false won=false health=0
+PASS stage 11 wave 1 resolves (defended)
+WAVE 11 defended=true { "wave": 1, "health": 20, "gold": 365, "towers": 6, "kills": 27, "seconds": 29.35 }
+PASS stage 11 wave 2 resolves (defended)
+WAVE 11 defended=true { "wave": 2, "health": 20, "gold": 409, "towers": 6, "kills": 57, "seconds": 38.15 }
+PASS stage 11 wave 3 resolves (defended)
+WAVE 11 defended=true { "wave": 3, "health": 20, "gold": 532, "towers": 6, "kills": 90, "seconds": 51.1 }
+PASS stage 11 wave 4 resolves (defended)
+WAVE 11 defended=true { "wave": 4, "health": 20, "gold": 962, "towers": 6, "kills": 142, "seconds": 61.35 }
+PASS stage 11 wave 5 resolves (defended)
+WAVE 11 defended=true { "wave": 5, "health": 20, "gold": 873, "towers": 8, "kills": 201, "seconds": 43.45 }
+PASS stage 11 wave 6 resolves (defended)
+WAVE 11 defended=true { "wave": 6, "health": 20, "gold": 952, "towers": 9, "kills": 263, "seconds": 60.0 }
+PASS stage 11 wave 7 resolves (defended)
+WAVE 11 defended=true { "wave": 7, "health": 20, "gold": 1025, "towers": 13, "kills": 329, "seconds": 60.85 }
+PASS stage 11 wave 8 resolves (defended)
+WAVE 11 defended=true { "wave": 8, "health": 20, "gold": 1217, "towers": 13, "kills": 399, "seconds": 43.85 }
+PASS stage 11 wave 9 resolves (defended)
+WAVE 11 defended=true { "wave": 9, "health": 20, "gold": 1454, "towers": 16, "kills": 471, "seconds": 44.95 }
+PASS stage 11 wave 10 resolves (defended)
+WAVE 11 defended=true { "wave": 10, "health": 20, "gold": 1664, "towers": 16, "kills": 547, "seconds": 57.9 }
+PASS stage 11 wave 11 resolves (defended)
+WAVE 11 defended=true { "wave": 11, "health": 20, "gold": 2818, "towers": 16, "kills": 625, "seconds": 63.5 }
+PASS stage 11 wave 12 resolves (defended)
+WAVE 11 defended=true { "wave": 12, "health": 20, "gold": 4006, "towers": 16, "kills": 705, "seconds": 52.0 }
+PASS stage 11 wave 13 resolves (defended)
+WAVE 11 defended=true { "wave": 13, "health": 20, "gold": 5217, "towers": 16, "kills": 788, "seconds": 64.55 }
+PASS stage 11 wave 14 resolves (defended)
+WAVE 11 defended=true { "wave": 14, "health": 20, "gold": 6450, "towers": 16, "kills": 872, "seconds": 66.5 }
+PASS stage 11 wave 15 resolves (defended)
+WAVE 11 defended=true { "wave": 15, "health": 20, "gold": 7693, "towers": 16, "kills": 957, "seconds": 66.5 }
+PASS stage 11 wave 16 resolves (defended)
+WAVE 11 defended=true { "wave": 16, "health": 20, "gold": 8976, "towers": 16, "kills": 1045, "seconds": 65.8 }
+PASS stage 11 wave 17 resolves (defended)
+WAVE 11 defended=true { "wave": 17, "health": 20, "gold": 10278, "towers": 16, "kills": 1134, "seconds": 65.9 }
+PASS stage 11 wave 18 resolves (defended)
+WAVE 11 defended=true { "wave": 18, "health": 20, "gold": 11602, "towers": 16, "kills": 1224, "seconds": 70.55 }
+PASS stage 11 wave 19 resolves (defended)
+WAVE 11 defended=true { "wave": 19, "health": 20, "gold": 12928, "towers": 16, "kills": 1315, "seconds": 70.0 }
+PASS stage 11 wave 20 resolves (defended)
+WAVE 11 defended=true { "wave": 20, "health": 20, "gold": 14278, "towers": 16, "kills": 1407, "seconds": 69.5 }
+PASS stage 11 wave 21 resolves (defended)
+WAVE 11 defended=true { "wave": 21, "health": 20, "gold": 15651, "towers": 16, "kills": 1502, "seconds": 72.6 }
+PASS stage 11 wave 22 resolves (defended)
+WAVE 11 defended=true { "wave": 22, "health": 20, "gold": 17073, "towers": 16, "kills": 1598, "seconds": 90.6 }
+PASS stage 11 normal-economy mixed defense wins
+STAGE RESULT 11 defended=true won=true health=20
+PASS stage 11 wave 1 resolves (undefended)
+WAVE 11 defended=false { "wave": 1, "health": 0, "gold": 840, "towers": 0, "kills": 0, "seconds": 53.55 }
+PASS stage 11 undefended game loses
+STAGE RESULT 11 defended=false won=false health=0
+PASS stage 12 wave 1 resolves (defended)
+WAVE 12 defended=true { "wave": 1, "health": 20, "gold": 333, "towers": 6, "kills": 28, "seconds": 38.55 }
+PASS stage 12 wave 2 resolves (defended)
+WAVE 12 defended=true { "wave": 2, "health": 20, "gold": 371, "towers": 6, "kills": 59, "seconds": 37.1 }
+PASS stage 12 wave 3 resolves (defended)
+WAVE 12 defended=true { "wave": 3, "health": 20, "gold": 623, "towers": 6, "kills": 93, "seconds": 64.5 }
+PASS stage 12 wave 4 resolves (defended)
+WAVE 12 defended=true { "wave": 4, "health": 20, "gold": 772, "towers": 6, "kills": 144, "seconds": 54.3 }
+PASS stage 12 wave 5 resolves (defended)
+WAVE 12 defended=true { "wave": 5, "health": 20, "gold": 874, "towers": 8, "kills": 200, "seconds": 61.6 }
+PASS stage 12 wave 6 resolves (defended)
+WAVE 12 defended=true { "wave": 6, "health": 20, "gold": 935, "towers": 9, "kills": 259, "seconds": 64.8 }
+PASS stage 12 wave 7 resolves (defended)
+WAVE 12 defended=true { "wave": 7, "health": 20, "gold": 1005, "towers": 13, "kills": 322, "seconds": 57.05 }
+PASS stage 12 wave 8 resolves (defended)
+WAVE 12 defended=true { "wave": 8, "health": 20, "gold": 1082, "towers": 13, "kills": 385, "seconds": 50.65 }
+PASS stage 12 wave 9 resolves (defended)
+WAVE 12 defended=true { "wave": 9, "health": 20, "gold": 1296, "towers": 16, "kills": 452, "seconds": 53.85 }
+PASS stage 12 wave 10 resolves (defended)
+WAVE 12 defended=true { "wave": 10, "health": 20, "gold": 1298, "towers": 16, "kills": 523, "seconds": 51.6 }
+PASS stage 12 wave 11 resolves (defended)
+WAVE 12 defended=true { "wave": 11, "health": 20, "gold": 2347, "towers": 16, "kills": 594, "seconds": 51.8 }
+PASS stage 12 wave 12 resolves (defended)
+WAVE 12 defended=true { "wave": 12, "health": 20, "gold": 3455, "towers": 16, "kills": 669, "seconds": 57.25 }
+PASS stage 12 wave 13 resolves (defended)
+WAVE 12 defended=true { "wave": 13, "health": 20, "gold": 4577, "towers": 16, "kills": 745, "seconds": 63.8 }
+PASS stage 12 wave 14 resolves (defended)
+WAVE 12 defended=true { "wave": 14, "health": 20, "gold": 5731, "towers": 16, "kills": 822, "seconds": 62.15 }
+PASS stage 12 wave 15 resolves (defended)
+WAVE 12 defended=true { "wave": 15, "health": 20, "gold": 6897, "towers": 16, "kills": 902, "seconds": 64.85 }
+PASS stage 12 wave 16 resolves (defended)
+WAVE 12 defended=true { "wave": 16, "health": 20, "gold": 8090, "towers": 16, "kills": 985, "seconds": 65.6 }
+PASS stage 12 wave 17 resolves (defended)
+WAVE 12 defended=true { "wave": 17, "health": 20, "gold": 9288, "towers": 16, "kills": 1069, "seconds": 70.25 }
+PASS stage 12 wave 18 resolves (defended)
+WAVE 12 defended=true { "wave": 18, "health": 20, "gold": 10502, "towers": 16, "kills": 1154, "seconds": 63.25 }
+PASS stage 12 wave 19 resolves (defended)
+WAVE 12 defended=true { "wave": 19, "health": 20, "gold": 11724, "towers": 16, "kills": 1238, "seconds": 70.25 }
+PASS stage 12 wave 20 resolves (defended)
+WAVE 12 defended=true { "wave": 20, "health": 20, "gold": 12969, "towers": 16, "kills": 1325, "seconds": 78.25 }
+PASS stage 12 wave 21 resolves (defended)
+WAVE 12 defended=true { "wave": 21, "health": 13, "gold": 14119, "towers": 16, "kills": 1404, "seconds": 80.9 }
+PASS stage 12 wave 22 resolves (defended)
+WAVE 12 defended=true { "wave": 22, "health": 11, "gold": 15431, "towers": 16, "kills": 1491, "seconds": 100.35 }
+PASS stage 12 normal-economy mixed defense wins
+STAGE RESULT 12 defended=true won=true health=11
+PASS stage 12 wave 1 resolves (undefended)
+WAVE 12 defended=false { "wave": 1, "health": 0, "gold": 900, "towers": 0, "kills": 0, "seconds": 58.2 }
+PASS stage 12 undefended game loses
+STAGE RESULT 12 defended=false won=false health=0
+EXTRA LEVEL BALANCE: 196 checks, 0 failures

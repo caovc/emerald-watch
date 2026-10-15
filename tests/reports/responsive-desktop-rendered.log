@@ -1,0 +1,125 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5728:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:90)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:247)
+
+VIEW (1440, 900) logical (1440.0, 900.0) header [P: (12.0, 12.0), S: (1416.0, 64.0)] dock [P: (416.0, 818.0), S: (608.0, 70.0)]
+PASS Header fits (1440, 900)
+PASS Dock fits (1440, 900)
+PASS Abilities fit (1440, 900)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+VIEW (1920, 1080) logical (1600.0, 900.0) header [P: (12.0, 12.0), S: (1576.0, 64.0)] dock [P: (496.0, 818.0), S: (608.0, 70.0)]
+PASS Header fits (1920, 1080)
+PASS Dock fits (1920, 1080)
+PASS Abilities fit (1920, 1080)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+VIEW (1024, 768) logical (1440.0, 1080.0) header [P: (12.0, 12.0), S: (1416.0, 64.0)] dock [P: (416.0, 998.0), S: (608.0, 70.0)]
+PASS Header fits (1024, 768)
+PASS Dock fits (1024, 768)
+PASS Abilities fit (1024, 768)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+VIEW (844, 390) logical (1947.0, 900.0) header [P: (12.0, 12.0), S: (1923.0, 64.0)] dock [P: (669.5, 818.0), S: (608.0, 70.0)]
+PASS Header fits (844, 390)
+PASS Dock fits (844, 390)
+PASS Abilities fit (844, 390)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+VIEW (667, 375) logical (1600.0, 900.0) header [P: (12.0, 12.0), S: (1576.0, 64.0)] dock [P: (496.0, 818.0), S: (608.0, 70.0)]
+PASS Header fits (667, 375)
+PASS Dock fits (667, 375)
+PASS Abilities fit (667, 375)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+VIEW (1366, 1024) logical (1440.0, 1079.0) header [P: (12.0, 12.0), S: (1416.0, 64.0)] dock [P: (416.0, 997.0), S: (608.0, 70.0)]
+PASS Header fits (1366, 1024)
+PASS Dock fits (1366, 1024)
+PASS Abilities fit (1366, 1024)
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Tower target height
+PASS Picking round trip
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Route visible between HUD and dock
+PASS Notch-safe header
+PASS Home-indicator-safe dock
+PASS Context stays inside safe area
+PASS Codex scroll safe wrapper
+PASS Designer scroll safe wrapper
+RESPONSIVE FAILURES 0

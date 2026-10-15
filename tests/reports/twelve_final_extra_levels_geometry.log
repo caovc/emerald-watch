@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+熔脉岔口 lengths=[63.0, 69.0] pads=16 min_clearance=1.5 hazard=lava
+霜镜交汇 lengths=[63.0, 69.0] pads=16 min_clearance=1.5 hazard=frost
+裂隙围城 lengths=[63.0, 72.0, 57.0, 69.0] pads=16 min_clearance=1.5 hazard=lava
+苔湾长堤 lengths=[69.0] pads=16 min_clearance=1.5 hazard=frost
+金砂折塔 lengths=[72.0, 42.0] pads=16 min_clearance=1.5 hazard=lava
+潮汐三洲 lengths=[57.0, 69.0, 45.0] pads=16 min_clearance=1.5 hazard=frost
+赤铜盘山 lengths=[94.5] pads=16 min_clearance=1.5 hazard=lava
+月杉双环 lengths=[57.0, 48.0] pads=16 min_clearance=1.5 hazard=frost
+星陨终阵 lengths=[63.0, 66.0, 54.0, 75.0] pads=16 min_clearance=1.5 hazard=lava
+PASS 3231 geometry and schema checks

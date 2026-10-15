@@ -37,9 +37,19 @@ Godot 4.6.3 的官方 macOS 模板只提供命名为 `.universal` 的引擎文�
 
 用户手动启动的 [2026-10-15 运行 #2](https://github.com/caovc/emerald-watch/actions/runs/38711466335) 已成功导出旧版双架构 `.app`，随后在架构检查处失败。根因是我们写错了 Apple `lipo` 参数顺序：`-verify_arch` 会把其后的参数全部当作架构名，因此输入文件路径必须放在它前面。Mac 和 iOS 中相同的写法均已修复。
 
-随后 [运行 #3](https://github.com/caovc/emerald-watch/actions/runs/38712779242) 使用了分架构更新之前的 `dfed986` 提交：导出、双架构、签名和解压校验均通过，但 Python 在 ZIP 内按中文可执行文件名查找时失败。已下载该真实 artifact 确认：ditto 写入 UTF-8 文件名字节，却未设置 ZIP 的 UTF-8 标志，Python 默认按 CP437 解码。现显式指定 `metadata_encoding="utf-8"`，保留完整文件校验；同样加固 iOS 的 ZIP 读取。原失败 ZIP 已在本地用新校验代码通过，iOS 未运行。
+随后 [运行 #3](https://github.com/caovc/emerald-watch/actions/runs/38712779242) 使用了分架构更新之前的 `dfed986` 提交：导出、双架构、签名和解压校验均通过，但 Python 在 ZIP 内按中文可执行文件名查找时失败。已下载该真实 artifact 确认：ditto 写入 UTF-8 文件名字节，却未设置 ZIP 的 UTF-8 标志，Python 默认按 CP437 解码。现显式指定 `metadata_encoding="utf-8"`，保留完整文件校验；同样加固 iOS 的 ZIP 读取。原失败 ZIP 已在本地用新校验代码通过；后续 iOS 构建结果见 `IOS_BUILD.md`。
 
-已通过 YAML、全部 Bash、内嵌 Python、导出预设，以及 `tests/test_workflow_lipo.py`、`tests/test_macos_zip_names.py` 静态/回归检查。新增独立架构流程尚待真实云端运行；没有声称签名、ZIP、实体 Intel/Apple Silicon Mac 图形与性能均已通过。
+第三处失败来自模板重写复用 `ZipInfo`：`writestr` 修改其源 ZIP 偏移，后续读取报 `Bad magic number`。现对每个元数据条目使用 `copy.copy`，并检查输出 CRC 和四个架构条目。`tests/test_macos_templates.py` 复现旧错误，并对真实官方 4.6.3 macOS 模板完成重写、所有成员 CRC/权限与四个单架构 Mach-O 检查。Linux 测试用字节级 Mach-O 裁切模拟 `lipo`，真实 CI 仍使用 Apple `lipo`。
+
+[运行 #5](https://github.com/caovc/emerald-watch/actions/runs/38716810225) 在提交 `a8958eafddf50ecc05ed1bdc0241ef12302d0a48` 上成功生成 Apple Silicon 包。真实 macOS runner 完成导出、thin arm64、严格 ad-hoc 签名及 ZIP 解压复检。下载后再次独立核实 ZIP CRC、校验和、可执行权限、macOS 平台、arm64 和 PCK。
+
+- 包：`EmeraldWatch-macOS-arm64.zip`，40,760,204 字节
+- SHA-256：`4fa423adb04d11619ba3449e71bda0dffe187da30d2978251ceb72ff3a32269e`
+- 此次仅选择 arm64，Intel 导出未在真实 CI 中运行；Intel 模板切片的本地回归已通过
+- 此成功包是当时六关版本，不包含后续十二关与移动布局更新；新源码需要重新构建
+- 未在实体 Apple Silicon/Intel Mac 上启动或测试图形与性能；未公证
+
+YAML、Bash、内嵌 Python、导出预设及 lipo/ZIP/template 回归均已检查。
 
 测试新修复时，请通过 **Run workflow** 在最新 `main` 发起新运行。旧运行的 **Re-run** 沿用旧提交，不会带入新代码。
 

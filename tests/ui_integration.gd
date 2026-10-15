@@ -48,7 +48,13 @@ func text_in(node: Node) -> String:
 func visible_buttons(node: Node) -> Array[BaseButton]:
 	var result: Array[BaseButton] = []
 	if node is BaseButton and node.is_visible_in_tree():
-		result.append(node)
+		var clipped := false
+		var ancestor := node.get_parent()
+		while ancestor:
+			if ancestor is Control and ancestor.clip_contents and not ancestor.get_global_rect().intersects(node.get_global_rect()):
+				clipped = true
+			ancestor = ancestor.get_parent()
+		if not clipped: result.append(node)
 	for child in node.get_children():
 		result.append_array(visible_buttons(child))
 	return result

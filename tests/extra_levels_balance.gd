@@ -1,5 +1,5 @@
 extends SceneTree
-## Actual-combat checks for the three additional built-in maps. No economy cheats.
+## Actual-combat checks for the nine additional built-in maps. No economy cheats.
 var game: Node
 var checks := 0
 var failures := 0
@@ -23,11 +23,13 @@ func run() -> void:
 	game.sound_enabled = false
 	game.show_damage_numbers = false
 	if is_instance_valid(game.audio): game.audio.set_muted(true)
-	expect(game.levels.size() == 6, "all six built-in stages available")
-	for stage in range(3,6):
+	expect(game.levels.size() == 12, "all twelve built-in stages available")
+	for stage in range(3,12):
+		if not OS.get_cmdline_user_args().is_empty() and str(stage + 1) not in OS.get_cmdline_user_args(): continue
 		await simulate(stage, true)
 		await simulate(stage, false)
-	var output := FileAccess.open("res://tests/extra-level-balance-results.json", FileAccess.WRITE)
+	var suffix := "" if OS.get_cmdline_user_args().is_empty() else "-" + "-".join(OS.get_cmdline_user_args())
+	var output := FileAccess.open("res://tests/extra-level-balance-results%s.json" % suffix, FileAccess.WRITE)
 	output.store_string(JSON.stringify({"checks":checks,"failures":failures,"runs":report}, "  "))
 	output.close()
 	print("EXTRA LEVEL BALANCE: %d checks, %d failures" % [checks,failures])
@@ -40,7 +42,11 @@ func simulate(stage: int, defended: bool) -> void:
 		[[7,0],[9,1],[8,2],[4,3],[10,4],[6,5],[11,4],[13,1],[3,3],[14,5]],
 		[[10,0],[9,1],[8,2],[7,4],[11,3],[5,5],[14,4],[13,1],[4,3],[15,5],[6,4],[12,2],[0,1],[1,4],[2,3],[3,5]],
 		[[9,0],[10,1],[8,2],[11,4],[7,3],[6,5],[14,4],[15,1],[2,3],[12,5],[0,4],[1,2],[3,1],[4,5],[5,4],[13,3]]
-	][stage-3]
+	][mini(stage-3,2)]
+	if stage >= 6:
+		placements = [[0,0],[1,1],[2,2],[3,4],[4,3],[5,5],[6,4],[7,1],[8,3],[9,5],[10,4],[11,2],[12,1],[13,5],[14,4],[15,3]]
+	if stage == 10:
+		placements = [[0,0],[3,1],[1,2],[4,4],[8,3],[6,5],[10,4],[11,5],[14,4],[15,5],[13,1],[12,3],[5,4],[7,5],[2,2],[9,3]]
 	var next_build := 0
 	var wave_results: Array[Dictionary] = []
 	var ability_uses := 0
@@ -64,7 +70,9 @@ func simulate(stage: int, defended: bool) -> void:
 						if game.tower_at(placements[next_build][0]) < 0:
 							build(placements[next_build][0],placements[next_build][1])
 						next_build += 1
-			if game.can_switch_gate() and wave_index % 2 == 1 and game.gate_cooldown <= 0:
+			var switch_gate: bool = wave_index % 2 == 1
+			if stage == 10 and wave_index >= 12: switch_gate = game.gate_mode != 1
+			if game.can_switch_gate() and switch_gate and game.gate_cooldown <= 0:
 				game.toggle_gate()
 				gate_uses += 1
 		game.start_wave()

@@ -14,6 +14,9 @@ var touches: Dictionary = {}
 var touch_origin := Vector2.ZERO
 var touch_moved := false
 var suppress_emulated := false
+var aspect_factor := 1.0
+var logical_zoom := DEFAULT_SIZE
+var viewport_size := Vector2.ZERO
 
 static func install(owner_node: Node) -> Node:
 	if owner_node.has_meta("camera_controller"):
@@ -23,8 +26,12 @@ static func install(owner_node: Node) -> Node:
 	controller.game = owner_node
 	controller.camera = owner_node.camera
 	controller.home_position = owner_node.camera.position
+	controller.logical_zoom = owner_node.camera.size
 	owner_node.set_meta("camera_controller", controller)
 	owner_node.add_child(controller)
+	if ResourceLoader.exists("res://scripts/tower_drag.gd"):
+		load("res://scripts/tower_drag.gd").install(owner_node, controller)
+	controller.call_deferred("resize_view")
 	return controller
 
 func modal_open() -> bool:
@@ -36,6 +43,8 @@ func modal_open() -> bool:
 	return (is_instance_valid(game.level_overlay) and game.level_overlay.visible) or (is_instance_valid(game.end_panel) and game.end_panel.visible)
 
 func _process(_delta: float) -> void:
+	if viewport_size != get_viewport().get_visible_rect().size:
+		resize_view()
 	if modal_open():
 		cancel_gesture()
 
@@ -53,6 +62,8 @@ func over_ui(pos: Vector2, node: Node = null) -> bool:
 		node = game.hud
 	if node is Control:
 		if not node.is_visible_in_tree():
+			return false
+		if node.clip_contents and not node.get_global_rect().has_point(pos):
 			return false
 		if node.mouse_filter == Control.MOUSE_FILTER_STOP and node.get_global_rect().has_point(pos):
 			return true
@@ -80,7 +91,8 @@ func apply_bounds() -> void:
 
 func zoom_at(factor: float, pos: Vector2) -> void:
 	var before := ground_point(pos)
-	camera.size = clampf(camera.size * factor, MIN_SIZE, MAX_SIZE)
+	logical_zoom = clampf(logical_zoom * factor, MIN_SIZE, MAX_SIZE)
+	camera.size = logical_zoom * aspect_factor
 	offset += before - ground_point(pos)
 	apply_bounds()
 	sync_settings()
@@ -89,7 +101,7 @@ func sync_settings() -> void:
 	# Keep settings application from reverting a live zoom on unrelated changes.
 	if game.has_meta("settings_values"):
 		var values: Dictionary = game.get_meta("settings_values")
-		values.camera_zoom = camera.size
+		values.camera_zoom = logical_zoom
 		game.set_meta("settings_values", values)
 
 func reset_view() -> void:
@@ -98,11 +110,14 @@ func reset_view() -> void:
 		home_position = camera.position
 	cancel_gesture()
 	offset = Vector3.ZERO
-	camera.size = DEFAULT_SIZE
+	logical_zoom = DEFAULT_SIZE
+	camera.size = logical_zoom * aspect_factor
 	apply_bounds()
 	sync_settings()
 
 func _input(event: InputEvent) -> void:
+	if game.has_meta("tower_drag") and game.get_meta("tower_drag").handle_input(event):
+		return
 	# Release capture even when the pointer has crossed a HUD panel.
 	if event is InputEventMouseButton and not event.pressed and event.button_index == drag_button:
 		dragging = false
@@ -186,3 +201,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		handled = true
 	if handled:
 		get_viewport().set_input_as_handled()
+
+func resize_view() -> void:
+	viewport_size = get_viewport().get_visible_rect().size
+	if viewport_size.y <= 0:
+		return
+	# Preserve vertical scale on wide phones, expand framing on tablet/square windows.
+	camera.keep_aspect = Camera3D.KEEP_HEIGHT
+	aspect_factor = maxf(1.0, 1.6 / (viewport_size.x / viewport_size.y))
+	if load("res://scripts/responsive_layout.gd").mobile():
+		aspect_factor *= 1.25
+	camera.size = logical_zoom * aspect_factor
+	apply_bounds()
+
+func set_logical_zoom(value: float) -> void:
+	logical_zoom = clampf(value, MIN_SIZE, MAX_SIZE)
+	camera.size = logical_zoom * aspect_factor

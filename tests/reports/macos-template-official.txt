@@ -1,0 +1,15 @@
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_debug.arm64 (arm64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_debug.x86_64 (x86_64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_release.arm64 (arm64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_release.x86_64 (x86_64)
+Validated 7 members, original CRC/modes, four native Mach-O entries
+.Derived native template: macos_template.app/Contents/MacOS/godot_macos_debug.arm64 (arm64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_debug.x86_64 (x86_64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_release.arm64 (arm64)
+Derived native template: macos_template.app/Contents/MacOS/godot_macos_release.x86_64 (x86_64)
+Validated 14 members, original CRC/modes, four native Mach-O entries
+..
+----------------------------------------------------------------------
+Ran 3 tests in 280.774s
+
+OK

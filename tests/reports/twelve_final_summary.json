@@ -1,0 +1,91 @@
+{
+  "engine": "Godot 4.6.3",
+  "scope": "Sequential headless combined-source validation; no claim of physical-device/rendered QA",
+  "final_results": {
+    "extra_levels_geometry": {
+      "checks": 3231,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_extra_levels_geometry.log"
+    },
+    "extra_levels_balance": {
+      "checks": 196,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_extra_levels_balance.log"
+    },
+    "integration": {
+      "checks": 276,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_integration.log"
+    },
+    "thumbnail_ui": {
+      "checks": 67,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_thumbnail_ui.log"
+    },
+    "ui_integration": {
+      "checks": 189,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_ui_integration.log"
+    },
+    "designer_tests": {
+      "checks": 20,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_designer_tests.log"
+    },
+    "designer_integration": {
+      "checks": 35,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_designer_integration.log"
+    },
+    "author_replay": {
+      "checks": 18,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_author_replay.log"
+    },
+    "settings_smoke": {
+      "checks": 25,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_settings_smoke.log"
+    },
+    "camera_controls": {
+      "checks": 20,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_camera_controls.log"
+    },
+    "responsive_layout": {
+      "checks": 101,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_responsive_layout.log"
+    },
+    "responsive_layout_mobile": {
+      "checks": 101,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_responsive_layout_mobile.log"
+    },
+    "tower_drag": {
+      "checks": 18,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_tower_drag.log"
+    },
+    "tower_drag_mobile": {
+      "checks": 18,
+      "failures": 0,
+      "log": "tests/reports/twelve_final_tower_drag_mobile.log"
+    }
+  },
+  "resolved_attempts": [
+    "designer integration expected six maps; assertion updated to twelve",
+    "designer integration refused reused test data; rerun with fresh disposable XDG directory passed"
+  ],
+  "campaign_health": {
+    "4": 20,
+    "5": 20,
+    "6": 20,
+    "7": 20,
+    "8": 20,
+    "9": 20,
+    "10": 20,
+    "11": 20,
+    "12": 11
+  }
+}

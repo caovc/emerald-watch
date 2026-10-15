@@ -1,0 +1,23 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: default level is valid
+PASS: canonical JSON roundtrip stays identical
+PASS: pad order and redundant straight waypoint are canonicalized
+PASS: malformed data rejected safely: <null>
+PASS: malformed data rejected safely: []
+PASS: malformed data rejected safely: {  }
+PASS: malformed data rejected safely: { "schema": 1 }
+PASS: waves rejects fractional value
+PASS: count rejects fractional value
+PASS: gold rejects fractional value
+PASS: seed rejects fractional value
+PASS: diagonal road rejected
+PASS: zero-length segment rejected
+PASS: self-intersecting route rejected
+PASS: route backtracking rejected
+PASS: short route rejected
+PASS: out-of-grid route rejected
+PASS: on-road pad rejected
+PASS: duplicate pad rejected
+PASS: too few pads rejected
+DESIGNER VALIDATION: 20 checks / 0 failures

@@ -2,7 +2,7 @@ extends Node3D
 ## Emerald Watch. All meshes, materials, effects, and game rules are generated here.
 
 const TILE := 1.5
-const CAMPAIGN_WAVES := [12, 12, 14, 14, 16, 16]
+const CAMPAIGN_WAVES := [12, 12, 14, 14, 16, 16, 18, 18, 20, 20, 22, 22]
 const UPGRADE_DAMAGE := [1.65, 1.8]
 const UPGRADE_PRICE := [0.85, 1.6]
 const UPGRADE_RANGE := [0.45, 0.55]
@@ -899,10 +899,14 @@ func wave_total() -> int:
 	return int(custom_level_data.waves) if not custom_level_data.is_empty() else CAMPAIGN_WAVES[level_index]
 
 func wave_enemy_count() -> int:
+	if custom_level_data.is_empty() and level_index >= 6:
+		# A 16-pad defense has finite throughput; grow long campaigns more gently.
+		return 8 + mini(wave, 6) * 3 + clampi(wave - 6, 0, 6) * 2 + maxi(wave - 12, 0) + 12 + (level_index - 6)
 	return int(custom_level_data.count) if not custom_level_data.is_empty() else 8 + mini(wave, 6) * 3 + maxi(wave - 6, 0) * 2 + level_index * 2
 
 func wave_spawn_interval() -> float:
 	if not custom_level_data.is_empty(): return maxf(0.45, 1.05-wave*0.055)
+	if level_index >= 6: return maxf(0.58, 1.05-wave*0.025-level_index*0.005)
 	# Faster mixed waves create overlap across entrances without runaway HP.
 	return maxf(0.38, 1.05-wave*0.045-level_index*0.012)
 
@@ -1027,6 +1031,9 @@ func next_wave_description() -> String:
 
 func wave_enemy_kind(index: int) -> int:
 	if wave == wave_total() and index == wave_enemy_count()-1: return 3
+	if custom_level_data.is_empty() and level_index >= 6 and wave >= 4:
+		var formation: Array = current_level().formation
+		return int(formation[(index + wave) % formation.size()])
 	if custom_level_data.is_empty() and wave >= 8:
 		# Rotating escorts stop map-specific precedence from suppressing support.
 		var formations := [
@@ -1128,7 +1135,7 @@ func toggle_gate() -> void:
 	gate_cooldown = 12.0
 	play_sound("build")
 	pulse(routes[gate_mode][0],Color("ace4ff"),1.4)
-	show_toast("入口已切换为%s门。新敌人改道，场上敌人保持原路线。" % ["北" if gate_mode == 0 else "南"],4)
+	show_toast("入口已切换为 %s。新敌人改道，场上敌人保持原路线。" % ["A" if gate_mode == 0 else "B"],4)
 	refresh_ui()
 
 func open_settings() -> void:
@@ -1166,6 +1173,9 @@ func show_codex() -> void:
 func enemy_stats(kind: int, wave_override: int = 0) -> Dictionary:
 	var n := maxi(1,wave if wave_override == 0 else wave_override)
 	var strength := float(n) if not custom_level_data.is_empty() else float(mini(n, 6)) + maxi(n - 6, 0) * 0.5
+	# Longer second-act maps add entrances and formations; avoid runaway healing/HP.
+	if custom_level_data.is_empty() and level_index >= 6:
+		strength = float(mini(n, 6)) + clampi(n - 6, 0, 6) * 0.5 + maxi(n - 12, 0) * 0.2
 	var hp: float = (38.0+strength*12.0)*(1.0+0.12*pow(maxf(strength-2,0),1.4))*current_level().difficulty*[1.0,0.65,2.7,14.0,1.25,1.6,1.45][kind]
 	return {"name":["侦察虫","疾行虫","重甲虫","巨型母虫","护盾虫","再生虫","分裂虫"][kind],"hp":hp,"speed":[1.65,2.8,1.1,0.85,1.5,1.45,1.7][kind],"armor":0.55 if kind == 2 else 0.0,"shield":hp*0.65 if kind == 4 else 0.0,"ability":["常规推进，无特殊防御","高速穿越防线","普通攻击受到 55% 减伤","高生命；减速效果减半；漏过扣 5 核心","额外能量护盾吸收伤害","每秒治疗 2.8 范围内队友 6% 最大生命","被击败后分裂为两只小型疾行虫"][kind],"counter":["脉冲箭塔高效处理","霜晶减速配合高频攻击","穿甲轨炮与灼烧无视重甲","轨炮集火、升级与核心震荡","雷链对护盾造成双倍伤害","焰息灼烧期间无法治疗或被治疗","熔核范围攻击清理小虫" ][kind],"color":[Color("bf7192"),Color("edb082"),Color("7887bd"),Color("b46eaf"),Color("80cbe8"),Color("91c481"),Color("e2a453")][kind]}
 

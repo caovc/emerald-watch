@@ -58,7 +58,7 @@ func run() -> void:
 	await test_new_combat()
 	await test_maps_and_routes()
 	await test_ability()
-	for stage in range(game.levels.size()):
+	for stage in range(6): # Stages 7–12 combat is covered by extra_levels_balance.gd.
 		await simulate_mixed_six_strategy(stage)
 		await simulate_stage_undefended(stage)
 	print("\n=== BALANCE REPORT ===")
@@ -74,9 +74,9 @@ func run() -> void:
 	quit(1 if failures else 0)
 
 func test_campaign_progression() -> void:
-	for stage in range(6):
+	for stage in range(12):
 		game.choose_level(stage)
-		expect(game.wave_total() == [12,12,14,14,16,16][stage], "stage %d has its extended campaign length" % (stage+1))
+		expect(game.wave_total() == [12,12,14,14,16,16,18,18,20,20,22,22][stage], "stage %d has its extended campaign length" % (stage+1))
 		game.wave = 1
 		var opening_interval: float = game.wave_spawn_interval()
 		game.wave = 8

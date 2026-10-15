@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-15",
+  "engine": "Godot 4.6.3",
+  "isolated_import_exit_code": 0,
+  "script_errors": 0,
+  "final_snapshot_checks": {
+    "responsive_desktop": 102,
+    "responsive_mobile": 102,
+    "tower_drag_desktop": 18,
+    "tower_drag_mobile": 18,
+    "ui_integration": 189
+  },
+  "failures": 0,
+  "combined_campaign_checks_before_final_hint_polish": 4315,
+  "physical_device_validation": false,
+  "notes": [
+    "Final touch-only mobile hint and preserved desktop hint passed",
+    "GPU render captures were inspected separately; no native iPhone hardware used",
+    "Both manual packaging workflows are unchanged from successful arm64 build a8958ea"
+  ]
+}

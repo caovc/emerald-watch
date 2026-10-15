@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Dock tap preserves kind selection without building
+PASS: Touch drag shows actual model ghost, range and valid state without hover
+PASS: Dock drag never pans battlefield
+PASS: Valid drop creates exactly one tower and deducts exactly one cost
+PASS: Duplicate release cannot build twice
+PASS: Occupied pad drop is free and rejected
+PASS: UI/invalid drop is free
+PASS: Return-to-dock drop cancels
+PASS: Canceled touch never builds
+PASS: Second finger cancels capture and both releases safely
+PASS: Focus interruption cancels drop
+PASS: Pause interruption cancels drop
+PASS: Unaffordable preview explicitly reports insufficient funds
+PASS: Unaffordable release never charges or builds
+PASS: Emulated mouse following touch cannot select accidentally
+PASS: Battlefield tap remains available after drag
+PASS: Battlefield pan remains available after drag
+TOWER DRAG: 17 checks, 0 failures

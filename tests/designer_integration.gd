@@ -41,7 +41,7 @@ func run() -> void:
 	game.audio.set_muted(true)
 	game.show_damage_numbers = false
 	await settle()
-	expect(game.levels.size() == 6, "all six builtin battlefields registered")
+	expect(game.levels.size() == 12, "all twelve builtin battlefields registered")
 	game.open_designer()
 	await settle()
 	var refs: Dictionary = game.get_meta("level_designer")

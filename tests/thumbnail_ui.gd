@@ -60,18 +60,26 @@ func run() -> void:
 	g.show_level_select()
 	await settle()
 	var grid: GridContainer = g.level_overlay.find_children("*","GridContainer",true,false)[0]
-	expect(grid.columns==3 and grid.get_child_count()==6,"six levels use3-by2 layout")
-	var fits := true
-	for card in grid.get_children():
-		if not root.get_visible_rect().encloses(card.get_global_rect()): fits=false
-	expect(fits,"all six level cards fit logical viewport")
+	expect(grid.columns==3 and grid.get_child_count()==12,"twelve levels use three-column scrollable layout")
 	var scroll: ScrollContainer = grid.get_parent()
-	expect(scroll.get_v_scroll_bar().max_value<=scroll.size.y,"six levels visible without scrolling")
+	expect(scroll.get_v_scroll_bar().max_value>scroll.size.y,"twelve levels enable vertical scrolling")
+	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
+	await settle()
+	expect(scroll.get_global_rect().intersects(grid.get_child(11).get_global_rect()),"last level is reachable by scrolling")
 	GameUI._close_levels(g)
-	for stage in range(6):
+	for stage in range(12):
 		g.choose_level(stage)
 		await settle()
 		expect(is_instance_valid(refs.thumbnail_viewports[0].get_child(0).get_node("ExactTowerModel0")),"stage%d rebuild keeps thumbnail models alive" % (stage+1))
+	g.choose_level(11)
+	g.next_level()
+	expect(g.level_index==0,"next stage wraps from 12 to 1")
+	for repeat in range(3):
+		g.show_level_select()
+		await settle()
+		expect(g.level_overlay.find_children("*","GridContainer",true,false)[0].get_child_count()==12,"reopening selector preserves twelve cards")
+		GameUI._choose_level(g,11)
+		expect(g.level_index==11 and g.wave==0 and g.health==20,"selection safely restarts final level")
 	print("THUMBNAIL UI RESULT: %d checks, %d failures" % [checks,failures])
 	g.queue_free()
 	await settle()

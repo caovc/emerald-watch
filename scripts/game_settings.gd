@@ -69,7 +69,7 @@ static func build(g) -> void:
 	title_col.add_child(_text(g, "翡翠哨站  /  SETTINGS", 13, MINT))
 	title_col.add_child(_text(g, "游戏设置", 28))
 	var close_button := _button(g, "×", func(): close(g))
-	close_button.custom_minimum_size = Vector2(40, 40)
+	close_button.custom_minimum_size = Vector2(44, 44)
 	close_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	close_button.tooltip_text = "返回战场 · Esc"
 	header.add_child(close_button)
@@ -77,7 +77,7 @@ static func build(g) -> void:
 	_separator(column)
 
 	var refs: Dictionary = {"overlay": overlay, "close_button": close_button}
-	var columns := HBoxContainer.new()
+	var columns: BoxContainer = VBoxContainer.new() if load("res://scripts/responsive_layout.gd").mobile() else HBoxContainer.new()
 	columns.add_theme_constant_override("separation", 24)
 	column.add_child(columns)
 	var left := VBoxContainer.new()
@@ -183,7 +183,10 @@ static func apply(g) -> void:
 		g.audio.set_sfx_volume(values.sfx_volume)
 		g.audio.set_muted(values.muted)
 	if is_instance_valid(g.camera):
-		g.camera.size = values.camera_zoom
+		if g.has_meta("camera_controller"):
+			g.get_meta("camera_controller").set_logical_zoom(values.camera_zoom)
+		else:
+			g.camera.size = values.camera_zoom
 	g.show_ranges = values.show_ranges
 	g.show_damage_numbers = values.show_damage_numbers
 	if is_instance_valid(g.range_ring):
@@ -198,7 +201,7 @@ static func apply(g) -> void:
 	for light in g.find_children("*", "DirectionalLight3D", true, false):
 		light.shadow_enabled = values.quality == "high"
 	# Headless CI has no native window; never ask its dummy display to change mode.
-	if DisplayServer.get_name() != "headless":
+	if DisplayServer.get_name() != "headless" and not OS.has_feature("mobile"):
 		var mode := DisplayServer.window_get_mode()
 		var currently_fullscreen := mode == DisplayServer.WINDOW_MODE_FULLSCREEN or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 		if values.fullscreen != currently_fullscreen:

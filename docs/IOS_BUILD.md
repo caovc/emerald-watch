@@ -74,4 +74,11 @@ SHA-256：`3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8`
 
 ## ZIP 文件名兼容性检查（2026-10-15）
 
-Mac 构建的真实日志暴露了 ZIP UTF-8 标志缺失导致 Python 错误解码中文文件名的问题。iOS 构建当前使用 ASCII 产品路径 `Payload/EmeraldWatch.app`，并从 Info.plist 读取实际可执行文件名，不假设游戏显示名称就是文件名。为兼容未来非 ASCII 文件名，IPA 检查现也显式使用 UTF-8 元数据解码。`lipo` 的输入文件已放在 `-verify_arch` 前面。仍保留 iphoneos/arm64、真实 Mach-O、PCK、可执行权限、unsigned/无 provisioning profile 等检查。此处为静态检查与共同 ZIP 回归验证，尚未执行 iOS 云端构建或安装测试。
+Mac 构建的真实日志暴露了 ZIP UTF-8 标志缺失导致 Python 错误解码中文文件名的问题。iOS 构建当前使用 ASCII 产品路径 `Payload/EmeraldWatch.app`，并从 Info.plist 读取实际可执行文件名，不假设游戏显示名称就是文件名。为兼容未来非 ASCII 文件名，IPA 检查现也显式使用 UTF-8 元数据解码。`lipo` 的输入文件已放在 `-verify_arch` 前面。仍保留 iphoneos/arm64、真实 Mach-O、PCK、可执行权限、unsigned/无 provisioning profile 等检查。用户启动的 [iOS 运行 #2](https://github.com/caovc/emerald-watch/actions/runs/38714338466) 已在 `b7172ae942334bac0ff3f97a3e1b24e9076c5f6f` 成功完成真实 Xcode/iphoneos 编译和 IPA 打包。下载后独立核实 CRC、SHA-256、可执行权限、thin arm64、iOS Mach-O 平台、PCK、无代码签名和无 provisioning profile。
+
+- IPA：`EmeraldWatch-unsigned.ipa`，37,251,085 字节
+- SHA-256：`d28327c263d924d3d1cc98213c98675ce939b1c29dc03d1466b4e8d8f175e49b`
+- 此成功包是当时六关版本，不包含后续十二关、响应式布局与双向横屏更新；新源码需要重新构建
+- 未做实体 iPhone 安装/运行验证；无签名 IPA 仍需用户自行在可信环境签名
+
+当前源码方向 `orientation=4` 为 sensor landscape；Godot 将两个横屏方向写入 iPhone/iPad 配置，导出预设没有覆盖该设置。此新布局的设备显示与触控仍需实际手机验证。

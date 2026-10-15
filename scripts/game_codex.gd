@@ -55,7 +55,7 @@ static func build(g) -> void:
 	overlay.add_child(center)
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(1180, 734)
+	card.custom_minimum_size = Vector2(900, 0) if load("res://scripts/responsive_layout.gd").mobile() else Vector2(1180, 734)
 	card.add_theme_stylebox_override("panel", _style(Color("102832"), Color("4b746f"), 26))
 	center.add_child(card)
 	var col := VBoxContainer.new()
@@ -84,13 +84,13 @@ static func build(g) -> void:
 	wave_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	wave_note.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	tabs.add_child(wave_note)
-	var body := HBoxContainer.new()
+	var body: BoxContainer = VBoxContainer.new() if load("res://scripts/responsive_layout.gd").mobile() else HBoxContainer.new()
 	body.add_theme_constant_override("separation", 20)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.custom_minimum_size.y = 500
+	body.custom_minimum_size.y = 0 if load("res://scripts/responsive_layout.gd").mobile() else 500
 	col.add_child(body)
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size.x = 270
+	scroll.custom_minimum_size = Vector2(270, 180 if load("res://scripts/responsive_layout.gd").mobile() else 0)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	body.add_child(scroll)

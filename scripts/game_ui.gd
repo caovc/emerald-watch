@@ -132,6 +132,8 @@ static func build(g) -> void:
 	preview.add_theme_constant_override("shadow_offset_x", 1)
 	preview.add_theme_constant_override("shadow_offset_y", 2)
 	root.add_child(preview)
+	refs["top"] = top
+	refs["header"] = header
 	refs["wave_preview"] = preview
 	var actions := HBoxContainer.new()
 	actions.position = Vector2(934, 84)
@@ -148,6 +150,7 @@ static func build(g) -> void:
 	gate.custom_minimum_size = Vector2(244, 38)
 	gate.tooltip_text = "E 切换下一只虫群的入口路线\n冷却时间 12 秒"
 	actions.add_child(gate)
+	refs["actions"] = actions
 	refs["ability_button"] = ability
 	refs["gate_button"] = gate
 
@@ -255,6 +258,7 @@ static func build(g) -> void:
 	root.add_child(g.toast_label)
 	_build_end(g, root, refs)
 	g.set_meta("game_ui", refs)
+	load("res://scripts/responsive_layout.gd").install(g)
 
 static func _tower_thumbnail(g, parent: Control, kind: int) -> SubViewport:
 	var viewport := SubViewport.new()
@@ -366,15 +370,18 @@ static func refresh(g) -> void:
 		refs.wave_preview.text = "战场情报  /  场上 %d  ·  待入场 %d  ·  %s" % [g.enemies.size(), g.remaining, String(g.next_wave_description()).replace("\n", "  ")]
 	else:
 		refs.wave_preview.text = "下一波  /  %s" % String(g.next_wave_description()).replace("\n", "  ")
-	refs.wave_preview.visible = not g.ended
+	refs.wave_preview.visible = not g.ended and not load("res://scripts/responsive_layout.gd").mobile()
 	refs.ability_button.text = "Q  核心震荡 · %ds" % ceili(g.ability_cooldown) if g.ability_cooldown > 0 else "Q  核心震荡 · 就绪"
 	refs.ability_button.tooltip_text = "Q 核心震荡：对全场敌人造成 %d 穿甲伤害，并减速 3 秒\n伤害 = 90 + 当前波次 × 8 · 冷却 35 秒" % (90 + g.wave * 8)
 	refs.ability_button.disabled = g.ended or g.paused or not g.active_wave or g.ability_cooldown > 0
 	refs.gate_button.visible = g.can_switch_gate()
 	refs.gate_button.text = "E  入口 %s · %ds" % ["A" if g.gate_mode == 0 else "B", ceili(g.gate_cooldown)] if g.gate_cooldown > 0 else "E  切换入口 %s → %s" % ["A" if g.gate_mode == 0 else "B", "B" if g.gate_mode == 0 else "A"]
 	refs.gate_button.disabled = g.ended or g.paused or g.gate_cooldown > 0
+	if load("res://scripts/responsive_layout.gd").mobile():
+		refs.ability_button.text = "震荡 %ds" % ceili(g.ability_cooldown) if g.ability_cooldown > 0 else "核心震荡"
+		refs.gate_button.text = "入口 %s" % ("A" if g.gate_mode == 0 else "B")
 	refs.camera_reset.visible = g.has_meta("camera_controller")
-	refs.camera_hint.visible = g.has_meta("camera_controller")
+	refs.camera_hint.visible = g.has_meta("camera_controller") and not load("res://scripts/responsive_layout.gd").mobile()
 
 	for i in range(g.tower_buttons.size()):
 		var b: Button = g.tower_buttons[i]
@@ -446,14 +453,16 @@ static func refresh(g) -> void:
 	refs.next_level_button.text = "返回第一关  →" if custom else ("已到达最终关卡" if last_level else "继续下一关  →")
 
 static func _place_context(g, panel: PanelContainer) -> void:
-	var point := Vector2(720, 450)
+	var safe: Rect2 = load("res://scripts/responsive_layout.gd").safe_rect(g).grow(-12)
+	var point := safe.get_center()
 	if not g.selected_enemy.is_empty() and is_instance_valid(g.selected_enemy.get("node")):
 		point = g.camera.unproject_position(g.selected_enemy.node.global_position)
 	elif g.selected_pad >= 0 and g.selected_pad < g.pads.size():
 		point = g.camera.unproject_position(g.pads[g.selected_pad].global_position)
 	var panel_height: float = maxf(panel.get_combined_minimum_size().y, 275.0)
 	panel.size.y = panel_height
-	panel.position = Vector2(1440.0 - panel.size.x - 24.0 if point.x < 720.0 else 24.0, clampf(point.y - 130.0, 125.0, maxf(125.0, 796.0 - panel_height)))
+	var top: float = safe.position.y + 140.0
+	panel.position = Vector2(safe.end.x - panel.size.x if point.x < safe.get_center().x else safe.position.x, clampf(point.y - 130.0, top, maxf(top, safe.end.y - 100.0 - panel_height)))
 
 static func show_levels(g) -> void:
 	if not g.has_meta("game_ui"):
@@ -465,7 +474,7 @@ static func show_levels(g) -> void:
 	var center := CenterContainer.new()
 	g.level_overlay.add_child(center)
 	var outer := _panel(center, Rect2(0, 0, 1180, 0), 28)
-	outer.custom_minimum_size.x = 1180
+	outer.custom_minimum_size.x = 850 if load("res://scripts/responsive_layout.gd").mobile() else 1180
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 18)
 	outer.add_child(column)
@@ -478,12 +487,12 @@ static func show_levels(g) -> void:
 	title_row.add_child(back)
 	column.add_child(_text(g, "%d 处战场，不同的路线与机制。所有关卡均可直接挑战。" % g.levels.size(), 18, MUTED))
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(1124, 550)
+	scroll.custom_minimum_size = Vector2(794, 300) if load("res://scripts/responsive_layout.gd").mobile() else Vector2(1124, 550)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	column.add_child(scroll)
 	var grid := GridContainer.new()
-	grid.columns = 3
+	grid.columns = 2 if load("res://scripts/responsive_layout.gd").mobile() else 3
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 18)
 	grid.add_theme_constant_override("v_separation", 14)
@@ -501,7 +510,7 @@ static func show_levels(g) -> void:
 		content.add_theme_constant_override("separation", 10)
 		card.add_child(content)
 		content.add_child(_text(g, "%02d  %s" % [i + 1, stage.name], 22))
-		var subtitle := _text(g, stage.subtitle, 16, accent)
+		var subtitle := _text(g, "%s · %d 波 · %d G" % [stage.subtitle, g.CAMPAIGN_WAVES[i], stage.gold], 16, accent)
 		subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		content.add_child(subtitle)
 		var desc := _text(g, stage.description, 16, MUTED)

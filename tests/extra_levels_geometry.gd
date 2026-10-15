@@ -5,7 +5,7 @@ func verify(condition: bool, message: String):
 	assert(condition, message)
 func _initialize():
 	var stages: Array = load("res://scripts/extra_levels.gd").definitions()
-	verify(stages.size() == 3, "three additional stages")
+	verify(stages.size() == 9, "nine additional stages")
 	for stage in stages:
 		verify(stage.routes.size() >= 1 and stage.routes.size() <= 4, "route count")
 		verify(stage.pads.size() == 16, "16 pads")
@@ -44,6 +44,15 @@ func _initialize():
 					verify(Geometry2D.segment_intersects_segment(av,bv,Vector2(c.x,c.z),Vector2(d.x,d.z)) == null, "no route self-crossings")
 			verify(length >= 40.0, "minimum travel distance")
 			lengths.append(length)
+		var hazard_reaches_road := false
+		for path in stage.routes:
+			for segment in range(path.size() - 1):
+				var center := Vector2(stage.hazard.center.x, stage.hazard.center.z)
+				var a := Vector2(path[segment].x,path[segment].z)
+				var b := Vector2(path[segment+1].x,path[segment+1].z)
+				if center.distance_to(Geometry2D.get_closest_point_to_segment(center,a,b)) < stage.hazard.radius:
+					hazard_reaches_road = true
+		verify(hazard_reaches_road, "environment hazard reaches at least one road")
 		verify(stage.hazard.active > 0.0 and stage.hazard.active < stage.hazard.cycle, "hazard duty cycle")
 		verify(stage.hazard.kind in ["lava","frost"], "hazard kind")
 		verify(not stage.gate or stage.routes.size() >= 2, "gate supports multiple routes")

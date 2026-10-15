@@ -1,0 +1,29 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: settings start closed
+PASS: missing file uses all defaults
+PASS: default audio levels applied
+PASS: camera and FPS defaults applied
+PASS: high quality enables MSAA and shadows
+PASS: opening displays modal and pauses game
+PASS: modal covers viewport and absorbs clicks
+PASS: settings card fits 1440 by 900 display
+Settings card size: (700.0, 744.0)
+PASS: repeated open preserves original unpaused state
+PASS: close on an already closed menu leaves pause unchanged
+PASS: opening while paused restores paused state
+PASS: audio controls apply immediately
+PASS: zoom slider changes actual orthographic camera
+PASS: visibility controls affect actual owner state
+PASS: low quality disables MSAA and shadows
+PASS: FPS selection updates Engine.max_fps
+PASS: unlimited FPS sets Engine.max_fps to zero
+PASS: fullscreen preference can be changed headlessly without native display calls
+PASS: changes are persisted to settings.cfg
+PASS: new game owner reloads persisted preferences
+PASS: apply restores settings to rebuilt camera and new directional lights
+PASS: repeated build does not duplicate modal
+PASS: reset restores all default values and applies them
+PASS: reset defaults is persistent
+PASS: invalid settings are clamped or replaced with safe defaults
+SETTINGS SUMMARY: 25 checks, 0 failures

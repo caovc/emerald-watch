@@ -1,0 +1,118 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS all six built-in stages available
+PASS stage 4 wave 1 resolves (defended)
+WAVE 4 defended=true { "wave": 1, "health": 20, "gold": 323, "towers": 4, "kills": 17, "seconds": 24.15 }
+PASS stage 4 wave 2 resolves (defended)
+WAVE 4 defended=true { "wave": 2, "health": 20, "gold": 344, "towers": 6, "kills": 37, "seconds": 29.45 }
+PASS stage 4 wave 3 resolves (defended)
+WAVE 4 defended=true { "wave": 3, "health": 20, "gold": 479, "towers": 6, "kills": 60, "seconds": 34.75 }
+PASS stage 4 wave 4 resolves (defended)
+WAVE 4 defended=true { "wave": 4, "health": 20, "gold": 608, "towers": 6, "kills": 86, "seconds": 38.15 }
+PASS stage 4 wave 5 resolves (defended)
+WAVE 4 defended=true { "wave": 5, "health": 20, "gold": 682, "towers": 6, "kills": 115, "seconds": 38.6 }
+PASS stage 4 wave 6 resolves (defended)
+WAVE 4 defended=true { "wave": 6, "health": 20, "gold": 648, "towers": 6, "kills": 153, "seconds": 39.95 }
+PASS stage 4 wave 7 resolves (defended)
+WAVE 4 defended=true { "wave": 7, "health": 20, "gold": 792, "towers": 10, "kills": 193, "seconds": 39.35 }
+PASS stage 4 wave 8 resolves (defended)
+WAVE 4 defended=true { "wave": 8, "health": 20, "gold": 893, "towers": 10, "kills": 237, "seconds": 46.45 }
+PASS stage 4 wave 9 resolves (defended)
+WAVE 4 defended=true { "wave": 9, "health": 20, "gold": 1048, "towers": 10, "kills": 285, "seconds": 42.1 }
+PASS stage 4 wave 10 resolves (defended)
+WAVE 4 defended=true { "wave": 10, "health": 20, "gold": 1892, "towers": 10, "kills": 345, "seconds": 39.8 }
+PASS stage 4 wave 11 resolves (defended)
+WAVE 4 defended=true { "wave": 11, "health": 20, "gold": 2814, "towers": 10, "kills": 397, "seconds": 47.95 }
+PASS stage 4 wave 12 resolves (defended)
+WAVE 4 defended=true { "wave": 12, "health": 20, "gold": 3703, "towers": 10, "kills": 453, "seconds": 47.4 }
+PASS stage 4 wave 13 resolves (defended)
+WAVE 4 defended=true { "wave": 13, "health": 20, "gold": 4660, "towers": 10, "kills": 521, "seconds": 63.8 }
+PASS stage 4 wave 14 resolves (defended)
+WAVE 4 defended=true { "wave": 14, "health": 20, "gold": 5735, "towers": 10, "kills": 581, "seconds": 80.75 }
+PASS stage 4 normal-economy mixed defense wins
+STAGE RESULT 4 defended=true won=true health=20
+PASS stage 4 wave 1 resolves (undefended)
+WAVE 4 defended=false { "wave": 1, "health": 3, "gold": 593, "towers": 0, "kills": 0, "seconds": 54.2 }
+PASS stage 4 wave 2 resolves (undefended)
+WAVE 4 defended=false { "wave": 2, "health": 0, "gold": 593, "towers": 0, "kills": 0, "seconds": 32.0 }
+PASS stage 4 undefended game loses
+STAGE RESULT 4 defended=false won=false health=0
+PASS stage 5 wave 1 resolves (defended)
+WAVE 5 defended=true { "wave": 1, "health": 20, "gold": 243, "towers": 5, "kills": 19, "seconds": 26.95 }
+PASS stage 5 wave 2 resolves (defended)
+WAVE 5 defended=true { "wave": 2, "health": 20, "gold": 327, "towers": 6, "kills": 41, "seconds": 26.45 }
+PASS stage 5 wave 3 resolves (defended)
+WAVE 5 defended=true { "wave": 3, "health": 20, "gold": 417, "towers": 6, "kills": 66, "seconds": 35.75 }
+PASS stage 5 wave 4 resolves (defended)
+WAVE 5 defended=true { "wave": 4, "health": 20, "gold": 552, "towers": 6, "kills": 94, "seconds": 38.55 }
+PASS stage 5 wave 5 resolves (defended)
+WAVE 5 defended=true { "wave": 5, "health": 20, "gold": 741, "towers": 6, "kills": 125, "seconds": 39.3 }
+PASS stage 5 wave 6 resolves (defended)
+WAVE 5 defended=true { "wave": 6, "health": 20, "gold": 694, "towers": 6, "kills": 165, "seconds": 37.1 }
+PASS stage 5 wave 7 resolves (defended)
+WAVE 5 defended=true { "wave": 7, "health": 20, "gold": 671, "towers": 11, "kills": 207, "seconds": 37.6 }
+PASS stage 5 wave 8 resolves (defended)
+WAVE 5 defended=true { "wave": 8, "health": 20, "gold": 865, "towers": 11, "kills": 255, "seconds": 35.3 }
+PASS stage 5 wave 9 resolves (defended)
+WAVE 5 defended=true { "wave": 9, "health": 20, "gold": 845, "towers": 11, "kills": 315, "seconds": 37.2 }
+PASS stage 5 wave 10 resolves (defended)
+WAVE 5 defended=true { "wave": 10, "health": 20, "gold": 1017, "towers": 15, "kills": 367, "seconds": 42.8 }
+PASS stage 5 wave 11 resolves (defended)
+WAVE 5 defended=true { "wave": 11, "health": 20, "gold": 897, "towers": 15, "kills": 423, "seconds": 33.8 }
+PASS stage 5 wave 12 resolves (defended)
+WAVE 5 defended=true { "wave": 12, "health": 20, "gold": 1484, "towers": 16, "kills": 491, "seconds": 35.6 }
+PASS stage 5 wave 13 resolves (defended)
+WAVE 5 defended=true { "wave": 13, "health": 20, "gold": 2201, "towers": 16, "kills": 551, "seconds": 39.3 }
+PASS stage 5 wave 14 resolves (defended)
+WAVE 5 defended=true { "wave": 14, "health": 20, "gold": 3195, "towers": 16, "kills": 613, "seconds": 35.8 }
+PASS stage 5 wave 15 resolves (defended)
+WAVE 5 defended=true { "wave": 15, "health": 20, "gold": 4255, "towers": 16, "kills": 691, "seconds": 40.8 }
+PASS stage 5 wave 16 resolves (defended)
+WAVE 5 defended=true { "wave": 16, "health": 20, "gold": 5443, "towers": 16, "kills": 759, "seconds": 65.1 }
+PASS stage 5 normal-economy mixed defense wins
+STAGE RESULT 5 defended=true won=true health=20
+PASS stage 5 wave 1 resolves (undefended)
+WAVE 5 defended=false { "wave": 1, "health": 1, "gold": 643, "towers": 0, "kills": 0, "seconds": 59.0 }
+PASS stage 5 wave 2 resolves (undefended)
+WAVE 5 defended=false { "wave": 2, "health": 0, "gold": 643, "towers": 0, "kills": 0, "seconds": 25.55 }
+PASS stage 5 undefended game loses
+STAGE RESULT 5 defended=false won=false health=0
+PASS stage 6 wave 1 resolves (defended)
+WAVE 6 defended=true { "wave": 1, "health": 20, "gold": 313, "towers": 5, "kills": 21, "seconds": 31.6 }
+PASS stage 6 wave 2 resolves (defended)
+WAVE 6 defended=true { "wave": 2, "health": 20, "gold": 366, "towers": 6, "kills": 45, "seconds": 36.45 }
+PASS stage 6 wave 3 resolves (defended)
+WAVE 6 defended=true { "wave": 3, "health": 20, "gold": 518, "towers": 6, "kills": 72, "seconds": 49.95 }
+PASS stage 6 wave 4 resolves (defended)
+WAVE 6 defended=true { "wave": 4, "health": 20, "gold": 703, "towers": 6, "kills": 102, "seconds": 46.05 }
+PASS stage 6 wave 5 resolves (defended)
+WAVE 6 defended=true { "wave": 5, "health": 20, "gold": 765, "towers": 6, "kills": 135, "seconds": 45.25 }
+PASS stage 6 wave 6 resolves (defended)
+WAVE 6 defended=true { "wave": 6, "health": 20, "gold": 798, "towers": 10, "kills": 175, "seconds": 46.7 }
+PASS stage 6 wave 7 resolves (defended)
+WAVE 6 defended=true { "wave": 7, "health": 20, "gold": 923, "towers": 10, "kills": 217, "seconds": 51.35 }
+PASS stage 6 wave 8 resolves (defended)
+WAVE 6 defended=true { "wave": 8, "health": 20, "gold": 893, "towers": 12, "kills": 277, "seconds": 43.2 }
+PASS stage 6 wave 9 resolves (defended)
+WAVE 6 defended=true { "wave": 9, "health": 20, "gold": 953, "towers": 14, "kills": 329, "seconds": 49.4 }
+PASS stage 6 wave 10 resolves (defended)
+WAVE 6 defended=true { "wave": 10, "health": 20, "gold": 940, "towers": 16, "kills": 385, "seconds": 40.7 }
+PASS stage 6 wave 11 resolves (defended)
+WAVE 6 defended=true { "wave": 11, "health": 20, "gold": 1187, "towers": 16, "kills": 453, "seconds": 41.55 }
+PASS stage 6 wave 12 resolves (defended)
+WAVE 6 defended=true { "wave": 12, "health": 20, "gold": 2222, "towers": 16, "kills": 513, "seconds": 47.55 }
+PASS stage 6 wave 13 resolves (defended)
+WAVE 6 defended=true { "wave": 13, "health": 20, "gold": 3216, "towers": 16, "kills": 575, "seconds": 43.2 }
+PASS stage 6 wave 14 resolves (defended)
+WAVE 6 defended=true { "wave": 14, "health": 20, "gold": 4276, "towers": 16, "kills": 653, "seconds": 42.65 }
+PASS stage 6 wave 15 resolves (defended)
+WAVE 6 defended=true { "wave": 15, "health": 20, "gold": 5437, "towers": 16, "kills": 721, "seconds": 55.75 }
+PASS stage 6 wave 16 resolves (defended)
+WAVE 6 defended=true { "wave": 16, "health": 20, "gold": 6562, "towers": 16, "kills": 791, "seconds": 71.85 }
+PASS stage 6 normal-economy mixed defense wins
+STAGE RESULT 6 defended=true won=true health=20
+PASS stage 6 wave 1 resolves (undefended)
+WAVE 6 defended=false { "wave": 1, "health": 0, "gold": 650, "towers": 0, "kills": 0, "seconds": 59.8 }
+PASS stage 6 undefended game loses
+STAGE RESULT 6 defended=false won=false health=0
+EXTRA LEVEL BALANCE: 58 checks, 0 failures

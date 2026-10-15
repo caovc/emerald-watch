@@ -1,0 +1,23 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Actual viewport wheel zoom reaches controller
+PASS: Zoom preserves ground point under pointer
+PASS: Near zoom bound
+PASS: Far zoom bound
+PASS: Shift click captures pan without selecting pad
+PASS: Captured mouse drag pans actual camera
+PASS: Release over HUD stops drag
+PASS: Pan bounded to battlefield
+PASS: HUD wheel does not zoom map
+PASS: Settings modal blocks zoom
+PASS: Single touch drag pans without placement
+PASS: Two finger pinch zooms
+PASS: Pinch release does not select
+PASS: Home resets position and zoom
+PASS: Touch tap still selects a build pad
+PASS: game_codex modal blocks zoom
+PASS: level_designer modal blocks zoom
+PASS: Interrupted touch leaves no stale gesture
+PASS: Settings retain live camera zoom
+PASS: Rebuilt level rebinds camera controls
+CAMERA: 20 checks, 0 failures

@@ -233,15 +233,15 @@ static func _tower_detail(g, parent: VBoxContainer, d: Dictionary) -> void:
 	for text in ["升级数据", "等级 1", "等级 2", "等级 3"]:
 		_table_cell(g, grid, text, MINT, true)
 	var rows := [
-		["建造 / 升级", "%d 金" % d.cost, "%d 金" % int(d.cost * 0.85), "%d 金" % int(d.cost * 1.25)],
-		["攻击伤害", "%.1f" % d.damage, "%.1f" % (d.damage * 1.65), "%.1f" % (d.damage * 1.65 * 1.65)],
-		["攻击射程", "%.2f" % d.range, "%.2f" % (d.range + 0.45), "%.2f" % (d.range + 0.90)],
+		["建造 / 升级", "%d 金" % d.cost, "%d 金" % int(d.cost * g.UPGRADE_PRICE[0]), "%d 金" % int(d.cost * g.UPGRADE_PRICE[1])],
+		["攻击伤害", "%.1f" % d.damage, "%.1f" % (d.damage * g.UPGRADE_DAMAGE[0]), "%.1f" % (d.damage * g.UPGRADE_DAMAGE[0] * g.UPGRADE_DAMAGE[1])],
+		["攻击射程", "%.2f" % d.range, "%.2f" % (d.range + g.UPGRADE_RANGE[0]), "%.2f" % (d.range + g.UPGRADE_RANGE[0] + g.UPGRADE_RANGE[1])],
 		["攻击间隔", "%.2f 秒" % d.cooldown, "%.2f 秒" % (d.cooldown / 1.12), "%.2f 秒" % (d.cooldown / 1.24)]
 	]
 	for row in rows:
 		for i in range(row.size()):
 			_table_cell(g, grid, row[i], MUTED if i == 0 else INK)
-	_paragraph(g, parent, "等级 1 为建造价；等级 2、3 为该次升级费用。升级后伤害 ×1.65，射程 +0.45。", MUTED)
+	_paragraph(g, parent, "等级 1 为建造价；等级 2、3 为该次升级费用。二级伤害 ×1.65、射程 +0.45；三级伤害 ×1.8、射程 +0.55。", MUTED)
 	_paragraph(g, parent, "出售返还累计投入的 70%。点击已建造的塔，可查看当前属性与下一等级的变化。", GOLD)
 
 static func _enemy_detail(g, parent: VBoxContainer, d: Dictionary, current_wave: int) -> void:

@@ -1,0 +1,57 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS compact dock is 608 by70 logical pixels
+PASS six models for six tower buttons
+PASS tower0 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower0 isolated144px render viewport
+PASS tower0 has no permanent name/description card
+PASS tower0 minimum44px touch target
+PASS tower0 shared presentation angle
+PASS tower0 entire model fits thumbnail camera
+PASS tower1 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower1 isolated144px render viewport
+PASS tower1 has no permanent name/description card
+PASS tower1 minimum44px touch target
+PASS tower1 shared presentation angle
+PASS tower1 entire model fits thumbnail camera
+PASS tower2 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower2 isolated144px render viewport
+PASS tower2 has no permanent name/description card
+PASS tower2 minimum44px touch target
+PASS tower2 shared presentation angle
+PASS tower2 entire model fits thumbnail camera
+PASS tower3 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower3 isolated144px render viewport
+PASS tower3 has no permanent name/description card
+PASS tower3 minimum44px touch target
+PASS tower3 shared presentation angle
+PASS tower3 entire model fits thumbnail camera
+PASS tower4 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower4 isolated144px render viewport
+PASS tower4 has no permanent name/description card
+PASS tower4 minimum44px touch target
+PASS tower4 shared presentation angle
+PASS tower4 entire model fits thumbnail camera
+PASS tower5 thumbnail geometry/materials/transforms exactly match battlefield factory
+PASS tower5 isolated144px render viewport
+PASS tower5 has no permanent name/description card
+PASS tower5 minimum44px touch target
+PASS tower5 shared presentation angle
+PASS tower5 entire model fits thumbnail camera
+PASS tower0 clearly unaffordable
+PASS tower1 clearly unaffordable
+PASS tower2 clearly unaffordable
+PASS tower3 clearly unaffordable
+PASS tower4 clearly unaffordable
+PASS tower5 clearly unaffordable
+PASS selected thumbnail uses its tower accent
+PASS six levels use3-by2 layout
+PASS all six level cards fit logical viewport
+PASS six levels visible without scrolling
+PASS stage1 rebuild keeps thumbnail models alive
+PASS stage2 rebuild keeps thumbnail models alive
+PASS stage3 rebuild keeps thumbnail models alive
+PASS stage4 rebuild keeps thumbnail models alive
+PASS stage5 rebuild keeps thumbnail models alive
+PASS stage6 rebuild keeps thumbnail models alive
+THUMBNAIL UI RESULT: 54 checks, 0 failures

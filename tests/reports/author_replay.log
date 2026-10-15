@@ -1,0 +1,21 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS recorded custom level actually wins with real towers/combat
+PASS successful build upgrade sell wave ability commands recorded
+PASS legal replay wins in a fresh real simulation
+PASS JSON round trip replay deterministically wins again
+PASS level edit invalidates proof
+PASS seed edit invalidates proof
+PASS rules mismatch rejects
+PASS forged verified flag without commands cannot win
+PASS out of bounds command rejects
+PASS negative tick rejects
+PASS illegal duplicate build rejects instead of silently skipping
+PASS ability cooldown bypass rejects
+PASS wave already active rejects duplicate wave
+PASS insufficient gold rejects command under actual economy
+PASS terminal tick must match actual victory
+PASS disk proof alone cannot grant verified status
+PASS verified proof saved and trusted after successful real rerun
+PASS tampered proof invalidates cached verification
+REPLAY RESULT: 18 checks, 0 failures

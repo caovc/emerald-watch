@@ -1,0 +1,38 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: all six builtin battlefields registered
+PASS: designer opens and pauses battle
+PASS: designer buttons stay inside 1440×900 viewport
+PASS: grid touch cells are at least 50px
+PASS: closing designer restores unpaused state
+PASS: closing designer preserves preexisting pause
+PASS: clear path disables playtest
+PASS: undo restores valid route
+PASS: pad tool places empty cell
+PASS: pad tool toggles existing pad
+PASS: pad tool refuses road cell
+PASS: local save writes custom_level.json
+PASS: load restores bounded wave/count/gold
+PASS: invalid local file cannot replace editor data
+PASS: playtest closes designer and resumes battle
+PASS: custom rules and economy applied
+PASS: custom count and final mother composition applied
+PASS: builtin stage 4 restores normal rules
+PASS: stage 4 has expected independent routes
+PASS: stage 4 all sixteen pads clear roads
+PASS: stage 4 uses every entrance
+PASS: stage 4 hazard applies real combat effect
+PASS: stage 4 hazard enters inactive cycle
+PASS: builtin stage 5 restores normal rules
+PASS: stage 5 has expected independent routes
+PASS: stage 5 all sixteen pads clear roads
+PASS: stage 5 uses every entrance
+PASS: stage 5 hazard applies real combat effect
+PASS: stage 5 hazard enters inactive cycle
+PASS: builtin stage 6 restores normal rules
+PASS: stage 6 has expected independent routes
+PASS: stage 6 all sixteen pads clear roads
+PASS: stage 6 uses every entrance
+PASS: stage 6 hazard applies real combat effect
+PASS: stage 6 hazard enters inactive cycle
+DESIGNER + EXTRA LEVELS: 35 checks / 0 failures

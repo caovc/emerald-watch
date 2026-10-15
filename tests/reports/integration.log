@@ -1,0 +1,438 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: actual scene initializes 16 empty build pads
+PASS: initial economy, health, and wave
+PASS: initial overlays are hidden
+PASS: stage 1 has its extended campaign length
+PASS: stage 1 late waves mix armor, shields, healing and splitters
+PASS: stage 1 late pressure accelerates while passive supply caps
+PASS: stage 1 ends with its final boss
+PASS: stage 1 restart resets extended campaign
+PASS: stage 2 has its extended campaign length
+PASS: stage 2 late waves mix armor, shields, healing and splitters
+PASS: stage 2 late pressure accelerates while passive supply caps
+PASS: stage 2 ends with its final boss
+PASS: stage 2 restart resets extended campaign
+PASS: stage 3 has its extended campaign length
+PASS: stage 3 late waves mix armor, shields, healing and splitters
+PASS: stage 3 late pressure accelerates while passive supply caps
+PASS: stage 3 ends with its final boss
+PASS: stage 3 restart resets extended campaign
+PASS: stage 4 has its extended campaign length
+PASS: stage 4 late waves mix armor, shields, healing and splitters
+PASS: stage 4 late pressure accelerates while passive supply caps
+PASS: stage 4 ends with its final boss
+PASS: stage 4 restart resets extended campaign
+PASS: stage 5 has its extended campaign length
+PASS: stage 5 late waves mix armor, shields, healing and splitters
+PASS: stage 5 late pressure accelerates while passive supply caps
+PASS: stage 5 ends with its final boss
+PASS: stage 5 restart resets extended campaign
+PASS: stage 6 has its extended campaign length
+PASS: stage 6 late waves mix armor, shields, healing and splitters
+PASS: stage 6 late pressure accelerates while passive supply caps
+PASS: stage 6 ends with its final boss
+PASS: stage 6 restart resets extended campaign
+PASS: custom wave count, enemy count and supply remain author configured
+PASS: cannot build without selecting a pad
+PASS: building a pulse tower deducts 80 gold
+PASS: built tower is registered at selected pad
+PASS: cannot build duplicate towers on one pad
+PASS: insufficient build money leaves state unchanged
+PASS: insufficient upgrade money leaves state unchanged
+PASS: level 2 upgrade costs 68 gold
+PASS: upgrade increases damage and range
+PASS: tier 3 cannot be bought one gold below its price
+PASS: tier 3 grants stronger damage and range specialization
+PASS: level 3 upgrade costs 128 gold and tracks investment
+PASS: level 3 is the upgrade cap
+PASS: max-level upgrade button is disabled
+PASS: selling refunds floor(70 percent of total investment), 193 gold
+PASS: selling an empty pad does not create money
+PASS: frost applies its 10 direct damage
+PASS: frost applies a 2.35-second level-1 slow
+PASS: frost halves actual enemy movement speed
+PASS: enemy resumes full movement after slow expires
+PASS: ember splash damages both armored enemies with armor mitigation
+PASS: ember splash does not damage an enemy outside 1.6 units
+PASS: tower selects the furthest-progressed in-range enemy
+PASS: defeated enemy gives exactly one kill and its gold reward
+PASS: dead enemies cannot pay rewards twice
+PASS: ordinary enemy leak removes one core health
+PASS: leaks give neither reward nor kills
+PASS: boss leak removes five core health
+PASS: wave 1 starts with 11 queued enemies
+PASS: cannot start another wave while active
+PASS: game_tick spawns and tracks queued enemies
+PASS: completed nonfinal wave awards 43 gold and returns to deployment
+PASS: wave bonus is only awarded once
+PASS: next wave advances and increases enemy count
+PASS: last enemy of final wave is the boss with late-wave HP scaling
+PASS: clearing final wave ends the game and shows result overlay
+PASS: successful final wave shows victory
+PASS: no construction or extra waves after game ends
+PASS: fatal leak clamps health and displays defeat
+PASS: restart restores initial game counters
+PASS: restart clears game entities and end state
+PASS: restart resets overlay and selection
+PASS: pause prevents starting waves and disables the start button
+PASS: 2x speed doubles simulation movement through actual _process
+PASS: paused _process does not advance enemy movement
+PASS: speed and pause toggle back normally
+PASS: restart resets speed and pause buttons
+PASS: heavy armor mitigates 55 percent of pulse damage
+PASS: rail damage bypasses armor
+PASS: burn damage bypasses armor
+PASS: shield absorbs ordinary damage before health
+PASS: arc does double damage to shields
+PASS: arc shield overflow applies correct remaining health damage
+PASS: depleted shield visual is hidden
+PASS: arc primary hit deals full damage
+PASS: arc jumps to two nearby enemies at 85 percent damage
+PASS: arc chain is capped at three distinct targets
+PASS: rail prioritizes a heavy enemy over a more advanced normal enemy
+PASS: healer restores 6 percent max HP to a nearby ally
+PASS: healing is capped at max HP
+PASS: burning healer cannot heal allies
+PASS: burning ally cannot receive healing
+PASS: burn tower damages and ignites its splash targets
+PASS: burn applies its ongoing 16 DPS through game_tick
+PASS: lethal burn is resolved before an enemy can leak at the exit
+PASS: boss resists frost and moves at 75 percent speed
+PASS: killed splitter rewards once and spawns two children
+PASS: split children inherit route, segment, and reduced reward
+PASS: split children give small rewards without recursively splitting
+PASS: level 1 initializes its own economy and counters
+PASS: level 1 exposes correct entrance count
+PASS: level 1 has no build-pad/road overlap; overlapping pads: []
+PASS: level 2 initializes its own economy and counters
+PASS: level 2 exposes correct entrance count
+PASS: level 2 has no build-pad/road overlap; overlapping pads: []
+PASS: level 3 initializes its own economy and counters
+PASS: level 3 exposes correct entrance count
+PASS: level 3 has no build-pad/road overlap; overlapping pads: []
+PASS: all three maps have distinct route geometry
+PASS: gate switches entrance and starts its 12-second cooldown
+PASS: new enemy takes switched entrance while existing enemy keeps original route
+PASS: gate cooldown prevents rapid switching
+PASS: gate cooldown counts down in simulation time
+PASS: gate can switch back after cooldown
+PASS: restart resets gate state
+PASS: final level alternates enemy entrance routes
+PASS: manual gate switching is unavailable outside level 2
+PASS: core ability is unavailable during deployment
+PASS: core ability cannot fire while paused
+PASS: core ability damages all enemies and bypasses armor
+PASS: core ability applies slow and starts 35-second cooldown
+PASS: cooldown prevents repeated core ability damage
+PASS: ability cooldown decreases in game_tick
+PASS: restart clears ability cooldown and targets
+PASS: level 1 wave 1 resolves within 240 seconds
+PASS: level 1 wave 2 resolves within 240 seconds
+PASS: level 1 wave 3 resolves within 240 seconds
+PASS: level 1 wave 4 resolves within 240 seconds
+PASS: level 1 wave 5 resolves within 240 seconds
+PASS: level 1 wave 6 resolves within 240 seconds
+PASS: level 1 wave 7 resolves within 240 seconds
+PASS: level 1 wave 8 resolves within 240 seconds
+PASS: level 1 wave 9 resolves within 240 seconds
+PASS: level 1 wave 10 resolves within 240 seconds
+PASS: level 1 wave 11 resolves within 240 seconds
+PASS: level 1 wave 12 resolves within 240 seconds
+PASS: level 1 normal-economy six-tower strategy wins
+PASS: level 1 victory records completion
+LEVEL 1 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 8
+wave 1: HP 20, gold 213, towers 3, kills 11, 16.4s
+wave 2: HP 20, gold 257, towers 4, kills 25, 18.8s
+wave 3: HP 20, gold 391, towers 5, kills 42, 24.2s
+wave 4: HP 20, gold 368, towers 6, kills 62, 28.2s
+wave 5: HP 20, gold 447, towers 6, kills 85, 27.6s
+wave 6: HP 20, gold 637, towers 6, kills 117, 28.6s
+wave 7: HP 20, gold 576, towers 6, kills 153, 26.0s
+wave 8: HP 20, gold 791, towers 8, kills 191, 30.2s
+wave 9: HP 20, gold 797, towers 8, kills 231, 26.5s
+wave 10: HP 20, gold 1259, towers 10, kills 283, 33.7s
+wave 11: HP 20, gold 1397, towers 10, kills 327, 40.6s
+wave 12: HP 20, gold 2205, towers 10, kills 375, 42.4s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: normal-economy wave 2 terminates within 180 seconds
+PASS: level 1 undefended game loses in wave 2
+PASS: level 1 restart after defeat restores its starting state
+PASS: level 2 wave 1 resolves within 240 seconds
+PASS: level 2 wave 2 resolves within 240 seconds
+PASS: level 2 wave 3 resolves within 240 seconds
+PASS: level 2 wave 4 resolves within 240 seconds
+PASS: level 2 wave 5 resolves within 240 seconds
+PASS: level 2 wave 6 resolves within 240 seconds
+PASS: level 2 wave 7 resolves within 240 seconds
+PASS: level 2 wave 8 resolves within 240 seconds
+PASS: level 2 wave 9 resolves within 240 seconds
+PASS: level 2 wave 10 resolves within 240 seconds
+PASS: level 2 wave 11 resolves within 240 seconds
+PASS: level 2 wave 12 resolves within 240 seconds
+PASS: level 2 normal-economy six-tower strategy wins
+PASS: level 2 victory records completion
+LEVEL 2 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 10
+wave 1: HP 20, gold 293, towers 3, kills 13, 12.1s
+wave 2: HP 20, gold 254, towers 5, kills 29, 21.8s
+wave 3: HP 20, gold 382, towers 6, kills 48, 20.4s
+wave 4: HP 20, gold 489, towers 6, kills 70, 27.8s
+wave 5: HP 20, gold 619, towers 6, kills 95, 29.2s
+wave 6: HP 20, gold 619, towers 6, kills 129, 28.6s
+wave 7: HP 20, gold 644, towers 7, kills 165, 28.0s
+wave 8: HP 20, gold 698, towers 9, kills 205, 27.7s
+wave 9: HP 20, gold 769, towers 9, kills 257, 28.7s
+wave 10: HP 20, gold 1438, towers 10, kills 301, 36.3s
+wave 11: HP 20, gold 1899, towers 10, kills 349, 33.5s
+wave 12: HP 20, gold 2784, towers 10, kills 409, 63.9s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: normal-economy wave 2 terminates within 180 seconds
+PASS: level 2 undefended game loses in wave 2
+PASS: level 2 restart after defeat restores its starting state
+PASS: level 3 wave 1 resolves within 240 seconds
+PASS: level 3 wave 2 resolves within 240 seconds
+PASS: level 3 wave 3 resolves within 240 seconds
+PASS: level 3 wave 4 resolves within 240 seconds
+PASS: level 3 wave 5 resolves within 240 seconds
+PASS: level 3 wave 6 resolves within 240 seconds
+PASS: level 3 wave 7 resolves within 240 seconds
+PASS: level 3 wave 8 resolves within 240 seconds
+PASS: level 3 wave 9 resolves within 240 seconds
+PASS: level 3 wave 10 resolves within 240 seconds
+PASS: level 3 wave 11 resolves within 240 seconds
+PASS: level 3 wave 12 resolves within 240 seconds
+PASS: level 3 wave 13 resolves within 240 seconds
+PASS: level 3 wave 14 resolves within 240 seconds
+PASS: level 3 normal-economy six-tower strategy wins
+PASS: level 3 victory records completion
+LEVEL 3 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 12
+wave 1: HP 20, gold 243, towers 4, kills 15, 18.9s
+wave 2: HP 20, gold 408, towers 5, kills 33, 27.2s
+wave 3: HP 20, gold 408, towers 6, kills 54, 29.3s
+wave 4: HP 20, gold 524, towers 6, kills 78, 31.5s
+wave 5: HP 20, gold 604, towers 6, kills 105, 32.3s
+wave 6: HP 20, gold 785, towers 6, kills 141, 34.9s
+wave 7: HP 20, gold 723, towers 10, kills 179, 31.8s
+wave 8: HP 20, gold 757, towers 10, kills 231, 29.7s
+wave 9: HP 20, gold 932, towers 10, kills 275, 31.8s
+wave 10: HP 20, gold 1711, towers 10, kills 323, 29.9s
+wave 11: HP 20, gold 2555, towers 10, kills 383, 32.5s
+wave 12: HP 20, gold 3477, towers 10, kills 435, 35.7s
+wave 13: HP 20, gold 4366, towers 10, kills 491, 32.7s
+wave 14: HP 20, gold 5352, towers 10, kills 559, 45.8s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: normal-economy wave 2 terminates within 180 seconds
+PASS: level 3 undefended game loses in wave 2
+PASS: level 3 restart after defeat restores its starting state
+PASS: level 4 wave 1 resolves within 240 seconds
+PASS: level 4 wave 2 resolves within 240 seconds
+PASS: level 4 wave 3 resolves within 240 seconds
+PASS: level 4 wave 4 resolves within 240 seconds
+PASS: level 4 wave 5 resolves within 240 seconds
+PASS: level 4 wave 6 resolves within 240 seconds
+PASS: level 4 wave 7 resolves within 240 seconds
+PASS: level 4 wave 8 resolves within 240 seconds
+PASS: level 4 wave 9 resolves within 240 seconds
+PASS: level 4 wave 10 resolves within 240 seconds
+PASS: level 4 wave 11 resolves within 240 seconds
+PASS: level 4 wave 12 resolves within 240 seconds
+PASS: level 4 wave 13 resolves within 240 seconds
+PASS: level 4 wave 14 resolves within 240 seconds
+PASS: level 4 normal-economy six-tower strategy wins
+PASS: level 4 victory records completion
+LEVEL 4 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 18
+wave 1: HP 20, gold 313, towers 4, kills 17, 33.7s
+wave 2: HP 20, gold 344, towers 6, kills 37, 32.2s
+wave 3: HP 20, gold 479, towers 6, kills 60, 39.6s
+wave 4: HP 20, gold 608, towers 6, kills 86, 40.5s
+wave 5: HP 20, gold 682, towers 6, kills 115, 42.1s
+wave 6: HP 20, gold 648, towers 6, kills 153, 42.7s
+wave 7: HP 20, gold 792, towers 10, kills 193, 42.3s
+wave 8: HP 20, gold 893, towers 10, kills 237, 47.9s
+wave 9: HP 20, gold 1048, towers 10, kills 285, 42.3s
+wave 10: HP 20, gold 1892, towers 10, kills 345, 44.4s
+wave 11: HP 20, gold 2814, towers 10, kills 397, 60.2s
+wave 12: HP 20, gold 3703, towers 10, kills 453, 54.2s
+wave 13: HP 20, gold 4660, towers 10, kills 521, 63.0s
+wave 14: HP 19, gold 5711, towers 10, kills 580, 82.6s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: normal-economy wave 2 terminates within 180 seconds
+PASS: level 4 undefended game loses in wave 2
+PASS: level 4 restart after defeat restores its starting state
+PASS: level 5 wave 1 resolves within 240 seconds
+PASS: level 5 wave 2 resolves within 240 seconds
+PASS: level 5 wave 3 resolves within 240 seconds
+PASS: level 5 wave 4 resolves within 240 seconds
+PASS: level 5 wave 5 resolves within 240 seconds
+PASS: level 5 wave 6 resolves within 240 seconds
+PASS: level 5 wave 7 resolves within 240 seconds
+PASS: level 5 wave 8 resolves within 240 seconds
+PASS: level 5 wave 9 resolves within 240 seconds
+PASS: level 5 wave 10 resolves within 240 seconds
+PASS: level 5 wave 11 resolves within 240 seconds
+PASS: level 5 wave 12 resolves within 240 seconds
+PASS: level 5 wave 13 resolves within 240 seconds
+PASS: level 5 wave 14 resolves within 240 seconds
+PASS: level 5 wave 15 resolves within 240 seconds
+PASS: level 5 wave 16 resolves within 240 seconds
+PASS: level 5 normal-economy six-tower strategy wins
+PASS: level 5 victory records completion
+LEVEL 5 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 18
+wave 1: HP 20, gold 243, towers 5, kills 19, 24.5s
+wave 2: HP 20, gold 327, towers 6, kills 41, 28.4s
+wave 3: HP 20, gold 417, towers 6, kills 66, 32.8s
+wave 4: HP 20, gold 552, towers 6, kills 94, 41.8s
+wave 5: HP 20, gold 741, towers 6, kills 125, 37.0s
+wave 6: HP 20, gold 694, towers 6, kills 165, 38.8s
+wave 7: HP 20, gold 821, towers 10, kills 207, 37.1s
+wave 8: HP 20, gold 902, towers 10, kills 255, 33.8s
+wave 9: HP 20, gold 1122, towers 10, kills 315, 35.9s
+wave 10: HP 20, gold 2044, towers 10, kills 367, 41.9s
+wave 11: HP 20, gold 2933, towers 10, kills 423, 37.0s
+wave 12: HP 20, gold 3890, towers 10, kills 491, 42.1s
+wave 13: HP 20, gold 4925, towers 10, kills 551, 49.6s
+wave 14: HP 20, gold 5919, towers 10, kills 613, 50.9s
+wave 15: HP 20, gold 6979, towers 10, kills 691, 62.7s
+wave 16: HP 8, gold 7952, towers 10, kills 745, 104.2s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: normal-economy wave 2 terminates within 180 seconds
+PASS: level 5 undefended game loses in wave 2
+PASS: level 5 restart after defeat restores its starting state
+PASS: level 6 wave 1 resolves within 240 seconds
+PASS: level 6 wave 2 resolves within 240 seconds
+PASS: level 6 wave 3 resolves within 240 seconds
+PASS: level 6 wave 4 resolves within 240 seconds
+PASS: level 6 wave 5 resolves within 240 seconds
+PASS: level 6 wave 6 resolves within 240 seconds
+PASS: level 6 wave 7 resolves within 240 seconds
+PASS: level 6 wave 8 resolves within 240 seconds
+PASS: level 6 wave 9 resolves within 240 seconds
+PASS: level 6 wave 10 resolves within 240 seconds
+PASS: level 6 wave 11 resolves within 240 seconds
+PASS: level 6 wave 12 resolves within 240 seconds
+PASS: level 6 wave 13 resolves within 240 seconds
+PASS: level 6 wave 14 resolves within 240 seconds
+PASS: level 6 wave 15 resolves within 240 seconds
+PASS: level 6 wave 16 resolves within 240 seconds
+PASS: level 6 normal-economy six-tower strategy wins
+PASS: level 6 victory records completion
+LEVEL 6 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 19
+wave 1: HP 20, gold 313, towers 5, kills 21, 34.3s
+wave 2: HP 20, gold 366, towers 6, kills 45, 40.7s
+wave 3: HP 20, gold 518, towers 6, kills 72, 50.7s
+wave 4: HP 20, gold 703, towers 6, kills 102, 46.5s
+wave 5: HP 20, gold 765, towers 6, kills 135, 46.4s
+wave 6: HP 20, gold 798, towers 10, kills 175, 50.2s
+wave 7: HP 20, gold 923, towers 10, kills 217, 49.1s
+wave 8: HP 20, gold 893, towers 12, kills 277, 43.4s
+wave 9: HP 20, gold 953, towers 14, kills 329, 45.6s
+wave 10: HP 20, gold 940, towers 16, kills 385, 40.1s
+wave 11: HP 20, gold 1187, towers 16, kills 453, 41.2s
+wave 12: HP 20, gold 2222, towers 16, kills 513, 45.2s
+wave 13: HP 20, gold 3216, towers 16, kills 575, 42.3s
+wave 14: HP 20, gold 4276, towers 16, kills 653, 44.1s
+wave 15: HP 20, gold 5437, towers 16, kills 721, 52.7s
+wave 16: HP 20, gold 6562, towers 16, kills 791, 70.8s
+PASS: normal-economy wave 1 terminates within 180 seconds
+PASS: level 6 undefended game loses in wave 1
+PASS: level 6 restart after defeat restores its starting state
+
+=== BALANCE REPORT ===
+LEVEL 1 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 8
+wave 1: HP 20, gold 213, towers 3, kills 11, 16.4s
+wave 2: HP 20, gold 257, towers 4, kills 25, 18.8s
+wave 3: HP 20, gold 391, towers 5, kills 42, 24.2s
+wave 4: HP 20, gold 368, towers 6, kills 62, 28.2s
+wave 5: HP 20, gold 447, towers 6, kills 85, 27.6s
+wave 6: HP 20, gold 637, towers 6, kills 117, 28.6s
+wave 7: HP 20, gold 576, towers 6, kills 153, 26.0s
+wave 8: HP 20, gold 791, towers 8, kills 191, 30.2s
+wave 9: HP 20, gold 797, towers 8, kills 231, 26.5s
+wave 10: HP 20, gold 1259, towers 10, kills 283, 33.7s
+wave 11: HP 20, gold 1397, towers 10, kills 327, 40.6s
+wave 12: HP 20, gold 2205, towers 10, kills 375, 42.4s
+LEVEL 1 UNDEFENDED: defeat in wave 2; restart verified
+LEVEL 2 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 10
+wave 1: HP 20, gold 293, towers 3, kills 13, 12.1s
+wave 2: HP 20, gold 254, towers 5, kills 29, 21.8s
+wave 3: HP 20, gold 382, towers 6, kills 48, 20.4s
+wave 4: HP 20, gold 489, towers 6, kills 70, 27.8s
+wave 5: HP 20, gold 619, towers 6, kills 95, 29.2s
+wave 6: HP 20, gold 619, towers 6, kills 129, 28.6s
+wave 7: HP 20, gold 644, towers 7, kills 165, 28.0s
+wave 8: HP 20, gold 698, towers 9, kills 205, 27.7s
+wave 9: HP 20, gold 769, towers 9, kills 257, 28.7s
+wave 10: HP 20, gold 1438, towers 10, kills 301, 36.3s
+wave 11: HP 20, gold 1899, towers 10, kills 349, 33.5s
+wave 12: HP 20, gold 2784, towers 10, kills 409, 63.9s
+LEVEL 2 UNDEFENDED: defeat in wave 2; restart verified
+LEVEL 3 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 12
+wave 1: HP 20, gold 243, towers 4, kills 15, 18.9s
+wave 2: HP 20, gold 408, towers 5, kills 33, 27.2s
+wave 3: HP 20, gold 408, towers 6, kills 54, 29.3s
+wave 4: HP 20, gold 524, towers 6, kills 78, 31.5s
+wave 5: HP 20, gold 604, towers 6, kills 105, 32.3s
+wave 6: HP 20, gold 785, towers 6, kills 141, 34.9s
+wave 7: HP 20, gold 723, towers 10, kills 179, 31.8s
+wave 8: HP 20, gold 757, towers 10, kills 231, 29.7s
+wave 9: HP 20, gold 932, towers 10, kills 275, 31.8s
+wave 10: HP 20, gold 1711, towers 10, kills 323, 29.9s
+wave 11: HP 20, gold 2555, towers 10, kills 383, 32.5s
+wave 12: HP 20, gold 3477, towers 10, kills 435, 35.7s
+wave 13: HP 20, gold 4366, towers 10, kills 491, 32.7s
+wave 14: HP 20, gold 5352, towers 10, kills 559, 45.8s
+LEVEL 3 UNDEFENDED: defeat in wave 2; restart verified
+LEVEL 4 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 18
+wave 1: HP 20, gold 313, towers 4, kills 17, 33.7s
+wave 2: HP 20, gold 344, towers 6, kills 37, 32.2s
+wave 3: HP 20, gold 479, towers 6, kills 60, 39.6s
+wave 4: HP 20, gold 608, towers 6, kills 86, 40.5s
+wave 5: HP 20, gold 682, towers 6, kills 115, 42.1s
+wave 6: HP 20, gold 648, towers 6, kills 153, 42.7s
+wave 7: HP 20, gold 792, towers 10, kills 193, 42.3s
+wave 8: HP 20, gold 893, towers 10, kills 237, 47.9s
+wave 9: HP 20, gold 1048, towers 10, kills 285, 42.3s
+wave 10: HP 20, gold 1892, towers 10, kills 345, 44.4s
+wave 11: HP 20, gold 2814, towers 10, kills 397, 60.2s
+wave 12: HP 20, gold 3703, towers 10, kills 453, 54.2s
+wave 13: HP 20, gold 4660, towers 10, kills 521, 63.0s
+wave 14: HP 19, gold 5711, towers 10, kills 580, 82.6s
+LEVEL 4 UNDEFENDED: defeat in wave 2; restart verified
+LEVEL 5 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 18
+wave 1: HP 20, gold 243, towers 5, kills 19, 24.5s
+wave 2: HP 20, gold 327, towers 6, kills 41, 28.4s
+wave 3: HP 20, gold 417, towers 6, kills 66, 32.8s
+wave 4: HP 20, gold 552, towers 6, kills 94, 41.8s
+wave 5: HP 20, gold 741, towers 6, kills 125, 37.0s
+wave 6: HP 20, gold 694, towers 6, kills 165, 38.8s
+wave 7: HP 20, gold 821, towers 10, kills 207, 37.1s
+wave 8: HP 20, gold 902, towers 10, kills 255, 33.8s
+wave 9: HP 20, gold 1122, towers 10, kills 315, 35.9s
+wave 10: HP 20, gold 2044, towers 10, kills 367, 41.9s
+wave 11: HP 20, gold 2933, towers 10, kills 423, 37.0s
+wave 12: HP 20, gold 3890, towers 10, kills 491, 42.1s
+wave 13: HP 20, gold 4925, towers 10, kills 551, 49.6s
+wave 14: HP 20, gold 5919, towers 10, kills 613, 50.9s
+wave 15: HP 20, gold 6979, towers 10, kills 691, 62.7s
+wave 16: HP 8, gold 7952, towers 10, kills 745, 104.2s
+LEVEL 5 UNDEFENDED: defeat in wave 2; restart verified
+LEVEL 6 MIXED SIX-TOWER STRATEGY: VICTORY; Q uses 19
+wave 1: HP 20, gold 313, towers 5, kills 21, 34.3s
+wave 2: HP 20, gold 366, towers 6, kills 45, 40.7s
+wave 3: HP 20, gold 518, towers 6, kills 72, 50.7s
+wave 4: HP 20, gold 703, towers 6, kills 102, 46.5s
+wave 5: HP 20, gold 765, towers 6, kills 135, 46.4s
+wave 6: HP 20, gold 798, towers 10, kills 175, 50.2s
+wave 7: HP 20, gold 923, towers 10, kills 217, 49.1s
+wave 8: HP 20, gold 893, towers 12, kills 277, 43.4s
+wave 9: HP 20, gold 953, towers 14, kills 329, 45.6s
+wave 10: HP 20, gold 940, towers 16, kills 385, 40.1s
+wave 11: HP 20, gold 1187, towers 16, kills 453, 41.2s
+wave 12: HP 20, gold 2222, towers 16, kills 513, 45.2s
+wave 13: HP 20, gold 3216, towers 16, kills 575, 42.3s
+wave 14: HP 20, gold 4276, towers 16, kills 653, 44.1s
+wave 15: HP 20, gold 5437, towers 16, kills 721, 52.7s
+wave 16: HP 20, gold 6562, towers 16, kills 791, 70.8s
+LEVEL 6 UNDEFENDED: defeat in wave 1; restart verified
+
+INTEGRATION SUMMARY: 246 checks, 0 failures

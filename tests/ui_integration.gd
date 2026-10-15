@@ -116,7 +116,7 @@ func test_codex() -> void:
 		var d: Dictionary = game.TOWER_DATA[kind]
 		var text := text_in(refs.detail)
 		expect(refs.tab == 0 and refs.index == kind and refs.list.get_child_count() == 6, "codex selects tower %d and lists all six tower types" % kind)
-		expect(d.name in text and d.desc in text and ("%d 金" % d.cost) in text and ("%.1f" % d.damage) in text and ("%.2f" % (d.range + 0.90)) in text and ("%.2f 秒" % (d.cooldown / 1.24)) in text, "tower %d codex contains live cost, damage, range, and upgraded cooldown" % kind)
+		expect(d.name in text and d.desc in text and ("%d 金" % d.cost) in text and ("%.1f" % d.damage) in text and ("%.2f" % (d.range + game.UPGRADE_RANGE[0] + game.UPGRADE_RANGE[1])) in text and ("%.2f 秒" % (d.cooldown / 1.24)) in text, "tower %d codex contains live cost, damage, range, and upgraded cooldown" % kind)
 		Codex.close(game)
 	for stage in range(3):
 		game.choose_level(stage)

@@ -1,10 +1,10 @@
 {
-  "checks": 36,
+  "checks": 58,
   "failures": 0,
   "runs": [
     {
       "defended": true,
-      "gate_uses": 4,
+      "gate_uses": 7,
       "health": 20,
       "name": "熔脉岔口",
       "placements": [
@@ -49,7 +49,7 @@
           5
         ]
       ],
-      "q_uses": 9,
+      "q_uses": 17,
       "stage": 4,
       "waves": [
         {
@@ -77,7 +77,7 @@
           "wave": 3
         },
         {
-          "gold": 508,
+          "gold": 608,
           "health": 20,
           "kills": 86,
           "seconds": 38.15,
@@ -85,36 +85,84 @@
           "wave": 4
         },
         {
-          "gold": 612,
+          "gold": 682,
           "health": 20,
           "kills": 115,
-          "seconds": 38.2,
+          "seconds": 38.6,
           "towers": 6,
           "wave": 5
         },
         {
-          "gold": 751,
+          "gold": 648,
           "health": 20,
           "kills": 153,
-          "seconds": 40.05,
-          "towers": 7,
+          "seconds": 39.95,
+          "towers": 6,
           "wave": 6
         },
         {
-          "gold": 755,
+          "gold": 792,
           "health": 20,
-          "kills": 194,
-          "seconds": 41.3,
+          "kills": 193,
+          "seconds": 39.35,
           "towers": 10,
           "wave": 7
         },
         {
-          "gold": 886,
+          "gold": 893,
           "health": 20,
-          "kills": 238,
-          "seconds": 56.2,
+          "kills": 237,
+          "seconds": 46.45,
           "towers": 10,
           "wave": 8
+        },
+        {
+          "gold": 1048,
+          "health": 20,
+          "kills": 285,
+          "seconds": 42.1,
+          "towers": 10,
+          "wave": 9
+        },
+        {
+          "gold": 1892,
+          "health": 20,
+          "kills": 345,
+          "seconds": 39.8,
+          "towers": 10,
+          "wave": 10
+        },
+        {
+          "gold": 2814,
+          "health": 20,
+          "kills": 397,
+          "seconds": 47.95,
+          "towers": 10,
+          "wave": 11
+        },
+        {
+          "gold": 3703,
+          "health": 20,
+          "kills": 453,
+          "seconds": 47.4,
+          "towers": 10,
+          "wave": 12
+        },
+        {
+          "gold": 4660,
+          "health": 20,
+          "kills": 521,
+          "seconds": 63.8,
+          "towers": 10,
+          "wave": 13
+        },
+        {
+          "gold": 5735,
+          "health": 20,
+          "kills": 581,
+          "seconds": 80.75,
+          "towers": 10,
+          "wave": 14
         }
       ],
       "won": true
@@ -192,9 +240,33 @@
         [
           15,
           5
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          12,
+          2
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          5
         ]
       ],
-      "q_uses": 9,
+      "q_uses": 17,
       "stage": 5,
       "waves": [
         {
@@ -222,7 +294,7 @@
           "wave": 3
         },
         {
-          "gold": 580,
+          "gold": 552,
           "health": 20,
           "kills": 94,
           "seconds": 38.55,
@@ -230,36 +302,100 @@
           "wave": 4
         },
         {
-          "gold": 659,
+          "gold": 741,
           "health": 20,
           "kills": 125,
-          "seconds": 38.8,
+          "seconds": 39.3,
           "towers": 6,
           "wave": 5
         },
         {
-          "gold": 677,
+          "gold": 694,
           "health": 20,
           "kills": 165,
-          "seconds": 39.0,
-          "towers": 8,
+          "seconds": 37.1,
+          "towers": 6,
           "wave": 6
         },
         {
-          "gold": 788,
+          "gold": 671,
           "health": 20,
-          "kills": 208,
-          "seconds": 42.4,
-          "towers": 8,
+          "kills": 207,
+          "seconds": 37.6,
+          "towers": 11,
           "wave": 7
         },
         {
-          "gold": 1287,
+          "gold": 865,
           "health": 20,
-          "kills": 254,
-          "seconds": 59.5,
-          "towers": 10,
+          "kills": 255,
+          "seconds": 35.3,
+          "towers": 11,
           "wave": 8
+        },
+        {
+          "gold": 845,
+          "health": 20,
+          "kills": 315,
+          "seconds": 37.2,
+          "towers": 11,
+          "wave": 9
+        },
+        {
+          "gold": 1017,
+          "health": 20,
+          "kills": 367,
+          "seconds": 42.8,
+          "towers": 15,
+          "wave": 10
+        },
+        {
+          "gold": 897,
+          "health": 20,
+          "kills": 423,
+          "seconds": 33.8,
+          "towers": 15,
+          "wave": 11
+        },
+        {
+          "gold": 1484,
+          "health": 20,
+          "kills": 491,
+          "seconds": 35.6,
+          "towers": 16,
+          "wave": 12
+        },
+        {
+          "gold": 2201,
+          "health": 20,
+          "kills": 551,
+          "seconds": 39.3,
+          "towers": 16,
+          "wave": 13
+        },
+        {
+          "gold": 3195,
+          "health": 20,
+          "kills": 613,
+          "seconds": 35.8,
+          "towers": 16,
+          "wave": 14
+        },
+        {
+          "gold": 4255,
+          "health": 20,
+          "kills": 691,
+          "seconds": 40.8,
+          "towers": 16,
+          "wave": 15
+        },
+        {
+          "gold": 5443,
+          "health": 20,
+          "kills": 759,
+          "seconds": 65.1,
+          "towers": 16,
+          "wave": 16
         }
       ],
       "won": true
@@ -295,7 +431,7 @@
     {
       "defended": true,
       "gate_uses": 0,
-      "health": 14,
+      "health": 20,
       "name": "裂隙围城",
       "placements": [
         [
@@ -335,18 +471,42 @@
           3
         ],
         [
-          10,
+          12,
           5
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          13,
+          3
         ]
       ],
-      "q_uses": 10,
+      "q_uses": 18,
       "stage": 6,
       "waves": [
         {
           "gold": 313,
           "health": 20,
           "kills": 21,
-          "seconds": 32.1,
+          "seconds": 31.6,
           "towers": 5,
           "wave": 1
         },
@@ -354,7 +514,7 @@
           "gold": 366,
           "health": 20,
           "kills": 45,
-          "seconds": 39.55,
+          "seconds": 36.45,
           "towers": 6,
           "wave": 2
         },
@@ -367,44 +527,108 @@
           "wave": 3
         },
         {
-          "gold": 648,
+          "gold": 703,
           "health": 20,
           "kills": 102,
-          "seconds": 46.3,
+          "seconds": 46.05,
           "towers": 6,
           "wave": 4
         },
         {
-          "gold": 810,
+          "gold": 765,
           "health": 20,
           "kills": 135,
-          "seconds": 43.3,
+          "seconds": 45.25,
           "towers": 6,
           "wave": 5
         },
         {
-          "gold": 1181,
+          "gold": 798,
           "health": 20,
           "kills": 175,
-          "seconds": 51.0,
-          "towers": 9,
+          "seconds": 46.7,
+          "towers": 10,
           "wave": 6
         },
         {
-          "gold": 1166,
+          "gold": 923,
           "health": 20,
-          "kills": 218,
-          "seconds": 56.75,
-          "towers": 9,
+          "kills": 217,
+          "seconds": 51.35,
+          "towers": 10,
           "wave": 7
         },
         {
-          "gold": 1983,
-          "health": 14,
-          "kills": 258,
-          "seconds": 87.75,
-          "towers": 9,
+          "gold": 893,
+          "health": 20,
+          "kills": 277,
+          "seconds": 43.2,
+          "towers": 12,
           "wave": 8
+        },
+        {
+          "gold": 953,
+          "health": 20,
+          "kills": 329,
+          "seconds": 49.4,
+          "towers": 14,
+          "wave": 9
+        },
+        {
+          "gold": 940,
+          "health": 20,
+          "kills": 385,
+          "seconds": 40.7,
+          "towers": 16,
+          "wave": 10
+        },
+        {
+          "gold": 1187,
+          "health": 20,
+          "kills": 453,
+          "seconds": 41.55,
+          "towers": 16,
+          "wave": 11
+        },
+        {
+          "gold": 2222,
+          "health": 20,
+          "kills": 513,
+          "seconds": 47.55,
+          "towers": 16,
+          "wave": 12
+        },
+        {
+          "gold": 3216,
+          "health": 20,
+          "kills": 575,
+          "seconds": 43.2,
+          "towers": 16,
+          "wave": 13
+        },
+        {
+          "gold": 4276,
+          "health": 20,
+          "kills": 653,
+          "seconds": 42.65,
+          "towers": 16,
+          "wave": 14
+        },
+        {
+          "gold": 5437,
+          "health": 20,
+          "kills": 721,
+          "seconds": 55.75,
+          "towers": 16,
+          "wave": 15
+        },
+        {
+          "gold": 6562,
+          "health": 20,
+          "kills": 791,
+          "seconds": 71.85,
+          "towers": 16,
+          "wave": 16
         }
       ],
       "won": true
@@ -422,7 +646,7 @@
           "gold": 650,
           "health": 0,
           "kills": 0,
-          "seconds": 60.65,
+          "seconds": 59.8,
           "towers": 0,
           "wave": 1
         }

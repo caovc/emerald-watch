@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+熔脉岔口 lengths=[63.0, 69.0] pads=16 min_clearance=1.5 hazard=lava
+霜镜交汇 lengths=[63.0, 69.0] pads=16 min_clearance=1.5 hazard=frost
+裂隙围城 lengths=[63.0, 72.0, 57.0, 69.0] pads=16 min_clearance=1.5 hazard=lava
+PASS 1195 geometry and schema checks

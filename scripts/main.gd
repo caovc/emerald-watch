@@ -2,7 +2,10 @@ extends Node3D
 ## Emerald Watch. All meshes, materials, effects, and game rules are generated here.
 
 const TILE := 1.5
-const TOTAL_WAVES := 8
+const CAMPAIGN_WAVES := [12, 12, 14, 14, 16, 16]
+const UPGRADE_DAMAGE := [1.65, 1.8]
+const UPGRADE_PRICE := [0.85, 1.6]
+const UPGRADE_RANGE := [0.45, 0.55]
 const TOWER_DATA := [
 	{"name": "脉冲箭塔", "tag": "PULSE", "cost": 80, "range": 4.6, "damage": 24.0, "cooldown": 0.65, "color": Color("63ebba"), "desc": "快速单体 · 克制普通与疾行虫；重甲减伤"},
 	{"name": "熔核炮塔", "tag": "EMBER", "cost": 120, "range": 4.0, "damage": 38.0, "cooldown": 1.65, "color": Color("ffba70"), "desc": "范围爆破 · 克制分裂虫与密集虫群"},
@@ -397,8 +400,8 @@ func upgrade_selected() -> void:
 	play_sound("upgrade")
 	t.spent += cost
 	t.level += 1
-	t.damage *= 1.65
-	t.range += 0.45
+	t.damage *= UPGRADE_DAMAGE[t.level - 2]
+	t.range += UPGRADE_RANGE[t.level - 2]
 	var p: Vector3 = t.node.position
 	t.node.queue_free()
 	t.node = build_tower_model(t.kind,p,t.level)
@@ -407,7 +410,7 @@ func upgrade_selected() -> void:
 	show_toast("防御塔已升至 %d 级，伤害与射程提升。" % t.level)
 
 func upgrade_cost(t: Dictionary) -> int:
-	return int(TOWER_DATA[t.kind].cost * (0.85 if t.level == 1 else 1.25))
+	return int(TOWER_DATA[t.kind].cost * UPGRADE_PRICE[mini(t.level - 1, 1)])
 
 func sell_selected() -> void:
 	var index := tower_at(selected_pad)
@@ -515,7 +518,7 @@ func game_tick(dt: float) -> void:
 			spawn_enemy()
 			spawned += 1
 			remaining -= 1
-			spawn_timer = maxf(0.45,1.05-wave*0.055)
+			spawn_timer = wave_spawn_interval()
 	for e in enemies:
 		if e.hp <= 0: continue
 		if e.burn > 0:
@@ -597,7 +600,7 @@ func game_tick(dt: float) -> void:
 		if wave >= wave_total():
 			finish(true)
 		else:
-			var bonus := 35+wave*8
+			var bonus := wave_supply()
 			money += bonus
 			show_toast("第 %d 波已击退！补给 +%d G。调整防线后再出发。" % [wave,bonus],7)
 	# HUD refresh is throttled by _process; state changes also refresh immediately.
@@ -893,10 +896,19 @@ func current_level() -> Dictionary:
 	return {"name": custom_level_data.name, "subtitle": "LOCAL / 本地试打", "description": "本地设计关卡 · 作者须通关后自动回放核验", "color": Color("294f4e"), "road": Color("7a8980"), "tree": Color("3d8271"), "gold": custom_level_data.gold, "difficulty": 1.0}
 
 func wave_total() -> int:
-	return int(custom_level_data.waves) if not custom_level_data.is_empty() else TOTAL_WAVES
+	return int(custom_level_data.waves) if not custom_level_data.is_empty() else CAMPAIGN_WAVES[level_index]
 
 func wave_enemy_count() -> int:
-	return int(custom_level_data.count) if not custom_level_data.is_empty() else 8 + wave * 3 + level_index * 2
+	return int(custom_level_data.count) if not custom_level_data.is_empty() else 8 + mini(wave, 6) * 3 + maxi(wave - 6, 0) * 2 + level_index * 2
+
+func wave_spawn_interval() -> float:
+	if not custom_level_data.is_empty(): return maxf(0.45, 1.05-wave*0.055)
+	# Faster mixed waves create overlap across entrances without runaway HP.
+	return maxf(0.38, 1.05-wave*0.045-level_index*0.012)
+
+func wave_supply() -> int:
+	# Kill income keeps growing; cap passive supplies to retain upgrade choices.
+	return 35 + (wave if not custom_level_data.is_empty() else mini(wave, 8)) * 8
 
 func can_switch_gate() -> bool:
 	return custom_level_data.is_empty() and (level_index == 1 or bool(current_level().get("gate", false)))
@@ -1007,6 +1019,7 @@ func next_wave_description() -> String:
 	if n >= 4: hint = "护盾虫 · 推荐雷链破盾"
 	if n >= 5: hint = "再生虫 · 推荐焰息阻止治疗"
 	if n >= 6: hint = "分裂虫 · 推荐熔核范围清场"
+	if custom_level_data.is_empty() and n >= 8: hint = "精锐混编 · 护盾掩护、再生支援与分裂突击"
 	if n == wave_total(): hint = "巨型母虫 + 混编精锐 · 优先升级"
 	if custom_level_data.is_empty() and level_index == 1 and n >= 2 and n < 5: hint += " / 额外护盾"
 	if custom_level_data.is_empty() and level_index == 2 and n >= 2 and n < 6: hint += " / 重甲加速攻势"
@@ -1014,6 +1027,14 @@ func next_wave_description() -> String:
 
 func wave_enemy_kind(index: int) -> int:
 	if wave == wave_total() and index == wave_enemy_count()-1: return 3
+	if custom_level_data.is_empty() and wave >= 8:
+		# Rotating escorts stop map-specific precedence from suppressing support.
+		var formations := [
+			[2,4,1,6,0,5,1,4],
+			[1,6,4,1,2,5,6,0],
+			[4,2,5,1,6,2,4,1]
+		]
+		return formations[(wave + level_index) % formations.size()][index % 8]
 	if custom_level_data.is_empty() and level_index == 1 and wave >= 2 and index % 4 == 1: return 4
 	if custom_level_data.is_empty() and level_index == 2 and wave >= 2 and index % 4 == 1: return 2
 	if custom_level_data.is_empty() and level_index >= 3:
@@ -1144,7 +1165,8 @@ func show_codex() -> void:
 
 func enemy_stats(kind: int, wave_override: int = 0) -> Dictionary:
 	var n := maxi(1,wave if wave_override == 0 else wave_override)
-	var hp: float = (38.0+n*12.0)*(1.0+0.12*pow(maxi(n-2,0),1.4))*current_level().difficulty*[1.0,0.65,2.7,14.0,1.25,1.6,1.45][kind]
+	var strength := float(n) if not custom_level_data.is_empty() else float(mini(n, 6)) + maxi(n - 6, 0) * 0.5
+	var hp: float = (38.0+strength*12.0)*(1.0+0.12*pow(maxf(strength-2,0),1.4))*current_level().difficulty*[1.0,0.65,2.7,14.0,1.25,1.6,1.45][kind]
 	return {"name":["侦察虫","疾行虫","重甲虫","巨型母虫","护盾虫","再生虫","分裂虫"][kind],"hp":hp,"speed":[1.65,2.8,1.1,0.85,1.5,1.45,1.7][kind],"armor":0.55 if kind == 2 else 0.0,"shield":hp*0.65 if kind == 4 else 0.0,"ability":["常规推进，无特殊防御","高速穿越防线","普通攻击受到 55% 减伤","高生命；减速效果减半；漏过扣 5 核心","额外能量护盾吸收伤害","每秒治疗 2.8 范围内队友 6% 最大生命","被击败后分裂为两只小型疾行虫"][kind],"counter":["脉冲箭塔高效处理","霜晶减速配合高频攻击","穿甲轨炮与灼烧无视重甲","轨炮集火、升级与核心震荡","雷链对护盾造成双倍伤害","焰息灼烧期间无法治疗或被治疗","熔核范围攻击清理小虫" ][kind],"color":[Color("bf7192"),Color("edb082"),Color("7887bd"),Color("b46eaf"),Color("80cbe8"),Color("91c481"),Color("e2a453")][kind]}
 
 func build_hazard() -> void:

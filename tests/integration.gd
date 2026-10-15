@@ -50,6 +50,7 @@ func run() -> void:
 	expect(game.pads.size() == 16 and game.towers.is_empty(), "actual scene initializes 16 empty build pads")
 	expect(game.money == 360 and game.health == 20 and game.wave == 0, "initial economy, health, and wave")
 	expect(not game.end_panel.visible and not game.range_ring.visible, "initial overlays are hidden")
+	await test_campaign_progression()
 	await test_economy()
 	await test_combat()
 	await test_flow()
@@ -72,6 +73,33 @@ func run() -> void:
 	await create_timer(0.15).timeout
 	quit(1 if failures else 0)
 
+func test_campaign_progression() -> void:
+	for stage in range(6):
+		game.choose_level(stage)
+		expect(game.wave_total() == [12,12,14,14,16,16][stage], "stage %d has its extended campaign length" % (stage+1))
+		game.wave = 1
+		var opening_interval: float = game.wave_spawn_interval()
+		game.wave = 8
+		var kinds: Array[int] = []
+		for i in range(game.wave_enemy_count()):
+			var kind: int = game.wave_enemy_kind(i)
+			if kind not in kinds: kinds.append(kind)
+		expect(kinds.has(2) and kinds.has(4) and kinds.has(5) and kinds.has(6), "stage %d late waves mix armor, shields, healing and splitters" % (stage+1))
+		game.wave = game.wave_total()
+		expect(game.wave_spawn_interval() < opening_interval and game.wave_supply() == 99, "stage %d late pressure accelerates while passive supply caps" % (stage+1))
+		expect(game.wave_enemy_kind(game.wave_enemy_count()-1) == 3, "stage %d ends with its final boss" % (stage+1))
+		game.restart()
+		expect(game.wave == 0 and not game.active_wave and game.money == game.current_level().gold, "stage %d restart resets extended campaign" % (stage+1))
+		await process_frame
+	var custom := LevelDesigner.template_data()
+	custom.waves = 12
+	custom.count = 19
+	game.start_custom_level(custom)
+	game.wave = 12
+	expect(game.wave_total() == 12 and game.wave_enemy_count() == 19 and game.wave_supply() == 131, "custom wave count, enemy count and supply remain author configured")
+	game.choose_level(0)
+	await process_frame
+
 func test_economy() -> void:
 	game.restart()
 	game.build_selected()
@@ -92,15 +120,20 @@ func test_economy() -> void:
 	game.upgrade_selected()
 	expect(game.towers[0].level == 2 and game.money == 932, "level 2 upgrade costs 68 gold")
 	expect(is_equal_approx(game.towers[0].damage, 39.6) and is_equal_approx(game.towers[0].range, 5.05), "upgrade increases damage and range")
+	game.money = 127
 	game.upgrade_selected()
-	expect(game.towers[0].level == 3 and game.money == 832 and game.towers[0].spent == 248, "level 3 upgrade costs 100 gold and tracks investment")
+	expect(game.towers[0].level == 2 and game.money == 127, "tier 3 cannot be bought one gold below its price")
+	game.money = 932
 	game.upgrade_selected()
-	expect(game.towers[0].level == 3 and game.money == 832, "level 3 is the upgrade cap")
+	expect(is_equal_approx(game.towers[0].damage, 71.28) and is_equal_approx(game.towers[0].range, 5.6), "tier 3 grants stronger damage and range specialization")
+	expect(game.towers[0].level == 3 and game.money == 804 and game.towers[0].spent == 276, "level 3 upgrade costs 128 gold and tracks investment")
+	game.upgrade_selected()
+	expect(game.towers[0].level == 3 and game.money == 804, "level 3 is the upgrade cap")
 	expect(game.upgrade_button.disabled, "max-level upgrade button is disabled")
 	game.sell_selected()
-	expect(game.towers.is_empty() and game.money == 1005, "selling refunds floor(70 percent of total investment), 173 gold")
+	expect(game.towers.is_empty() and game.money == 997, "selling refunds floor(70 percent of total investment), 193 gold")
 	game.sell_selected()
-	expect(game.money == 1005, "selling an empty pad does not create money")
+	expect(game.money == 997, "selling an empty pad does not create money")
 	await process_frame
 
 func test_combat() -> void:
@@ -181,21 +214,21 @@ func test_flow() -> void:
 	game.start_wave()
 	expect(game.wave == 2 and game.remaining == 14, "next wave advances and increases enemy count")
 	game.restart()
-	game.wave = 8
-	game.spawned = 31
+	game.wave = game.wave_total()
+	game.spawned = game.wave_enemy_count() - 1
 	var final_boss: Dictionary = game.spawn_enemy()
-	var expected_boss_hp := 1876.0 * (1.0 + 0.12 * pow(6.0, 1.4))
-	expect(final_boss.kind == 3 and is_equal_approx(final_boss.max_hp, expected_boss_hp), "last enemy of wave 8 is the boss with late-wave HP scaling")
+	var expected_boss_hp := 2044.0 * (1.0 + 0.12 * pow(7.0, 1.4))
+	expect(final_boss.kind == 3 and is_equal_approx(final_boss.max_hp, expected_boss_hp), "last enemy of final wave is the boss with late-wave HP scaling")
 	clear_enemies()
 	game.active_wave = true
 	game.remaining = 0
 	game.game_tick(0.01)
-	expect(game.ended and not game.active_wave and game.end_panel.visible, "clearing wave 8 ends the game and shows result overlay")
+	expect(game.ended and not game.active_wave and game.end_panel.visible, "clearing final wave ends the game and shows result overlay")
 	expect("胜利" in game.end_title.text, "successful final wave shows victory")
 	var tower_count: int = game.towers.size()
 	build(0, 0)
 	game.start_wave()
-	expect(game.towers.size() == tower_count and game.wave == 8, "no construction or extra waves after game ends")
+	expect(game.towers.size() == tower_count and game.wave == game.wave_total(), "no construction or extra waves after game ends")
 	game.restart()
 	game.health = 1
 	game.wave = 2
@@ -458,7 +491,7 @@ func simulate_mixed_six_strategy(stage: int) -> void:
 		[[7, 0], [8, 1], [6, 2], [3, 4], [9, 3], [2, 5], [4, 4], [10, 1], [13, 3], [5, 5]],
 		[[7, 0], [8, 1], [6, 2], [9, 4], [10, 3], [13, 5], [2, 4], [4, 1], [14, 3], [15, 5]],
 		[[9, 0], [10, 1], [8, 2], [6, 4], [7, 3], [11, 5], [5, 4], [13, 1], [14, 3], [2, 5]],
-		[[8, 0], [9, 1], [7, 2], [10, 4], [11, 3], [6, 5], [2, 4], [12, 1], [14, 3], [4, 5]]
+		[[8, 0], [9, 1], [7, 2], [10, 4], [11, 3], [6, 5], [2, 4], [12, 1], [14, 3], [4, 5], [0, 4], [1, 2], [3, 1], [5, 5], [13, 4], [15, 3]]
 	][stage]
 	var next_build := 0
 	for opening in range(3):

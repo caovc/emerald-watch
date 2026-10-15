@@ -2,10 +2,10 @@
   "date": "2026-10-15",
   "godot": "4.6.3.stable.official",
   "environment": "Linux headless",
-  "total_checks": 1769,
+  "total_checks": 1860,
   "failures": 0,
   "suites": {
-    "integration": 177,
+    "integration": 246,
     "settings_smoke": 25,
     "ui_integration": 189,
     "thumbnail_ui": 54,
@@ -14,12 +14,22 @@
     "designer_integration": 35,
     "author_replay": 18,
     "extra_levels_geometry": 1195,
-    "extra_levels_balance": 36
+    "extra_levels_balance": 58
   },
   "audio_files_checked": 15,
   "non_ascii_script_characters_checked": 529,
   "missing_script_glyphs": 0,
-  "remote_builds_run": false,
+  "remote_builds_run": true,
   "visual_gpu_qa_for_expanded_ui": false,
-  "physical_mac_ios_qa": false
+  "physical_mac_ios_qa": false,
+  "remote_build_notes": "User ran earlier macOS revisions; export, architecture and ad-hoc signature passed. ZIP filename validation failed and was fixed. Latest split workflow not yet run; iOS not run.",
+  "packaging_regression_checks": 8,
+  "campaign_waves": [
+    12,
+    12,
+    14,
+    14,
+    16,
+    16
+  ]
 }

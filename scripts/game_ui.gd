@@ -422,7 +422,7 @@ static func refresh(g) -> void:
 		if maxed:
 			g.info_label.text = "%s\n伤害  %.0f    射程  %.1f\n已完成全部升级" % [data.desc, t.damage, t.range]
 		else:
-			g.info_label.text = "%s\n伤害  %.0f  →  %.0f\n射程  %.1f  →  %.1f" % [data.desc, t.damage, t.damage * 1.65, t.range, t.range + 0.45]
+			g.info_label.text = "%s\n伤害  %.0f  →  %.0f\n射程  %.1f  →  %.1f" % [data.desc, t.damage, t.damage * g.UPGRADE_DAMAGE[t.level - 1], t.range, t.range + g.UPGRADE_RANGE[t.level - 1]]
 		g.upgrade_button.disabled = maxed or g.money < cost or g.ended
 		g.upgrade_button.text = "最高等级 · 无需升级" if maxed else ("升级 %d 金 · 还差 %d 金" % [cost, cost - g.money] if g.money < cost else "升级至 %d 级  ·  %d 金" % [t.level + 1, cost])
 		g.upgrade_button.tooltip_text = "已达最高等级" if maxed else "升级价格 %d 金 · 快捷键 U" % cost

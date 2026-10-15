@@ -1,0 +1,195 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: codex starts closed
+PASS: codex opens and pauses a running wave
+PASS: repeated codex open preserves the original running state
+PASS: codex restores an already paused game
+PASS: reopening codex reuses the existing overlay
+PASS: Escape closes codex and restores running state
+PASS: codex selects tower 0 and lists all six tower types
+PASS: tower 0 codex contains live cost, damage, range, and upgraded cooldown
+PASS: codex selects tower 1 and lists all six tower types
+PASS: tower 1 codex contains live cost, damage, range, and upgraded cooldown
+PASS: codex selects tower 2 and lists all six tower types
+PASS: tower 2 codex contains live cost, damage, range, and upgraded cooldown
+PASS: codex selects tower 3 and lists all six tower types
+PASS: tower 3 codex contains live cost, damage, range, and upgraded cooldown
+PASS: codex selects tower 4 and lists all six tower types
+PASS: tower 4 codex contains live cost, damage, range, and upgraded cooldown
+PASS: codex selects tower 5 and lists all six tower types
+PASS: tower 5 codex contains live cost, damage, range, and upgraded cooldown
+PASS: level 1 enemy 0 codex stats match actual spawned enemy
+PASS: level 1 enemy 0 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 1 codex stats match actual spawned enemy
+PASS: level 1 enemy 1 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 2 codex stats match actual spawned enemy
+PASS: level 1 enemy 2 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 3 codex stats match actual spawned enemy
+PASS: level 1 enemy 3 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 4 codex stats match actual spawned enemy
+PASS: level 1 enemy 4 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 5 codex stats match actual spawned enemy
+PASS: level 1 enemy 5 codex shows correct live-wave identity and counters
+PASS: level 1 enemy 6 codex stats match actual spawned enemy
+PASS: level 1 enemy 6 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 0 codex stats match actual spawned enemy
+PASS: level 2 enemy 0 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 1 codex stats match actual spawned enemy
+PASS: level 2 enemy 1 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 2 codex stats match actual spawned enemy
+PASS: level 2 enemy 2 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 3 codex stats match actual spawned enemy
+PASS: level 2 enemy 3 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 4 codex stats match actual spawned enemy
+PASS: level 2 enemy 4 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 5 codex stats match actual spawned enemy
+PASS: level 2 enemy 5 codex shows correct live-wave identity and counters
+PASS: level 2 enemy 6 codex stats match actual spawned enemy
+PASS: level 2 enemy 6 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 0 codex stats match actual spawned enemy
+PASS: level 3 enemy 0 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 1 codex stats match actual spawned enemy
+PASS: level 3 enemy 1 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 2 codex stats match actual spawned enemy
+PASS: level 3 enemy 2 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 3 codex stats match actual spawned enemy
+PASS: level 3 enemy 3 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 4 codex stats match actual spawned enemy
+PASS: level 3 enemy 4 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 5 codex stats match actual spawned enemy
+PASS: level 3 enemy 5 codex shows correct live-wave identity and counters
+PASS: level 3 enemy 6 codex stats match actual spawned enemy
+PASS: level 3 enemy 6 codex shows correct live-wave identity and counters
+PASS: restart dismisses codex and restores deployment input
+PASS: context panel is hidden with no selection
+PASS: empty-pad context exposes build and hides upgrade/sell
+PASS: empty-pad context displays selected tower's real price and damage
+PASS: occupied-pad context exposes upgrade and sell
+PASS: occupied-pad context shows current and next-level damage
+PASS: right click clears selection and context
+PASS: screen-to-pad helper resolves the actual selected build pad
+PASS: actual mouse event selects a build pad
+PASS: out-of-board click helper returns no pad
+PASS: invalid click clears selection and explains valid placement
+PASS: actual enemy click opens its live context
+PASS: enemy context shows current HP, shield, slow, and burn
+PASS: enemy context hides tower mutation buttons
+PASS: enemy death clears selected enemy and context
+PASS: restart clears both enemy and tower selections
+PASS: settings opens and pauses the actual game
+PASS: repeated settings open preserves running-state restoration
+PASS: settings restores previously paused state
+PASS: settings mute updates saved preference and actual audio
+PASS: restart closes settings while preserving mute
+PASS: reopened settings show the persisted mute value
+PASS: Escape closes settings and restores prior running state
+PASS: M unmutes both saved preference and actual audio
+PASS: settings checkbox stays synchronized with M shortcut
+PASS: M shortcut persists the new mute preference
+PASS: changing map keeps saved mute applied to actual audio
+LAYOUT viewport=(1440, 900) logical=[P: (0.0, 0.0), S: (1440.0, 900.0)] content_scale=(1440, 900) mode=1
+PASS: (1440, 900) uses project logical canvas scaling
+PASS: (1440, 900) HUD visible buttons remain within logical viewport: []
+PASS: (1440, 900) HUD visible buttons have usable nonzero hit boxes
+PASS: (1440, 900) pad 0 context remains inside viewport
+PASS: (1440, 900) pad 1 context remains inside viewport
+PASS: (1440, 900) pad 2 context remains inside viewport
+PASS: (1440, 900) pad 3 context remains inside viewport
+PASS: (1440, 900) pad 4 context remains inside viewport
+PASS: (1440, 900) pad 5 context remains inside viewport
+PASS: (1440, 900) pad 6 context remains inside viewport
+PASS: (1440, 900) pad 7 context remains inside viewport
+PASS: (1440, 900) pad 8 context remains inside viewport
+PASS: (1440, 900) pad 9 context remains inside viewport
+PASS: (1440, 900) pad 10 context remains inside viewport
+PASS: (1440, 900) pad 11 context remains inside viewport
+PASS: (1440, 900) pad 12 context remains inside viewport
+PASS: (1440, 900) pad 13 context remains inside viewport
+PASS: (1440, 900) pad 14 context remains inside viewport
+PASS: (1440, 900) pad 15 context remains inside viewport
+PASS: (1440, 900) codex blocker fits logical viewport
+PASS: (1440, 900) codex visible buttons remain within logical viewport: []
+PASS: (1440, 900) codex visible buttons have usable nonzero hit boxes
+PASS: (1440, 900) codex card fits logical viewport: [P: (130.0, 83.0), S: (1180.0, 734.0)]
+PASS: (1440, 900) enemy codex visible buttons remain within logical viewport: []
+PASS: (1440, 900) enemy codex visible buttons have usable nonzero hit boxes
+PASS: (1440, 900) settings blocker fits logical viewport
+PASS: (1440, 900) settings card fits logical viewport: [P: (370.0, 78.0), S: (700.0, 744.0)]
+PASS: (1440, 900) settings visible buttons remain within logical viewport: []
+PASS: (1440, 900) settings visible buttons have usable nonzero hit boxes
+PASS: (1440, 900) level chooser visible buttons remain within logical viewport: []
+PASS: (1440, 900) level chooser visible buttons have usable nonzero hit boxes
+PASS: (1440, 900) Escape closes level chooser and restores gameplay
+PASS: (1440, 900) result overlay visible buttons remain within logical viewport: []
+PASS: (1440, 900) result overlay visible buttons have usable nonzero hit boxes
+LAYOUT viewport=(1280, 720) logical=[P: (0.0, 0.0), S: (1440.0, 900.0)] content_scale=(1440, 900) mode=1
+PASS: (1280, 720) uses project logical canvas scaling
+PASS: (1280, 720) HUD visible buttons remain within logical viewport: []
+PASS: (1280, 720) HUD visible buttons have usable nonzero hit boxes
+PASS: (1280, 720) pad 0 context remains inside viewport
+PASS: (1280, 720) pad 1 context remains inside viewport
+PASS: (1280, 720) pad 2 context remains inside viewport
+PASS: (1280, 720) pad 3 context remains inside viewport
+PASS: (1280, 720) pad 4 context remains inside viewport
+PASS: (1280, 720) pad 5 context remains inside viewport
+PASS: (1280, 720) pad 6 context remains inside viewport
+PASS: (1280, 720) pad 7 context remains inside viewport
+PASS: (1280, 720) pad 8 context remains inside viewport
+PASS: (1280, 720) pad 9 context remains inside viewport
+PASS: (1280, 720) pad 10 context remains inside viewport
+PASS: (1280, 720) pad 11 context remains inside viewport
+PASS: (1280, 720) pad 12 context remains inside viewport
+PASS: (1280, 720) pad 13 context remains inside viewport
+PASS: (1280, 720) pad 14 context remains inside viewport
+PASS: (1280, 720) pad 15 context remains inside viewport
+PASS: (1280, 720) codex blocker fits logical viewport
+PASS: (1280, 720) codex visible buttons remain within logical viewport: []
+PASS: (1280, 720) codex visible buttons have usable nonzero hit boxes
+PASS: (1280, 720) codex card fits logical viewport: [P: (130.0, 83.0), S: (1180.0, 734.0)]
+PASS: (1280, 720) enemy codex visible buttons remain within logical viewport: []
+PASS: (1280, 720) enemy codex visible buttons have usable nonzero hit boxes
+PASS: (1280, 720) settings blocker fits logical viewport
+PASS: (1280, 720) settings card fits logical viewport: [P: (370.0, 78.0), S: (700.0, 744.0)]
+PASS: (1280, 720) settings visible buttons remain within logical viewport: []
+PASS: (1280, 720) settings visible buttons have usable nonzero hit boxes
+PASS: (1280, 720) level chooser visible buttons remain within logical viewport: []
+PASS: (1280, 720) level chooser visible buttons have usable nonzero hit boxes
+PASS: (1280, 720) Escape closes level chooser and restores gameplay
+PASS: (1280, 720) result overlay visible buttons remain within logical viewport: []
+PASS: (1280, 720) result overlay visible buttons have usable nonzero hit boxes
+LAYOUT viewport=(960, 600) logical=[P: (0.0, 0.0), S: (1440.0, 900.0)] content_scale=(1440, 900) mode=1
+PASS: (960, 600) uses project logical canvas scaling
+PASS: (960, 600) HUD visible buttons remain within logical viewport: []
+PASS: (960, 600) HUD visible buttons have usable nonzero hit boxes
+PASS: (960, 600) pad 0 context remains inside viewport
+PASS: (960, 600) pad 1 context remains inside viewport
+PASS: (960, 600) pad 2 context remains inside viewport
+PASS: (960, 600) pad 3 context remains inside viewport
+PASS: (960, 600) pad 4 context remains inside viewport
+PASS: (960, 600) pad 5 context remains inside viewport
+PASS: (960, 600) pad 6 context remains inside viewport
+PASS: (960, 600) pad 7 context remains inside viewport
+PASS: (960, 600) pad 8 context remains inside viewport
+PASS: (960, 600) pad 9 context remains inside viewport
+PASS: (960, 600) pad 10 context remains inside viewport
+PASS: (960, 600) pad 11 context remains inside viewport
+PASS: (960, 600) pad 12 context remains inside viewport
+PASS: (960, 600) pad 13 context remains inside viewport
+PASS: (960, 600) pad 14 context remains inside viewport
+PASS: (960, 600) pad 15 context remains inside viewport
+PASS: (960, 600) codex blocker fits logical viewport
+PASS: (960, 600) codex visible buttons remain within logical viewport: []
+PASS: (960, 600) codex visible buttons have usable nonzero hit boxes
+PASS: (960, 600) codex card fits logical viewport: [P: (130.0, 83.0), S: (1180.0, 734.0)]
+PASS: (960, 600) enemy codex visible buttons remain within logical viewport: []
+PASS: (960, 600) enemy codex visible buttons have usable nonzero hit boxes
+PASS: (960, 600) settings blocker fits logical viewport
+PASS: (960, 600) settings card fits logical viewport: [P: (370.0, 78.0), S: (700.0, 744.0)]
+PASS: (960, 600) settings visible buttons remain within logical viewport: []
+PASS: (960, 600) settings visible buttons have usable nonzero hit boxes
+PASS: (960, 600) level chooser visible buttons remain within logical viewport: []
+PASS: (960, 600) level chooser visible buttons have usable nonzero hit boxes
+PASS: (960, 600) Escape closes level chooser and restores gameplay
+PASS: (960, 600) result overlay visible buttons remain within logical viewport: []
+PASS: (960, 600) result overlay visible buttons have usable nonzero hit boxes
+UI INTEGRATION SUMMARY: 189 checks, 0 failures

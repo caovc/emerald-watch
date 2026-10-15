@@ -14,7 +14,7 @@ static func level_hash(data: Dictionary) -> String:
 	return JSON.stringify(LevelDesigner.canonical_data(data)).sha256_text()
 
 static func rules_hash() -> String:
-	var source := "emerald-fixed60-v1:" + str(Engine.get_version_info().get("string", ""))
+	var source := "emerald-fixed60-balance-v2:" + str(Engine.get_version_info().get("string", ""))
 	for path in ["res://scripts/main.gd", "res://scripts/author_replay.gd", "res://scripts/level_designer.gd"]:
 		var actual_path: String = path
 		if not FileAccess.file_exists(actual_path):

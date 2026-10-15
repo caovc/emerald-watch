@@ -132,7 +132,7 @@ jobs:
           test -x "$app/$executable"
           /usr/bin/file "$app/$executable" | tee "$BUILD_ROOT/artifacts/logs/binary.log"
           grep -q 'Mach-O.*executable.*arm64' "$BUILD_ROOT/artifacts/logs/binary.log"
-          xcrun lipo -verify_arch arm64 "$app/$executable"
+          xcrun lipo "$app/$executable" -verify_arch arm64
           xcrun vtool -show-build "$app/$executable" \
             | tee "$BUILD_ROOT/artifacts/logs/macho-platform.log"
           grep -Eq 'platform[[:space:]]+IOS([[:space:]]|$)' "$BUILD_ROOT/artifacts/logs/macho-platform.log"

@@ -38,7 +38,11 @@ Actions checkout 和 artifact 上传均固定到具体 commit；checkout 不保�
 
 ## 当前验证范围
 
-已静态检查 YAML、所有 Bash 步骤、内嵌 Python、Godot 导出预设，以及双架构/手动触发约束。尚未执行这个 macOS GitHub Actions 工作流，也没有声称已经产出或实机测试 `.app`。首次手动运行的真实结果以 Actions 日志和 artifact 为准。失败的运行可能仍上传诊断日志，不能把只有日志的 artifact 当作已成功生成应用。
+已静态检查 YAML、所有 Bash 步骤、内嵌 Python、Godot 导出预设，以及双架构/手动触发约束。用户于 2026-10-15 手动启动的 [运行 #2](https://github.com/caovc/emerald-watch/actions/runs/38711466335) 已成功导出含 Intel 与 Apple Silicon 双架构的 `.app`，但在后续架构校验时失败，尚未生成应用 ZIP。
+
+已修复该次失败的根因：Apple `lipo` 的 `-verify_arch` 会把其后的参数全部当成架构名，因此可执行文件路径必须放在该选项之前。两处 Mac 检查和同样写法的 iOS 检查都已修正，并加入 `tests/test_workflow_lipo.py` 回归检查。
+
+修复后的工作流尚待真实云端构建验证，签名及 ZIP 后续步骤、实体 Mac 图形/性能也尚未验证。请在 **Actions → Build macOS Universal app → Run workflow** 中选择最新 `main` 发起新运行；旧运行的 Re-run 会沿用旧提交，无法测试此次修复。失败的运行可能仍上传诊断日志，不能把只有日志的 artifact 当作已成功生成应用。
 
 ## 官方依据
 

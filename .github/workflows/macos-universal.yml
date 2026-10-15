@@ -109,8 +109,9 @@ jobs:
           test -x "$binary"
           /usr/bin/file "$binary" | tee "$BUILD_ROOT/artifacts/logs/binary.log"
           grep -q 'Mach-O universal binary' "$BUILD_ROOT/artifacts/logs/binary.log"
-          # Require BOTH native slices; an arm64-only artifact is a failed build.
-          xcrun lipo -verify_arch x86_64 arm64 "$binary"
+          # -verify_arch consumes every following argument as an architecture.
+          # The input file MUST precede it. Require BOTH native slices.
+          xcrun lipo "$binary" -verify_arch x86_64 arm64
           xcrun lipo -archs "$binary" | tee "$BUILD_ROOT/artifacts/logs/architectures.log"
           /usr/bin/codesign --verify --deep --strict --verbose=2 "$app" \
             2>&1 | tee "$BUILD_ROOT/artifacts/logs/signature-verify.log"
@@ -143,7 +144,7 @@ jobs:
           restored="$BUILD_ROOT/verify/EmeraldWatch.app"
           executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$restored/Contents/Info.plist")
           test -x "$restored/Contents/MacOS/$executable"
-          xcrun lipo -verify_arch x86_64 arm64 "$restored/Contents/MacOS/$executable"
+          xcrun lipo "$restored/Contents/MacOS/$executable" -verify_arch x86_64 arm64
           /usr/bin/codesign --verify --deep --strict "$restored"
           python3 - <<'PY'
           import os, plistlib, stat, zipfile

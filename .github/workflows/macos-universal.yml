@@ -1,10 +1,19 @@
-name: Build macOS Universal app
+name: Build macOS apps (separate Apple Silicon and Intel)
 
 # Uploading/pushing the project does NOT spend runner minutes.
 # Dispatch only after checking the account's included usage and overage guard.
 on:
   workflow_dispatch:
     inputs:
+      architecture:
+        description: "Choose separate native packages"
+        required: true
+        type: choice
+        default: both
+        options:
+          - both
+          - arm64
+          - x86_64
       included_quota_confirmed:
         description: "I checked included Actions quota and paid overage is blocked"
         required: true
@@ -15,7 +24,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: macos-universal-${{ github.ref }}
+  group: macos-native-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -27,6 +36,7 @@ jobs:
       run:
         shell: bash
     env:
+      BUILD_ARCHITECTURES: ${{ inputs.architecture }}
       GODOT_VERSION: "4.6.3"
       GODOT_EDITOR_SHA256: "30630f3e9b11e10b35c1f90ba8814185dcec43fae1a48345159be7552c64bfe8"
       GODOT_TEMPLATES_SHA256: "3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8"
@@ -49,7 +59,7 @@ jobs:
             echo "Source commit: $GITHUB_SHA"
             echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             echo "Godot: ${GODOT_VERSION}.stable (official editor and templates)"
-            echo "Result: Universal 2 macOS app; ad-hoc signed, not notarized"
+            echo "Result: separate native macOS apps; ad-hoc signed, not notarized"
             sw_vers
             xcode-select -p
             xcodebuild -version
@@ -82,47 +92,109 @@ jobs:
           echo "GODOT=$godot" >> "$GITHUB_ENV"
           rm "$TOOL_ROOT/godot.zip" "$TOOL_ROOT/templates.tpz"
 
-      - name: Import resources and export Universal 2 app
+      - name: Derive single-architecture templates before Godot signing
+        run: |
+          set -euo pipefail
+          # Godot 4.6.3 selects architecture-named template entries; the official
+          # archive ships universal entries, so derive native ones BEFORE export.
+          python3 - <<'PYCODE'
+          import copy, os, subprocess, zipfile
+          from pathlib import Path
+
+          template = Path.home() / "Library/Application Support/Godot/export_templates" / (os.environ["GODOT_VERSION"] + ".stable") / "macos.zip"
+          work = Path(os.environ["TOOL_ROOT"]) / "native-templates"
+          work.mkdir(parents=True, exist_ok=True)
+          derived = work / "macos-native.zip"
+          with zipfile.ZipFile(template) as source, zipfile.ZipFile(derived, "w") as output:
+              variants = {}
+              for build in ("debug", "release"):
+                  matches = [entry for entry in source.infolist() if entry.filename.endswith(f"/godot_macos_{build}.universal")]
+                  assert len(matches) == 1, f"Missing official {build} universal template"
+                  variants[build] = matches[0]
+              native_names = {entry.filename.removesuffix(".universal") + "." + arch
+                              for entry in variants.values() for arch in ("arm64", "x86_64")}
+              for entry in source.infolist():
+                  if entry.filename not in native_names:
+                      output.writestr(entry, source.read(entry))
+              for build, entry in variants.items():
+                  universal = work / f"{build}.universal"
+                  universal.write_bytes(source.read(entry))
+                  for arch in ("arm64", "x86_64"):
+                      native = work / f"{build}.{arch}"
+                      subprocess.run(["xcrun", "lipo", str(universal), "-thin", arch, "-output", str(native)], check=True)
+                      subprocess.run(["xcrun", "lipo", str(native), "-verify_arch", arch], check=True)
+                      actual = subprocess.check_output(["xcrun", "lipo", str(native), "-archs"], text=True).strip()
+                      assert actual == arch, actual
+                      info = copy.copy(entry)
+                      info.filename = entry.filename.removesuffix(".universal") + "." + arch
+                      info.orig_filename = info.filename
+                      output.writestr(info, native.read_bytes())
+                      print(f"Derived native template: {info.filename} ({arch})")
+          os.replace(derived, template)
+          PYCODE
+
+      - name: Import game resources
         run: |
           set -euo pipefail
           "$GODOT" --headless --path "$GITHUB_WORKSPACE" --import \
             2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-import.log"
-          "$GODOT" --headless --path "$GITHUB_WORKSPACE" \
-            --export-release "macOS Universal" "$BUILD_ROOT/app/EmeraldWatch.app" \
-            2>&1 | tee "$BUILD_ROOT/artifacts/logs/godot-export.log"
           if grep -E 'SCRIPT ERROR:|Parse Error:|Failed to load script' \
-            "$BUILD_ROOT/artifacts/logs/godot-import.log" \
-            "$BUILD_ROOT/artifacts/logs/godot-export.log"; then
-            echo "::error::Godot reported a script error; refusing to package."
+            "$BUILD_ROOT/artifacts/logs/godot-import.log"; then
+            echo "::error::Godot import reported a script error."
             exit 1
           fi
 
-      - name: Verify Intel and Apple Silicon binaries and ad-hoc signature
+      - name: Export, verify and package separate native apps
         run: |
           set -euo pipefail
-          app="$BUILD_ROOT/app/EmeraldWatch.app"
-          test -d "$app"
-          /usr/bin/plutil -lint "$app/Contents/Info.plist"
-          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
-          test -n "$executable"
-          binary="$app/Contents/MacOS/$executable"
-          test -x "$binary"
-          /usr/bin/file "$binary" | tee "$BUILD_ROOT/artifacts/logs/binary.log"
-          grep -q 'Mach-O universal binary' "$BUILD_ROOT/artifacts/logs/binary.log"
-          # -verify_arch consumes every following argument as an architecture.
-          # The input file MUST precede it. Require BOTH native slices.
-          xcrun lipo "$binary" -verify_arch x86_64 arm64
-          xcrun lipo -archs "$binary" | tee "$BUILD_ROOT/artifacts/logs/architectures.log"
-          /usr/bin/codesign --verify --deep --strict --verbose=2 "$app" \
-            2>&1 | tee "$BUILD_ROOT/artifacts/logs/signature-verify.log"
-          /usr/bin/codesign --display --verbose=4 "$app" \
-            2>&1 | tee "$BUILD_ROOT/artifacts/logs/signature-details.log"
-          grep -q '^Signature=adhoc$' "$BUILD_ROOT/artifacts/logs/signature-details.log"
-          python3 - <<'PY'
+          case "$BUILD_ARCHITECTURES" in
+            both) architectures=(arm64 x86_64) ;;
+            arm64) architectures=(arm64) ;;
+            x86_64) architectures=(x86_64) ;;
+            *) echo "::error::Unsupported architecture choice"; exit 1 ;;
+          esac
+          for arch in "${architectures[@]}"; do
+            case "$arch" in
+              arm64) preset="macOS Apple Silicon" ;;
+              x86_64) preset="macOS Intel" ;;
+            esac
+            output="$BUILD_ROOT/artifacts/$arch"
+            app="$BUILD_ROOT/app/$arch/EmeraldWatch.app"
+            mkdir -p "$output/logs" "$(dirname "$app")"
+            cp "$BUILD_ROOT/artifacts/build-info.txt" "$output/build-info.txt"
+            echo "Native architecture: $arch" >> "$output/build-info.txt"
+            "$GODOT" --headless --path "$GITHUB_WORKSPACE" \
+              --export-release "$preset" "$app" \
+              2>&1 | tee "$output/logs/godot-export.log"
+            if grep -E 'SCRIPT ERROR:|Parse Error:|Failed to load script' "$output/logs/godot-export.log"; then
+              echo "::error::Godot export reported a script error."
+              exit 1
+            fi
+            /usr/bin/plutil -lint "$app/Contents/Info.plist"
+            executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
+            test -n "$executable"
+            binary="$app/Contents/MacOS/$executable"
+            test -x "$binary"
+            /usr/bin/file "$binary" | tee "$output/logs/binary.log"
+            grep -q 'Mach-O' "$output/logs/binary.log"
+            # Input file precedes -verify_arch; that option consumes the remaining args.
+            xcrun lipo "$binary" -verify_arch "$arch"
+            actual_archs="$(xcrun lipo "$binary" -archs)"
+            printf '%s\n' "$actual_archs" | tee "$output/logs/architectures.log"
+            # Reject a fat/universal binary with an architecture-specific filename.
+            test "$actual_archs" = "$arch"
+            /usr/bin/codesign --verify --deep --strict --verbose=2 "$app" \
+              2>&1 | tee "$output/logs/signature-verify.log"
+            /usr/bin/codesign --display --verbose=4 "$app" \
+              2>&1 | tee "$output/logs/signature-details.log"
+            grep -q '^Signature=adhoc$' "$output/logs/signature-details.log"
+            export MACOS_ARCH="$arch"
+            python3 - <<'PY'
           import os, plistlib
           from pathlib import Path
 
-          app = Path(os.environ["BUILD_ROOT"]) / "app/EmeraldWatch.app"
+          arch = os.environ["MACOS_ARCH"]
+          app = Path(os.environ["BUILD_ROOT"]) / "app" / arch / "EmeraldWatch.app"
           info = plistlib.loads((app / "Contents/Info.plist").read_bytes())
           assert info["CFBundleIdentifier"] == "dev.emeraldwatch.game"
           assert info["CFBundlePackageType"] == "APPL"
@@ -130,27 +202,24 @@ jobs:
           assert binary.stat().st_size > 1_000_000, "Missing compiled engine"
           packs = list((app / "Contents/Resources").glob("*.pck"))
           assert len(packs) == 1 and packs[0].stat().st_size > 0, "Missing game resources"
-          print("Verified actual Universal 2 app, executable, bundle ID, and game pack")
+          print(f"Verified actual {arch} app, executable, bundle ID and game pack")
           PY
-
-      - name: Package app and verify the extracted ZIP
-        run: |
-          set -euo pipefail
-          app="$BUILD_ROOT/app/EmeraldWatch.app"
-          package="$BUILD_ROOT/artifacts/EmeraldWatch-macOS-universal.zip"
-          # Keep bundle structure, executable permissions, symlinks and signature.
-          /usr/bin/ditto -c -k --keepParent "$app" "$package"
-          /usr/bin/ditto -x -k "$package" "$BUILD_ROOT/verify"
-          restored="$BUILD_ROOT/verify/EmeraldWatch.app"
-          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$restored/Contents/Info.plist")
-          test -x "$restored/Contents/MacOS/$executable"
-          xcrun lipo "$restored/Contents/MacOS/$executable" -verify_arch x86_64 arm64
-          /usr/bin/codesign --verify --deep --strict "$restored"
-          python3 - <<'PY'
+            mkdir -p "$BUILD_ROOT/package/$arch"
+            package="$BUILD_ROOT/package/$arch/EmeraldWatch-macOS-$arch.zip"
+            /usr/bin/ditto -c -k --keepParent "$app" "$package"
+            /usr/bin/ditto -x -k "$package" "$BUILD_ROOT/verify/$arch"
+            restored="$BUILD_ROOT/verify/$arch/EmeraldWatch.app"
+            executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$restored/Contents/Info.plist")
+            test -x "$restored/Contents/MacOS/$executable"
+            xcrun lipo "$restored/Contents/MacOS/$executable" -verify_arch "$arch"
+            test "$(xcrun lipo "$restored/Contents/MacOS/$executable" -archs)" = "$arch"
+            /usr/bin/codesign --verify --deep --strict "$restored"
+            python3 - <<'PY'
           import os, plistlib, stat, zipfile
           from pathlib import Path
 
-          path = Path(os.environ["BUILD_ROOT"]) / "artifacts/EmeraldWatch-macOS-universal.zip"
+          arch = os.environ["MACOS_ARCH"]
+          path = Path(os.environ["BUILD_ROOT"]) / "package" / arch / f"EmeraldWatch-macOS-{arch}.zip"
           with zipfile.ZipFile(path) as archive:
               assert archive.testzip() is None, "Corrupt ZIP member"
               prefix = "EmeraldWatch.app/Contents/"
@@ -159,26 +228,49 @@ jobs:
               binary = archive.getinfo(prefix + "MacOS/" + info["CFBundleExecutable"])
               assert binary.file_size > 1_000_000
               assert stat.S_IMODE(binary.external_attr >> 16) & 0o111
-          print(f"Verified ZIP round trip: {path.name} ({path.stat().st_size:,} bytes)")
+          print(f"Verified native ZIP round trip: {path.name} ({path.stat().st_size:,} bytes)")
           PY
-          (
-            cd "$BUILD_ROOT/artifacts"
-            shasum -a 256 EmeraldWatch-macOS-universal.zip > EmeraldWatch-macOS-universal.zip.sha256
-          )
-          {
-            echo '### macOS Universal 2 package verified'
-            echo 'Download the artifact, then extract EmeraldWatch-macOS-universal.zip to obtain EmeraldWatch.app.'
-            echo 'Includes native x86_64 (Intel) and arm64 (Apple Silicon) binaries.'
-            echo 'Ad-hoc signed only; no Developer ID identity or Apple notarization. Gatekeeper may block downloaded copies.'
-            echo "Source commit: $GITHUB_SHA"
-          } >> "$GITHUB_STEP_SUMMARY"
+            # Only publish a ZIP after all checks succeeded.
+            mv "$package" "$output/"
+            (
+              cd "$output"
+              shasum -a 256 "EmeraldWatch-macOS-$arch.zip" > "EmeraldWatch-macOS-$arch.zip.sha256"
+            )
+            {
+              echo "### macOS $arch package verified"
+              echo "Download the $arch artifact and extract EmeraldWatch-macOS-$arch.zip."
+              echo 'Ad-hoc signed only; no Developer ID identity or Apple notarization. Gatekeeper may block downloaded copies.'
+              echo "Source commit: $GITHUB_SHA"
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
 
-      - name: Upload macOS ZIP, checksum, build details and diagnostic logs
+      - name: Upload Apple Silicon package and diagnostic logs
+        if: ${{ always() && env.BUILD_ROOT != '' && (inputs.architecture == 'both' || inputs.architecture == 'arm64') }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: EmeraldWatch-macOS-arm64-${{ github.run_number }}
+          path: ${{ env.BUILD_ROOT }}/artifacts/arm64/
+          if-no-files-found: warn
+          retention-days: 3
+          compression-level: 0
+
+      - name: Upload Intel package and diagnostic logs
+        if: ${{ always() && env.BUILD_ROOT != '' && (inputs.architecture == 'both' || inputs.architecture == 'x86_64') }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: EmeraldWatch-macOS-x86_64-${{ github.run_number }}
+          path: ${{ env.BUILD_ROOT }}/artifacts/x86_64/
+          if-no-files-found: warn
+          retention-days: 3
+          compression-level: 0
+
+      - name: Upload common setup and import logs
         if: ${{ always() && env.BUILD_ROOT != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: EmeraldWatch-macOS-universal-${{ github.run_number }}
-          path: ${{ env.BUILD_ROOT }}/artifacts/
-          if-no-files-found: error
+          name: EmeraldWatch-macOS-build-logs-${{ github.run_number }}
+          path: |
+            ${{ env.BUILD_ROOT }}/artifacts/build-info.txt
+            ${{ env.BUILD_ROOT }}/artifacts/logs/
+          if-no-files-found: warn
           retention-days: 3
-          compression-level: 0
